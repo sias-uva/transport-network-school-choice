@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "name": "RAI", "address": "Europaplein 24", "lat": 52.34132, "lon": 4.88998, "VC_CODE": "AMS_0" }, "geometry": { "type": "Point", "coordinates": [ 4.88998, 52.34132 ] } },
+{ "type": "Feature", "properties": { "name": "Sportcentrum Caland", "address": "Eliza van Calcarstraat 2", "lat": 52.35444, "lon": 4.80713, "VC_CODE": "AMS_1" }, "geometry": { "type": "Point", "coordinates": [ 4.80713, 52.35444 ] } },
+{ "type": "Feature", "properties": { "name": "NDSM Loods", "address": "NDSM-Plein 85", "lat": 52.40133, "lon": 4.89571, "VC_CODE": "AMS_2" }, "geometry": { "type": "Point", "coordinates": [ 4.89571, 52.40133 ] } },
+{ "type": "Feature", "properties": { "name": "AFAS Live", "address": "Johan Cruijff Boulevard 590", "lat": 52.31299, "lon": 4.94517, "VC_CODE": "AMS_3" }, "geometry": { "type": "Point", "coordinates": [ 4.94517, 52.31299 ] } }
+]
+}
