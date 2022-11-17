@@ -5,9 +5,12 @@ import numpy as np
 import networkx as nx
 import pandas as pd
 import math
+import matplotlib.pyplot as plt
 
 G = nx.read_adjlist('./network_adjlist.txt')
-nx.draw(G, with_labels=True)
+fig, ax = plt.subplots(figsize=(5, 5))
+nx.draw(G, with_labels=True, ax=ax)
+fig.savefig('network.png')
 
 # Optional - convert to igraph because calculating shortest paths is faster.
 G = ig.Graph.from_networkx(G)
