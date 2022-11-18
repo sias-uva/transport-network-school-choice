@@ -18,10 +18,6 @@ G = ig.Graph.from_networkx(G)
 nodes = pd.read_csv('./network_node_attributes.csv', index_col=0)
 facilities = pd.read_csv('./network_facilities.csv', index_col=0)
 
-nodes['pct_grp_1'] = 1 - nodes['pct_grp_0']
-nodes['pop_grp_0'] = nodes['pop'] * nodes['pct_grp_0']
-nodes['pop_grp_1'] = nodes['pop'] - nodes['pop_grp_0']
-
 # %%
 # Calculate travel times between all nodes and all facilities.
 # tt_mx.shape = (nr of nodes (origins), nr of facilities (destinations))
