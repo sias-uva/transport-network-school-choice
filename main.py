@@ -5,7 +5,7 @@ from network import Network
 import pandas as pd
 from preference import nearest_k
 from allocation import identity
-from evaluation import facility_capacity
+from evaluation import facility_capacity, facility_diversity
 
 ## TODO - Automatically copy the config file to the output folder.
 
@@ -51,5 +51,7 @@ if __name__ == "__main__":
     pref_list = nearest_k(tt, k=1)
     allocation = identity(pref_list)
     capacity_eval = facility_capacity(population, facilities, allocation)
+    diversity_eval = facility_diversity(population, facilities, allocation)
 
     print(f'Facility capacity evaluation: {capacity_eval}')
+    print(f'Facility diversity evaluation: fac1: {diversity_eval[0][0]} - {diversity_eval[0][1]}, fac2: {diversity_eval[1][0]} - {diversity_eval[1][1]}')
