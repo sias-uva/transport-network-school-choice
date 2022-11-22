@@ -36,14 +36,18 @@ class Network(object):
         """
         self.network.add_edge(from_v, to_v)
 
-    def __init__(self, network_path):
+    def __init__(self, network_path, calc_tt_mx=False):
         """Holds the transport network.
 
         Args:
             network_path (str): the full path to the network file - used to load the transport network.
+            calc_tt_mx (boolean): if set to true, it will pre-calculate and store the travel times from all nodes to all other nodes.
         """
         _, ext = os.path.splitext(network_path)
         assert ext == ".gml", "only .gml network files are accepted (currently)"
 
         # Load the network
         self.network = ig.Graph.Read(network_path)
+        # Calculate the travel time matrix from all 
+        if calc_tt_mx:
+            self.tt_mx = self.shortest_paths(self.network.vs, self.network.vs)

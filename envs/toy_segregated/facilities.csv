@@ -1,3 +1,3 @@
-node,facility
-3,f1
-5,f2
+id,node,facility,capacity
+0,3,f1,100
+1,5,f2,100
