@@ -48,6 +48,7 @@ class Network(object):
 
         # Load the network
         self.network = ig.Graph.Read(network_path)
-        # Calculate the travel time matrix from all 
+        # Calculate the travel time matrix from all nodes to all nodes, store it so we don't have to re-calculate it every time.
+        # TODO: think of memory constraints? 
         if calc_tt_mx:
             self.tt_mx = self.shortest_paths(self.network.vs, self.network.vs)
