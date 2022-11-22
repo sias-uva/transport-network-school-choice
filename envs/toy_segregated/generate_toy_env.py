@@ -15,8 +15,8 @@ fig.savefig('network.png')
 # Optional - convert to igraph because calculating shortest paths is faster.
 G = ig.Graph.from_networkx(G)
 
-nodes = pd.read_csv('./network_node_attributes.csv', index_col=0)
-facilities = pd.read_csv('./network_facilities.csv', index_col=0)
+nodes = pd.read_csv('./node_attributes.csv', index_col=0)
+facilities = pd.read_csv('./facilities.csv', index_col=0)
 
 # %%
 # Calculate travel times between all nodes and all facilities.
