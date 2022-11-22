@@ -1,5 +1,4 @@
 # General
-env: 'toy_segregated'
-network_file: 'network.gml'
-node_attributes_file: 'network_node_attributes.csv'
-facilities_file: 'network_facilities.csv'
+network_file: './envs/toy_segregated/network.gml'
+population_file: './envs/toy_segregated/population.csv'
+facilities_file: './envs/toy_segregated/facilities.csv'
