@@ -1,7 +1,8 @@
 import argparse
-from environment import Environment
 from pathlib import Path
 import yaml
+from network import Network
+import pandas as pd
 
 ## TODO - Automatically copy the config file to the output folder.
 
@@ -30,8 +31,7 @@ if __name__ == "__main__":
 
     config = load_config(args.config)
 
-    env = Environment(
-            Path(f"./envs/{config['env']}"),
-            config['network_file'],
-            config['node_attributes_file'],
-            config['facilities_file'])
+    network = Network(config['network_file'])
+    population = pd.read_csv(config['population_file'])
+    facilities = pd.read_csv(config['facilities_file'])
+
