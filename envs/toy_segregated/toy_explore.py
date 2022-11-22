@@ -37,4 +37,23 @@ nodes['nearest_fac_node'] = list(dest_nodes[i] for i in tt_mx.argmin(axis=1))
 
 print(f"Average Distance to nearest facility for grp_0: {np.nansum(nodes['pct_grp_0'] * nodes['nearest_fac_dist']).round(2)}")
 print(f"Average Distance to nearest facility for grp_1: {np.nansum(nodes['pct_grp_1'] * nodes['nearest_fac_dist']).round(2)}")
+
+# %% Generate population of Agents from node attributes.
+population = {'id': [], 'node': [], 'group': []}
+count = -1
+for i in nodes.index:
+    for j in range(nodes.loc[i, 'pop_grp_0']):
+        count += 1
+        population['id'].append(count)
+        population['node'].append(i)
+        population['group'].append('grp_0')
+
+    for k in range(nodes.loc[i, 'pop_grp_1']):
+        count += 1
+        population['id'].append(count)
+        population['node'].append(i)
+        population['group'].append('grp_1')
+population = pd.DataFrame(population)
+
+population.to_csv('./population.csv', index=False)
 # %%
