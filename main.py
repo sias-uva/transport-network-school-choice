@@ -42,14 +42,26 @@ if __name__ == "__main__":
     # Calculate travel times for all agents in the population to all facilities.
     tt = network.tt_mx[population['node'].values][:, [facilities['node'].values]].squeeze()
 
-    # Just a random check if the above indexing works, to remove later on.
+    ## Just a random check if the above indexing works, to remove later on.
     pop_sample = population.sample()
     fac_sample = facilities.sample()
     assert network.tt_mx[pop_sample.iloc[0]['node'], fac_sample.iloc[0]['node']] == tt[pop_sample.iloc[0]['id'], fac_sample.iloc[0]['id']], "Something wrong with travel time indexing - incompatible travel times between network pre-calculated and indexed values."
+    ##
 
     # Generate preference list for each agent.
-    pref_list = nearest_k(tt, k=1)
-    allocation = identity(pref_list)
+    pref_list = None
+    if config['preferences_model'] == 'nearest_k':
+        assert 'nearest_k' in config, 'You need to specify nearest_k parameter in config.'
+        pref_list = nearest_k(tt, k=config['nearest_k'])
+
+    # Assign agents to facilities using an allocation model.
+    allocation = None
+    if config['allocation_model'] == 'identity':
+        allocation = identity(pref_list)
+
+    assert pref_list is not None, 'No preference list was generated, specify preferences_model parameter in config.'
+    assert allocation is not None, 'No allocation list was generated, specify allocation_model parameter in config.'
+
     capacity_eval = facility_capacity(population, facilities, allocation)
     diversity_eval = facility_diversity(population, facilities, allocation)
 
