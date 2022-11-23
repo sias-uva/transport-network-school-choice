@@ -4,7 +4,7 @@ import yaml
 from network import Network
 import pandas as pd
 from preference import nearest_k
-from allocation import identity
+from allocation import first_choice
 from evaluation import facility_capacity, facility_diversity
 
 ## TODO - Automatically copy the config file to the output folder.
@@ -56,8 +56,8 @@ if __name__ == "__main__":
 
     # Assign agents to facilities using an allocation model.
     allocation = None
-    if config['allocation_model'] == 'identity':
-        allocation = identity(pref_list)
+    if config['allocation_model'] == 'first_choice':
+        allocation = first_choice(pref_list)
 
     assert pref_list is not None, 'No preference list was generated, specify preferences_model parameter in config.'
     assert allocation is not None, 'No allocation list was generated, specify allocation_model parameter in config.'
