@@ -3,7 +3,7 @@ from pathlib import Path
 import yaml
 from network import Network
 import pandas as pd
-from preference import nearest_k
+from preference import nearest_k, toy_model
 from allocation import first_choice
 from evaluation import facility_capacity, facility_diversity
 
@@ -53,6 +53,11 @@ if __name__ == "__main__":
     if config['preferences_model'] == 'nearest_k':
         assert 'nearest_k' in config, 'You need to specify nearest_k parameter in config.'
         pref_list = nearest_k(tt, k=config['nearest_k'])
+    elif config['preferences_model'] == 'toy_model':
+        # Select facility qualities
+        qualities = facilities.quality.to_numpy()
+        assert 'nearest_k' in config, 'You need to specify nearest_k parameter in config.'
+        pref_list = toy_model(tt, qualities, k=config['nearest_k'])
 
     # Assign agents to facilities using an allocation model.
     allocation = None
