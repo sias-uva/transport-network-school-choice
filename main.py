@@ -4,7 +4,7 @@ import yaml
 from network import Network
 import pandas as pd
 from preference import nearest_k, toy_model
-from allocation import first_choice
+from allocation import first_choice, random_serial_dictatorship
 from evaluation import facility_capacity, facility_diversity
 
 ## TODO - Automatically copy the config file to the output folder.
@@ -63,6 +63,9 @@ if __name__ == "__main__":
     allocation = None
     if config['allocation_model'] == 'first_choice':
         allocation = first_choice(pref_list)
+    elif config['allocation_model'] == 'random_serial_dictatorship':
+        capacities = facilities.capacity.copy().to_numpy()
+        allocation = random_serial_dictatorship(pref_list, capacities)
 
     assert pref_list is not None, 'No preference list was generated, specify preferences_model parameter in config.'
     assert allocation is not None, 'No allocation list was generated, specify allocation_model parameter in config.'
