@@ -3,8 +3,8 @@ from pathlib import Path
 import yaml
 from network import Network
 import pandas as pd
-from preference import nearest_k
-from allocation import first_choice
+from preference import nearest_k, toy_model
+from allocation import first_choice, random_serial_dictatorship
 from evaluation import facility_capacity, facility_diversity
 
 ## TODO - Automatically copy the config file to the output folder.
@@ -53,11 +53,19 @@ if __name__ == "__main__":
     if config['preferences_model'] == 'nearest_k':
         assert 'nearest_k' in config, 'You need to specify nearest_k parameter in config.'
         pref_list = nearest_k(tt, k=config['nearest_k'])
+    elif config['preferences_model'] == 'toy_model':
+        # Select facility qualities
+        qualities = facilities.quality.to_numpy()
+        assert 'nearest_k' in config, 'You need to specify nearest_k parameter in config.'
+        pref_list = toy_model(tt, qualities, k=config['nearest_k'])
 
     # Assign agents to facilities using an allocation model.
     allocation = None
     if config['allocation_model'] == 'first_choice':
         allocation = first_choice(pref_list)
+    elif config['allocation_model'] == 'random_serial_dictatorship':
+        capacities = facilities.capacity.copy().to_numpy()
+        allocation = random_serial_dictatorship(pref_list, capacities)
 
     assert pref_list is not None, 'No preference list was generated, specify preferences_model parameter in config.'
     assert allocation is not None, 'No allocation list was generated, specify allocation_model parameter in config.'
