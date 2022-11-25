@@ -15,13 +15,12 @@ def nearest_k(tt_mx, k):
     return tt_mx.argsort()[:, :k]
 
 
-def toy_model(tt_mx, qualities, k):
+def toy_model(tt_mx, qualities):
     """
     Returns an ordered list of k preferred facilities for all agents
     Args:
         tt_mx (np.array): 2-D array where (i, j) is the travel time for agent i to facility j
         qualities (np.array): array containing facility quality
-        k (int): preferred k facilities to return
     Returns:
         np.array: indices of nearest k facilities (indices=ids)
     """

@@ -56,8 +56,7 @@ if __name__ == "__main__":
     elif config['preferences_model'] == 'toy_model':
         # Select facility qualities
         qualities = facilities.quality.to_numpy()
-        assert 'nearest_k' in config, 'You need to specify nearest_k parameter in config.'
-        pref_list = toy_model(tt, qualities, k=config['nearest_k'])
+        pref_list = toy_model(tt, qualities)
 
     # Assign agents to facilities using an allocation model.
     allocation = None
