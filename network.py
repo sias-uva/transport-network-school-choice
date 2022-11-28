@@ -27,14 +27,14 @@ class Network(object):
 
         return tt_mx
 
-    def add_edge(self, from_v, to_v):
+    def add_edge(self, from_v, to_v, weight):
         """Adds a new edge to the transport network. Note: currently does not support weighted edges.
 
         Args:
             from_v (int): id of the origin vertex of the new edge.
             to_v (int): id of the destination vertex of the new edge.
         """
-        self.network.add_edge(from_v, to_v)
+        self.network.add_edge(from_v, to_v, weight=weight)
 
     def get_adj_matrix(self):
         """Returns the current node adjacency matrix of the network.

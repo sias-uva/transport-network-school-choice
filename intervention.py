@@ -13,7 +13,5 @@ def create_random_edge(network: Network, edge_weight=1):
     y = candidate_idx[1][rand_idx]
 
     assert adj_mx[x][y] == 0, 'Selected nodes are already connected via an edge.'
+    return x, y, edge_weight
 
-    network.add_edge(x, y)
-
-    print(f'Added a new edge between nodes {x} and {y}')

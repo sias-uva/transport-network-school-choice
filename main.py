@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 import yaml
+from intervention import create_random_edge
 from network import Network
 import pandas as pd
 from runner import Runner
@@ -43,11 +44,13 @@ if __name__ == "__main__":
     print(f'Facility capacity evaluation: {capacity_eval}')
     print(f'Facility diversity evaluation: fac1: {diversity_eval[0][0]} - {diversity_eval[0][1]}, fac2: {diversity_eval[1][0]} - {diversity_eval[1][1]}')
 
-    # # Create random intervention.
+    # Add 5 random edges
+    # TODO - maybe replace with scenario builder.
+    for i in range(5):
+        x, y, w = create_random_edge(network)
+        print(f'adding ({x}, {y}) edge')
+        network.add_edge(x, y, w)
 
-    # # print(network.get_adj_matrix())
-    # for i in range(5):
-    #     create_random_edge(network)
-
-
-
+        _, _, capacity_eval, diversity_eval = runner.run_round(config['preferences_model'], config['allocation_model'], config.get('nearest_k', None))
+        print(f'Facility capacity evaluation: {capacity_eval}')
+        print(f'Facility diversity evaluation: fac1: {diversity_eval[0][0]} - {diversity_eval[0][1]}, fac2: {diversity_eval[1][0]} - {diversity_eval[1][1]}')
