@@ -8,3 +8,6 @@ preferences_model: 'toy_model'
 # nearest_k: 2
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
+# Applicable values: ['random']
+intervention_model: 'random'
+simulation_rounds: 5

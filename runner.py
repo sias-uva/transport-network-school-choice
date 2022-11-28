@@ -1,7 +1,8 @@
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
 from evaluation import facility_capacity, facility_diversity
-
+from intervention import create_random_edge
+import matplotlib.pyplot as plt
 from network import Network
 from preference import toy_model, nearest_k
 
@@ -18,10 +19,53 @@ class Runner(object):
         ## Just a random check if the above indexing works, to remove later on.
         pop_sample = population.sample()
         fac_sample = facilities.sample()
-        assert network.tt_mx[pop_sample.iloc[0]['node'], fac_sample.iloc[0]['node']] == self.travel_time[pop_sample.iloc[0]['id'], fac_sample.iloc[0]['id']], "Something wrong with travel time indexing - incompatible travel times between network pre-calculated and indexed values."
+        assert self.network.tt_mx[pop_sample.iloc[0]['node'], fac_sample.iloc[0]['node']] == self.travel_time[pop_sample.iloc[0]['id'], fac_sample.iloc[0]['id']], "Something wrong with travel time indexing - incompatible travel times between network pre-calculated and indexed values."
         ##
 
-    def run_round(self, preferences_model, allocation_model, nearest_k_k=None):
+    def run_simulation(self, simulation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None):
+        """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
+
+        Args:
+            simulation_rounds (int): total nr of simulation rounds to run.
+            preferences_model (str): preference model to use.
+            allocation_model (str): allocation model to use.
+            intervention_model (str): network intervention model to use.
+            nearest_k_k (int, optional): k parameter in nearest_k preference model. Defaults to None.
+        """
+
+        # TODO - maybe replace with scenario builder.
+        # Note: first round is vanilla - no interventions are added.
+        _, _, capacity_eval, diversity_eval = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+        capacity = []
+        diversity = []
+        for i in range(simulation_rounds):
+            self.create_intervention(intervention_model)
+
+            _, _, capacity_eval, diversity_eval = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+            capacity.append(capacity_eval)
+            diversity.append(diversity_eval)
+
+            print(f'Facility capacity evaluation: {capacity_eval}')
+            print(f'Facility diversity evaluation: fac1: {diversity_eval[0][0]} - {diversity_eval[0][1]}, fac2: {diversity_eval[1][0]} - {diversity_eval[1][1]}')
+
+        # Generate group composition plot for every facility.
+        for fid in range(self.facilities.shape[0]):
+            grp0_pct = []
+            grp1_pct = []
+            for i in range(simulation_rounds):
+                grp0_pct.append(diversity[i][fid][0])
+                grp1_pct.append(diversity[i][fid][1])
+            
+            fig, ax = plt.subplots(figsize=(5, 5))
+            ax.plot(range(simulation_rounds), grp0_pct, label='grp0')
+            ax.plot(range(simulation_rounds), grp1_pct, label='grp1')
+            ax.set_ylim(0, 1)
+            ax.fill_between(range(simulation_rounds), grp0_pct, grp1_pct, color='#E8E8E8')
+            ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
+            ax.set_title(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition")
+            ax.legend()
+
+    def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
 
         Args:
@@ -57,7 +101,7 @@ class Runner(object):
             qualities = self.facilities.quality.to_numpy()
             pref_list = toy_model(self.travel_time, qualities)
 
-        assert pref_list is not None, 'No preference list was generated, specify preferences_model parameter in config.'
+        assert pref_list is not None, 'No preference list was generated, specify a valid preferences_model parameter in config.'
         return pref_list
     
     def generate_allocation(self, pref_list, allocation_model):
@@ -78,9 +122,24 @@ class Runner(object):
             capacities = self.facilities.capacity.copy().to_numpy()
             allocation = random_serial_dictatorship(pref_list, capacities)
         
-        assert allocation is not None, 'No allocation list was generated, specify allocation_model parameter in config.'
+        assert allocation is not None, 'No allocation list was generated, specify a valid allocation_model parameter in config.'
         return allocation
     
+    def create_intervention(self, intervention_model: str):
+        """Creates and adds an intervention (new edge) to the network, according to the intervention_model
+
+        Args:
+            intervention_model (str): network intervention model to use.
+        """
+        x, y, w = None, None, None
+        if intervention_model == 'random':
+            x, y, w = create_random_edge(self.network)
+
+        assert x is not None, 'No intervention was generated, specify a valid intervention_model parameter in config.'
+
+        print(f'adding ({x}, {y}) edge')
+        self.network.add_edge(x, y, w)
+
     def evaluate(self, allocation):
         """Evaluates allocation according to evaluation metrics.
 
