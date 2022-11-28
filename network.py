@@ -36,6 +36,14 @@ class Network(object):
         """
         self.network.add_edge(from_v, to_v)
 
+    def get_adj_matrix(self):
+        """Returns the current node adjacency matrix of the network.
+
+        Returns:
+            np.array: thje adjacency matrix.
+        """
+        return np.array(self.network.get_adjacency().data)
+
     def __init__(self, network_path, calc_tt_mx=False):
         """Holds the transport network.
 

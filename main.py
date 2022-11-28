@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 import yaml
+from intervention import create_random_edge
 from network import Network
 import pandas as pd
 from preference import nearest_k, toy_model
@@ -74,3 +75,8 @@ if __name__ == "__main__":
 
     print(f'Facility capacity evaluation: {capacity_eval}')
     print(f'Facility diversity evaluation: fac1: {diversity_eval[0][0]} - {diversity_eval[0][1]}, fac2: {diversity_eval[1][0]} - {diversity_eval[1][1]}')
+
+    # Create random intervention.
+    print(network.get_adj_matrix())
+    create_random_edge(network)
+    print(network.get_adj_matrix())
