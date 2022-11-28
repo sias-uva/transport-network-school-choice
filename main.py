@@ -1,12 +1,9 @@
 import argparse
 from pathlib import Path
 import yaml
-from intervention import create_random_edge
 from network import Network
 import pandas as pd
-from preference import nearest_k, toy_model
-from allocation import first_choice, random_serial_dictatorship
-from evaluation import facility_capacity, facility_diversity
+from runner import Runner
 
 ## TODO - Automatically copy the config file to the output folder.
 
@@ -40,43 +37,17 @@ if __name__ == "__main__":
     population = pd.read_csv(config['population_file'])
     facilities = pd.read_csv(config['facilities_file'])
 
-    # Calculate travel times for all agents in the population to all facilities.
-    tt = network.tt_mx[population['node'].values][:, [facilities['node'].values]].squeeze()
+    runner = Runner(network, population, facilities)
 
-    ## Just a random check if the above indexing works, to remove later on.
-    pop_sample = population.sample()
-    fac_sample = facilities.sample()
-    assert network.tt_mx[pop_sample.iloc[0]['node'], fac_sample.iloc[0]['node']] == tt[pop_sample.iloc[0]['id'], fac_sample.iloc[0]['id']], "Something wrong with travel time indexing - incompatible travel times between network pre-calculated and indexed values."
-    ##
-
-    # Generate preference list for each agent.
-    pref_list = None
-    if config['preferences_model'] == 'nearest_k':
-        assert 'nearest_k' in config, 'You need to specify nearest_k parameter in config.'
-        pref_list = nearest_k(tt, k=config['nearest_k'])
-    elif config['preferences_model'] == 'toy_model':
-        # Select facility qualities
-        qualities = facilities.quality.to_numpy()
-        pref_list = toy_model(tt, qualities)
-
-    # Assign agents to facilities using an allocation model.
-    allocation = None
-    if config['allocation_model'] == 'first_choice':
-        allocation = first_choice(pref_list)
-    elif config['allocation_model'] == 'random_serial_dictatorship':
-        capacities = facilities.capacity.copy().to_numpy()
-        allocation = random_serial_dictatorship(pref_list, capacities)
-
-    assert pref_list is not None, 'No preference list was generated, specify preferences_model parameter in config.'
-    assert allocation is not None, 'No allocation list was generated, specify allocation_model parameter in config.'
-
-    capacity_eval = facility_capacity(population, facilities, allocation)
-    diversity_eval = facility_diversity(population, facilities, allocation)
-
+    _, _, capacity_eval, diversity_eval = runner.run_round(config['preferences_model'], config['allocation_model'], config.get('nearest_k', None))
     print(f'Facility capacity evaluation: {capacity_eval}')
     print(f'Facility diversity evaluation: fac1: {diversity_eval[0][0]} - {diversity_eval[0][1]}, fac2: {diversity_eval[1][0]} - {diversity_eval[1][1]}')
 
-    # Create random intervention.
-    print(network.get_adj_matrix())
-    create_random_edge(network)
-    print(network.get_adj_matrix())
+    # # Create random intervention.
+
+    # # print(network.get_adj_matrix())
+    # for i in range(5):
+    #     create_random_edge(network)
+
+
+

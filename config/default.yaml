@@ -5,6 +5,6 @@ facilities_file: './envs/toy_segregated/facilities.csv'
 # Applicable values: ['nearest_k', 'toy_model']
 preferences_model: 'toy_model'
 # Needed if preferences_model = 'nearest_k' OR 'toy_model'
-nearest_k: 2
+# nearest_k: 2
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
