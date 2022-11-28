@@ -4,9 +4,7 @@ import yaml
 from intervention import create_random_edge
 from network import Network
 import pandas as pd
-import numpy as np
 from runner import Runner
-import matplotlib.pyplot as plt
 
 ## TODO - Automatically copy the config file to the output folder.
 
@@ -41,10 +39,6 @@ if __name__ == "__main__":
     facilities = pd.read_csv(config['facilities_file'])
 
     runner = Runner(network, population, facilities)
-
-    # _, _, capacity_eval, diversity_eval = runner.run_agent_round(config['preferences_model'], config['allocation_model'], config.get('nearest_k', None))
-    # print(f'Facility capacity evaluation: {capacity_eval}')
-    # print(f'Facility diversity evaluation: fac1: {diversity_eval[0][0]} - {diversity_eval[0][1]}, fac2: {diversity_eval[1][0]} - {diversity_eval[1][1]}')
 
     runner.run_simulation(
             config['simulation_rounds'], 
