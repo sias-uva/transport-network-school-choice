@@ -1,3 +1,4 @@
+from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
 from evaluation import facility_capacity, facility_diversity
@@ -7,11 +8,12 @@ from network import Network
 from preference import toy_model, nearest_k
 
 class Runner(object):
-    def __init__(self, network: Network, population: pd.DataFrame, facilities: pd.DataFrame):
+    def __init__(self, network: Network, population: pd.DataFrame, facilities: pd.DataFrame, logger: Logger):
 
         self.network = network
         self.population = population
         self.facilities = facilities
+        self.logger = logger
 
         # Calculate travel times for all agents in the population to all facilities.
         self.travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
@@ -64,6 +66,9 @@ class Runner(object):
             ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
             ax.set_title(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition")
             ax.legend()
+
+            if self.logger:
+                self.logger.save_plot(fig, f'facility_{fid}_group_composition.png')
 
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.

@@ -20,3 +20,12 @@ class Logger(object):
         """
         with open(self.output_file, 'a') as f:
             f.write(text)
+
+    def save_plot(self, fig, filename):
+        """Saves the given figure to the results folder.
+
+        Args:
+            fig (matplotlib.figure.Figure): the figure to save.
+            filename (str): the name of the file to save.
+        """
+        fig.savefig(self.results_path / filename)

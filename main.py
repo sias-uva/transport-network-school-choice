@@ -49,7 +49,7 @@ if __name__ == "__main__":
     population = pd.read_csv(config['population_file'])
     facilities = pd.read_csv(config['facilities_file'])
 
-    runner = Runner(network, population, facilities)
+    runner = Runner(network, population, facilities, logger)
 
     runner.run_simulation(
             config['simulation_rounds'],
