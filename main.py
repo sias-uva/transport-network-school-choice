@@ -3,6 +3,7 @@ from pathlib import Path
 import time
 import yaml
 from intervention import create_random_edge
+from logger import Logger
 from network import Network
 import pandas as pd
 from runner import Runner
@@ -34,17 +35,14 @@ if __name__ == "__main__":
 
     config = load_config(args.config)
 
-    # Create output folder.
-    now = datetime.datetime.today().strftime('%Y%m%d_%H_%M_%S.%f')
-    save_dir = Path('./results') / f"{now}_{config['preferences_model']}_{config['allocation_model']}_{config['intervention_model']}"
-    save_dir.mkdir(parents=True, exist_ok=True)
-
     sim_start = time.time()
-    print(f'Running on {args.config} configuration - results saved in {save_dir}')
-    
     if not args.no_log:
-        with open(save_dir / 'config.txt', 'w') as f:
-            yaml.dump(config, f, default_flow_style=False)
+        logger = Logger(config)
+        print(f'Running {args.config} configuration - results saved in {logger.results_path}')
+    else:
+        logger = None
+        print(f'Running {args.config} configuration - no results saved')
+        
 
     # TODO: probably want to move calc_tt_mx flag to config file (maybe want to set to False for large networks.)
     network = Network(config['network_file'], calc_tt_mx=True)
@@ -62,6 +60,6 @@ if __name__ == "__main__":
     
     sim_time = time.time() - sim_start
     print(f"All is said and done in {sim_time} seconds, which is {sim_time / 60} minutes.")
-    if not args.no_log:
-        with open(save_dir / 'config.txt', 'a') as f:
-            f.write(f"sim_time: {sim_time}")
+    
+    if logger:
+        logger.append_to_output_file(f"sim_time: {sim_time}")
