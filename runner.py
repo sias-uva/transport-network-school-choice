@@ -1,3 +1,4 @@
+import numpy as np
 from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
@@ -14,6 +15,10 @@ class Runner(object):
         self.population = population
         self.facilities = facilities
         self.logger = logger
+
+        self.facilities_size = facilities.shape[0]
+        self.population_size = population.shape[0]
+        self.group_size = population['group'].nunique()
 
         # Calculate travel times for all agents in the population to all facilities.
         self.travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
@@ -36,39 +41,68 @@ class Runner(object):
         """
 
         # TODO - maybe replace with scenario builder.
+        # Note: this currently only runs properly for 2 groups.
+
         # Note: first round is vanilla - no interventions are added.
-        _, _, capacity_eval, diversity_eval = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
-        capacity = []
-        diversity = []
+        _, _, capacity_eval, diversity_eval, diversity_eval_pct = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+        # initialize empty numpy array of size (simulation_rounds, 2) to store capacity and diversity evaluations.
+        capacity = np.zeros((simulation_rounds, self.facilities_size))
+        diversity_pct = np.zeros((simulation_rounds, self.facilities_size, self.group_size))
+        diversity = np.zeros((simulation_rounds, self.facilities_size, self.group_size))
+
         for i in range(simulation_rounds):
             self.create_intervention(intervention_model)
 
-            _, _, capacity_eval, diversity_eval = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
-            capacity.append(capacity_eval)
-            diversity.append(diversity_eval)
+            _, _, capacity_eval, diversity_eval, diversity_eval_pct = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+            capacity[i] = capacity_eval
+            diversity_pct[i] = diversity_eval_pct
+            diversity[i] = diversity_eval
 
+            # TODO: delete -- noise
             print(f'Facility capacity evaluation: {capacity_eval}')
-            print(f'Facility diversity evaluation: fac1: {diversity_eval[0][0]} - {diversity_eval[0][1]}, fac2: {diversity_eval[1][0]} - {diversity_eval[1][1]}')
+            print(f'Facility diversity evaluation: fac1: {diversity_eval_pct[0][0]} - {diversity_eval_pct[0][1]}, fac2: {diversity_eval_pct[1][0]} - {diversity_eval_pct[1][1]}')
 
-        # Generate group composition plot for every facility.
-        for fid in range(self.facilities.shape[0]):
-            grp0_pct = []
-            grp1_pct = []
-            for i in range(simulation_rounds):
-                grp0_pct.append(diversity[i][fid][0])
-                grp1_pct.append(diversity[i][fid][1])
-            
+        # Generate group composition plot for each facility (different plots).
+        for fid in range(self.facilities_size):
             fig, ax = plt.subplots(figsize=(5, 5))
-            ax.plot(range(simulation_rounds), grp0_pct, label='grp0')
-            ax.plot(range(simulation_rounds), grp1_pct, label='grp1')
+            for gid in range(self.group_size):
+                ax.plot(range(simulation_rounds), diversity_pct[:, fid, gid], label=f'Group {gid}')
+            
+            # ax.fill_between(range(simulation_rounds), grp0_pct, grp1_pct, color='#E8E8E8') # commented out because it does not generalize to more than 2 groups.
+            ax.set_xlabel('Simulation round')
+            ax.set_ylabel('Group composition')
             ax.set_ylim(0, 1)
-            ax.fill_between(range(simulation_rounds), grp0_pct, grp1_pct, color='#E8E8E8')
             ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
-            ax.set_title(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition")
+            fig.suptitle(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition")
+            ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
             ax.legend()
 
             if self.logger:
                 self.logger.save_plot(fig, f'facility_{fid}_group_composition.png')
+
+        # Dissimilarity Index
+        DI_sim = np.zeros(simulation_rounds)
+        for i in range(simulation_rounds):
+            A = diversity[i, :, 0].sum()
+            B = diversity[i, :, 1].sum()
+            DI = 0
+            for fid in range(self.facilities_size):
+                a = diversity[i, fid, 0]
+                b = diversity[i, fid, 1]
+                DI += np.abs(a/A - b/B)
+            DI = 1/2 * DI
+            DI_sim[i] = DI
+
+        fig, ax = plt.subplots(figsize=(5, 5))
+        ax.plot(range(simulation_rounds), DI_sim, label=f'Dissimilarity Index')
+        ax.set_xlabel('Simulation round')
+        ax.set_ylabel('Dissimilarity Index')
+        ax.set_ylim(0, 1)
+        fig.suptitle(f"Dissimilarity Index")
+        ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
+        if self.logger:
+            self.logger.save_plot(fig, f'dissimilarity_index.png')
+        
 
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
@@ -83,9 +117,9 @@ class Runner(object):
         """
         pref_list = self.generate_preferences(preferences_model, nearest_k_k=nearest_k_k)
         allocation = self.generate_allocation(pref_list, allocation_model)
-        capacity_eval, diversity_eval = self.evaluate(allocation)
+        capacity_eval, diversity_eval, diversity_eval_pct = self.evaluate(allocation)
 
-        return pref_list, allocation, capacity_eval, diversity_eval
+        return pref_list, allocation, capacity_eval, diversity_eval, diversity_eval_pct
 
     def generate_preferences(self, preferences_model: str, nearest_k_k=None):
         """Generates preferences for each agent in the population, according to preferences_model.
@@ -155,6 +189,6 @@ class Runner(object):
             list: list of evaluation metrics.
         """
         capacity_eval = facility_capacity(self.population, self.facilities, allocation)
-        diversity_eval = facility_diversity(self.population, self.facilities, allocation)
+        diversity_eval, diversity_eval_pct = facility_diversity(self.population, self.facilities, allocation)
 
-        return capacity_eval, diversity_eval
+        return capacity_eval, diversity_eval, diversity_eval_pct

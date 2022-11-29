@@ -21,13 +21,15 @@ def facility_capacity(population, facilities, allocation):
 
     return eval
 
-def facility_diversity(population, facilities, allocation):
-    """ Returns a 2-D array of the group distribution in each facility - shape = (nr_facilities, nr_groups) where (i,j) = percent of group j in facility i.
+def facility_diversity(population, facilities, allocation, return_pct=True):
+    """ Returns 2-D array of the group allocation in each facility - shape = (nr_facilities, nr_groups) where (i,j) = allocated agents of gorup j in facility i.
+    If return_pct is True, returns another 2-D array with the percentage of agents of each group in each facility.
 
     Args:
         population (pd.DataFrame): population dataframe - should have id column
         facilities (pd.DataFrame): facility dataframe - should have id column
         allocation (np.array): array of shape (total_pop, 1) where each agent is allocated to 1 facility.
+        return_pct (bool, optional): whether to return the percentage of each group in each facility. Defaults to True.
 
     Returns:
         np.array: array of percent of groups at each facility.
@@ -36,13 +38,16 @@ def facility_diversity(population, facilities, allocation):
     assert allocation.shape[1] == 1, 'Only one facility should be allocated to each agent.'
 
     # I don't like the for-based solution but too lazy atm.
-    eval = np.zeros((facilities.shape[0], population['group'].nunique()))
+    alloc_by_facility = np.zeros((facilities.shape[0], population['group'].nunique()))
     for i_g, g in enumerate(population['group'].unique()):
         pop_id = population[population['group'] == g]['id'].values
 
         for fid in facilities['id'].values:
             allocs = np.sum(allocation[pop_id] == fid)
-            eval[i_g, fid] = allocs
+            alloc_by_facility[i_g, fid] = allocs
 
-    return np.true_divide(eval, eval.sum(axis=1, keepdims=True))
+    if return_pct:
+        return alloc_by_facility, np.true_divide(alloc_by_facility, alloc_by_facility.sum(axis=1, keepdims=True))
+    else:
+        return alloc_by_facility
 
