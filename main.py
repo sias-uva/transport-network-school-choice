@@ -1,10 +1,12 @@
 import argparse
 from pathlib import Path
+import time
 import yaml
 from intervention import create_random_edge
 from network import Network
 import pandas as pd
 from runner import Runner
+import datetime
 
 ## TODO - Automatically copy the config file to the output folder.
 
@@ -26,12 +28,23 @@ def load_config(filename):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Transport network and School Choice")
     parser.add_argument('--config', default='default.yaml', type=str)
+    parser.add_argument('--no_log', action='store_true', default=False)
 
     args = parser.parse_args()
 
-    print(f'Running on {args.config} configuration...')
-
     config = load_config(args.config)
+
+    # Create output folder.
+    now = datetime.datetime.today().strftime('%Y%m%d_%H_%M_%S.%f')
+    save_dir = Path('./results') / f"{now}_{config['preferences_model']}_{config['allocation_model']}_{config['intervention_model']}"
+    save_dir.mkdir(parents=True, exist_ok=True)
+
+    sim_start = time.time()
+    print(f'Running on {args.config} configuration - results saved in {save_dir}')
+    
+    if not args.no_log:
+        with open(save_dir / 'config.txt', 'w') as f:
+            yaml.dump(config, f, default_flow_style=False)
 
     # TODO: probably want to move calc_tt_mx flag to config file (maybe want to set to False for large networks.)
     network = Network(config['network_file'], calc_tt_mx=True)
@@ -41,10 +54,14 @@ if __name__ == "__main__":
     runner = Runner(network, population, facilities)
 
     runner.run_simulation(
-            config['simulation_rounds'], 
+            config['simulation_rounds'],
             config['preferences_model'], 
             config['allocation_model'], 
             config['intervention_model'], 
             config.get('nearest_k', None))
-   
-    print('all is said and dones')
+    
+    sim_time = time.time() - sim_start
+    print(f"All is said and done in {sim_time} seconds, which is {sim_time / 60} minutes.")
+    if not args.no_log:
+        with open(save_dir / 'config.txt', 'a') as f:
+            f.write(f"sim_time: {sim_time}")
