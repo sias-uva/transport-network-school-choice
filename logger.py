@@ -22,11 +22,18 @@ class Logger(object):
             f.write(text)
             f.write('\n')
 
-    def save_plot(self, fig, filename):
+    def save_plot(self, fig, filename, round=None):
         """Saves the given figure to the results folder.
 
         Args:
             fig (matplotlib.figure.Figure): the figure to save.
             filename (str): the name of the file to save.
+            round(str): if given, the file will be saved in the child rounds folder.
         """
-        fig.savefig(self.results_path / filename)
+        if round is None:
+            fig.savefig(self.results_path / filename)
+        else:
+            path = self.results_path / 'rounds' / str(round)
+            path.mkdir(parents=True, exist_ok=True)
+            
+            fig.savefig(path / filename)
