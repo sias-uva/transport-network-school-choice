@@ -34,6 +34,10 @@ class Runner(object):
         assert self.network.tt_mx[pop_sample.iloc[0]['node'], fac_sample.iloc[0]['node']] == self.travel_time[pop_sample.iloc[0]['id'], fac_sample.iloc[0]['id']], "Something wrong with travel time indexing - incompatible travel times between network pre-calculated and indexed values."
         ##
 
+        # Safe a figure of the network to the output folder.
+        if self.logger:
+            self.logger.save_plot(self.network.create_network_figure(), 'network.png')
+
     def run_simulation(self, simulation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None):
         """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
 
@@ -58,7 +62,7 @@ class Runner(object):
         dissimilarity_index = np.zeros(simulation_rounds)
 
         for i in range(simulation_rounds):
-            self.create_intervention(intervention_model)
+            intervention = self.create_intervention(intervention_model)
 
             _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
             alloc_by_facility[i] = eval_metrics['alloc_by_facility']
@@ -207,6 +211,7 @@ class Runner(object):
 
         print(f'adding ({x}, {y}) edge')
         self.network.add_edge(x, y, w)
+        return x, y, w
 
     def evaluate(self, allocation):
         """Evaluates allocation according to evaluation metrics.

@@ -1,4 +1,5 @@
 import igraph as ig
+from matplotlib import pyplot as plt
 import numpy as np
 import math
 import os
@@ -43,6 +44,13 @@ class Network(object):
             np.array: thje adjacency matrix.
         """
         return np.array(self.network.get_adjacency().data)
+
+    def create_network_figure(self):
+        """Plots the network using igraph's plot function.
+        """
+        fig, ax = plt.subplots(figsize=(5, 5))
+        ig.plot(self.network, target=ax)
+        return fig
 
     def __init__(self, network_path, calc_tt_mx=False):
         """Holds the transport network.
