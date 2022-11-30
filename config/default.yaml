@@ -10,4 +10,4 @@ preferences_model: 'toy_model'
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['random']
 intervention_model: 'random'
-simulation_rounds: 5
+simulation_rounds: 10

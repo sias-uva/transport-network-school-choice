@@ -18,7 +18,11 @@ class Runner(object):
 
         self.facilities_size = facilities.shape[0]
         self.population_size = population.shape[0]
-        self.group_size = population['group'].nunique()
+        self.groups= population['group'].unique()
+        self.total_groups = population['group'].nunique()
+        logger.append_to_output_file(f'facilities_size: {self.facilities_size}\npopulation_size: {self.population_size}\ntotal_groups: {self.total_groups}')
+        for g in self.groups:
+            logger.append_to_output_file(f"Group {g} size: {population[population['group'] == g].shape[0]}")
 
         # Calculate travel times for all agents in the population to all facilities.
         self.travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
@@ -47,8 +51,8 @@ class Runner(object):
         _, _, capacity_eval, diversity_eval, diversity_eval_pct = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
         # initialize empty numpy array of size (simulation_rounds, 2) to store capacity and diversity evaluations.
         capacity = np.zeros((simulation_rounds, self.facilities_size))
-        diversity_pct = np.zeros((simulation_rounds, self.facilities_size, self.group_size))
-        diversity = np.zeros((simulation_rounds, self.facilities_size, self.group_size))
+        diversity_pct = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
+        diversity = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
 
         for i in range(simulation_rounds):
             self.create_intervention(intervention_model)
@@ -65,7 +69,7 @@ class Runner(object):
         # Generate group composition plot for each facility (different plots).
         for fid in range(self.facilities_size):
             fig, ax = plt.subplots(figsize=(5, 5))
-            for gid in range(self.group_size):
+            for gid in range(self.total_groups):
                 ax.plot(range(simulation_rounds), diversity_pct[:, fid, gid], label=f'Group {gid}')
             
             # ax.fill_between(range(simulation_rounds), grp0_pct, grp1_pct, color='#E8E8E8') # commented out because it does not generalize to more than 2 groups.
