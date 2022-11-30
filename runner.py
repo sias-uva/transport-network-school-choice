@@ -2,7 +2,7 @@ import numpy as np
 from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
-from evaluation import facility_capacity, facility_diversity
+from evaluation import facility_capacity, facility_group_composition
 from intervention import create_random_edge
 import matplotlib.pyplot as plt
 from network import Network
@@ -20,6 +20,7 @@ class Runner(object):
         self.population_size = population.shape[0]
         self.groups= population['group'].unique()
         self.total_groups = population['group'].nunique()
+        # Log stuff
         logger.append_to_output_file(f'facilities_size: {self.facilities_size}\npopulation_size: {self.population_size}\ntotal_groups: {self.total_groups}')
         for g in self.groups:
             logger.append_to_output_file(f"Group {g} size: {population[population['group'] == g].shape[0]}")
@@ -48,29 +49,29 @@ class Runner(object):
         # Note: this currently only runs properly for 2 groups.
 
         # Note: first round is vanilla - no interventions are added.
-        _, _, capacity_eval, diversity_eval, diversity_eval_pct = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+        _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
         # initialize empty numpy array of size (simulation_rounds, 2) to store capacity and diversity evaluations.
-        capacity = np.zeros((simulation_rounds, self.facilities_size))
-        diversity_pct = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
-        diversity = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
+        alloc_by_facility = np.zeros((simulation_rounds, self.facilities_size))
+        grp_composition_pct = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
+        grp_composition = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
 
         for i in range(simulation_rounds):
             self.create_intervention(intervention_model)
 
-            _, _, capacity_eval, diversity_eval, diversity_eval_pct = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
-            capacity[i] = capacity_eval
-            diversity_pct[i] = diversity_eval_pct
-            diversity[i] = diversity_eval
+            _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+            alloc_by_facility[i] = eval_metrics['alloc_by_facility']
+            grp_composition_pct[i] = eval_metrics['grp_composition_pct']
+            grp_composition[i] = eval_metrics['grp_composition']
 
             # TODO: delete -- noise
-            print(f'Facility capacity evaluation: {capacity_eval}')
-            print(f'Facility diversity evaluation: fac1: {diversity_eval_pct[0][0]} - {diversity_eval_pct[0][1]}, fac2: {diversity_eval_pct[1][0]} - {diversity_eval_pct[1][1]}')
+            print(f"Facility capacity evaluation: {eval_metrics['alloc_by_facility']}")
+            print(f"Facility diversity evaluation: fac1: {eval_metrics['grp_composition_pct'][0][0]} - {eval_metrics['grp_composition_pct'][0][1]}, fac2: {eval_metrics['grp_composition_pct'][1][0]} - {eval_metrics['grp_composition_pct'][1][1]}")
 
         # Generate group composition plot for each facility (different plots).
         for fid in range(self.facilities_size):
             fig, ax = plt.subplots(figsize=(5, 5))
             for gid in range(self.total_groups):
-                ax.plot(range(simulation_rounds), diversity_pct[:, fid, gid], label=f'Group {gid}')
+                ax.plot(range(simulation_rounds), grp_composition_pct[:, fid, gid], label=f'Group {gid}')
             
             # ax.fill_between(range(simulation_rounds), grp0_pct, grp1_pct, color='#E8E8E8') # commented out because it does not generalize to more than 2 groups.
             ax.set_xlabel('Simulation round')
@@ -87,12 +88,12 @@ class Runner(object):
         # Dissimilarity Index
         DI_sim = np.zeros(simulation_rounds)
         for i in range(simulation_rounds):
-            A = diversity[i, :, 0].sum()
-            B = diversity[i, :, 1].sum()
+            A = grp_composition[i, :, 0].sum()
+            B = grp_composition[i, :, 1].sum()
             DI = 0
             for fid in range(self.facilities_size):
-                a = diversity[i, fid, 0]
-                b = diversity[i, fid, 1]
+                a = grp_composition[i, fid, 0]
+                b = grp_composition[i, fid, 1]
                 DI += np.abs(a/A - b/B)
             DI = 1/2 * DI
             DI_sim[i] = DI
@@ -121,9 +122,9 @@ class Runner(object):
         """
         pref_list = self.generate_preferences(preferences_model, nearest_k_k=nearest_k_k)
         allocation = self.generate_allocation(pref_list, allocation_model)
-        capacity_eval, diversity_eval, diversity_eval_pct = self.evaluate(allocation)
+        eval_metrics = self.evaluate(allocation)
 
-        return pref_list, allocation, capacity_eval, diversity_eval, diversity_eval_pct
+        return pref_list, allocation, eval_metrics
 
     def generate_preferences(self, preferences_model: str, nearest_k_k=None):
         """Generates preferences for each agent in the population, according to preferences_model.
@@ -190,9 +191,14 @@ class Runner(object):
             allocation (np.array): array of size  (nr_agents, 1) where each agent is assigned to one facility.
 
         Returns:
-            list: list of evaluation metrics.
+            dit: dictionary of evaluation metrics.
         """
-        capacity_eval = facility_capacity(self.population, self.facilities, allocation)
-        diversity_eval, diversity_eval_pct = facility_diversity(self.population, self.facilities, allocation)
+        alloc_by_facility, capacity = facility_capacity(self.population, self.facilities, allocation)
+        grp_composition, grp_composition_pct = facility_group_composition(self.population, self.facilities, allocation)
 
-        return capacity_eval, diversity_eval, diversity_eval_pct
+        return {
+            'alloc_by_facility': alloc_by_facility,
+            'capacity': capacity,
+            'grp_composition': grp_composition,
+            'grp_composition_pct': grp_composition_pct
+        }
