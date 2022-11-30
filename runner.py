@@ -91,6 +91,12 @@ class Runner(object):
             if self.logger:
                 self.logger.save_plot(fig, f"allocation_by_facility_and_group_{i}.png", round=i)
 
+            # Create a plot with the network intervention.
+            intervention['color'] = 'blue'
+            fig = self.network.create_network_figure(edge_to_color=intervention)
+            if self.logger:
+                self.logger.save_plot(fig, f"intervention_{i}.png", round=i)
+
             # TODO: delete -- noise
             print(f"Facility capacity evaluation: {eval_metrics['alloc_by_facility']}")
             print(f"Facility diversity evaluation: fac1: {eval_metrics['grp_composition_pct'][0][0]} - {eval_metrics['grp_composition_pct'][0][1]}, fac2: {eval_metrics['grp_composition_pct'][1][0]} - {eval_metrics['grp_composition_pct'][1][1]}")
@@ -210,8 +216,7 @@ class Runner(object):
         assert x is not None, 'No intervention was generated, specify a valid intervention_model parameter in config.'
 
         print(f'adding ({x}, {y}) edge')
-        self.network.add_edge(x, y, w)
-        return x, y, w
+        return self.network.add_edge(x, y, w)
 
     def evaluate(self, allocation):
         """Evaluates allocation according to evaluation metrics.

@@ -4,7 +4,29 @@ import numpy as np
 import math
 import os
 
+DEFAULT_EDGE_COLOR = 'black'
+
 class Network(object):
+    def __init__(self, network_path, calc_tt_mx=False):
+        """Holds the transport network.
+
+        Args:
+            network_path (str): the full path to the network file - used to load the transport network.
+            calc_tt_mx (boolean): if set to true, it will pre-calculate and store the travel times from all nodes to all other nodes.
+        """
+        _, ext = os.path.splitext(network_path)
+        assert ext == ".gml", "only .gml network files are accepted (currently)"
+
+        # Load the network
+        self.network = ig.Graph.Read(network_path)
+        # Becomes relevant when we want to add edges to the network and plot the new edges.
+        self.network.es['color'] = DEFAULT_EDGE_COLOR
+        # Keep a list of all the added edges (interventions) to the network.
+        self.added_edges = []
+        # Calculate the travel time matrix from all nodes to all nodes, store it so we don't have to re-calculate it every time.
+        # TODO: think of memory constraints? 
+        if calc_tt_mx:
+            self.tt_mx = self.shortest_paths(self.network.vs, self.network.vs)
 
     def shortest_paths(self, orig: list, dest: list):
         """Calculates shortest paths from a list of origins to a list of destinations. Both orig and dest should be lists of node ids.
@@ -34,8 +56,13 @@ class Network(object):
         Args:
             from_v (int): id of the origin vertex of the new edge.
             to_v (int): id of the destination vertex of the new edge.
+        Returns: 
+            igraph.Edge: the newly added edge as an Edge object
+
         """
-        self.network.add_edge(from_v, to_v, weight=weight)
+        edge = self.network.add_edge(from_v, to_v, weight=weight)
+        self.added_edges.append(edge)
+        return edge
 
     def get_adj_matrix(self):
         """Returns the current node adjacency matrix of the network.
@@ -45,26 +72,15 @@ class Network(object):
         """
         return np.array(self.network.get_adjacency().data)
 
-    def create_network_figure(self):
+    def create_network_figure(self, edge_to_color=None):
         """Plots the network using igraph's plot function.
         """
+        if edge_to_color is not None:
+            edge_to_color['color'] = 'blue'
+
         fig, ax = plt.subplots(figsize=(5, 5))
         ig.plot(self.network, target=ax)
+
+        if edge_to_color is not None:
+            edge_to_color['color'] = DEFAULT_EDGE_COLOR
         return fig
-
-    def __init__(self, network_path, calc_tt_mx=False):
-        """Holds the transport network.
-
-        Args:
-            network_path (str): the full path to the network file - used to load the transport network.
-            calc_tt_mx (boolean): if set to true, it will pre-calculate and store the travel times from all nodes to all other nodes.
-        """
-        _, ext = os.path.splitext(network_path)
-        assert ext == ".gml", "only .gml network files are accepted (currently)"
-
-        # Load the network
-        self.network = ig.Graph.Read(network_path)
-        # Calculate the travel time matrix from all nodes to all nodes, store it so we don't have to re-calculate it every time.
-        # TODO: think of memory constraints? 
-        if calc_tt_mx:
-            self.tt_mx = self.shortest_paths(self.network.vs, self.network.vs)
