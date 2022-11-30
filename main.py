@@ -7,8 +7,6 @@ from network import Network
 import pandas as pd
 from runner import Runner
 
-## TODO - Automatically copy the config file to the output folder.
-
 CONFIG_PATH = Path("./config/")
 
 def load_config(filename):

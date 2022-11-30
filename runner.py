@@ -67,6 +67,26 @@ class Runner(object):
             grp_composition[i] = eval_metrics['grp_composition']
             dissimilarity_index[i] = eval_metrics['dissimilarity_index']
 
+            fig, ax = plt.subplots()
+            ax.imshow(eval_metrics['grp_composition'], cmap='Blues')
+
+            # Show all ticks and label them with the respective list entries
+            ax.set_xticks(np.arange(eval_metrics['grp_composition'].shape[0]), labels=np.arange(eval_metrics['grp_composition'].shape[0]))
+            ax.set_yticks(np.arange(eval_metrics['grp_composition'].shape[1]), labels=np.arange(eval_metrics['grp_composition'].shape[1]))
+
+            # Loop over data dimensions and create text annotations.
+            for k in range(eval_metrics['grp_composition'].shape[0]):
+                for l in range(eval_metrics['grp_composition'].shape[1]):
+                    ax.text(k, l, eval_metrics['grp_composition'][k, l], ha="center", va="center", color="orange")
+
+            ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
+            fig.suptitle(f"Allocation by facility and group - round {i}")
+            ax.set_xlabel("Groups")
+            ax.set_ylabel("Facilities")
+            fig.tight_layout()
+            if self.logger:
+                self.logger.save_plot(fig, f"allocation_by_facility_and_group_{i}.png", round=i)
+
             # TODO: delete -- noise
             print(f"Facility capacity evaluation: {eval_metrics['alloc_by_facility']}")
             print(f"Facility diversity evaluation: fac1: {eval_metrics['grp_composition_pct'][0][0]} - {eval_metrics['grp_composition_pct'][0][1]}, fac2: {eval_metrics['grp_composition_pct'][1][0]} - {eval_metrics['grp_composition_pct'][1][1]}")
