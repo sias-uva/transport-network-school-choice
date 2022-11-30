@@ -58,3 +58,30 @@ def facility_group_composition(population, facilities, allocation, return_pct=Tr
     else:
         return alloc_by_facility
 
+def dissimilarity_index(population, facilities, allocation, group_composition=None):
+    """Calculates the dissimilarity index of the whole school allocation. It is calculated as the sum of the dissimilarity index of each facility.
+    The index is the sum of the squared differences between the percentage of each group in each facility and the percentage of each group in the whole population.
+    More on the index here: https://en.wikipedia.org/wiki/Index_of_dissimilarity
+
+    Args:
+        population (pd.DataFrame): population dataframe - should have id column
+        facilities (pd.DataFrame): facility dataframe - should have id column
+        allocation (np.array): array of shape (total_pop, 1) where each agent is allocated to 1 facility.
+        group_composition (np.array, optional): if given, it will not call facility_group_composition to re-calculate it . Defaults to None.
+
+    Returns:
+        _type_: _description_
+    """
+    # For performance issues - we mostly calculate the group composition on a previous step anyway, so we can skip the re-calculation.
+    if group_composition is None:
+        group_composition = facility_group_composition(population, facilities, allocation, return_pct=False)
+
+    A = group_composition[:, 0].sum()
+    B = group_composition[:, 1].sum()
+    DI = 0
+    for fid in range(facilities.shape[0]):
+        a = group_composition[fid, 0]
+        b = group_composition[fid, 1]
+        DI += np.abs(a/A - b/B)
+    
+    return 1/2 * DI

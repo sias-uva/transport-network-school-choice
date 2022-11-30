@@ -2,7 +2,7 @@ import numpy as np
 from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
-from evaluation import facility_capacity, facility_group_composition
+from evaluation import dissimilarity_index, facility_capacity, facility_group_composition
 from intervention import create_random_edge
 import matplotlib.pyplot as plt
 from network import Network
@@ -50,10 +50,11 @@ class Runner(object):
 
         # Note: first round is vanilla - no interventions are added.
         _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
-        # initialize empty numpy array of size (simulation_rounds, 2) to store capacity and diversity evaluations.
+        # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
         alloc_by_facility = np.zeros((simulation_rounds, self.facilities_size))
         grp_composition_pct = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
         grp_composition = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
+        dissimilarity_index = np.zeros(simulation_rounds)
 
         for i in range(simulation_rounds):
             self.create_intervention(intervention_model)
@@ -62,12 +63,13 @@ class Runner(object):
             alloc_by_facility[i] = eval_metrics['alloc_by_facility']
             grp_composition_pct[i] = eval_metrics['grp_composition_pct']
             grp_composition[i] = eval_metrics['grp_composition']
+            dissimilarity_index[i] = eval_metrics['dissimilarity_index']
 
             # TODO: delete -- noise
             print(f"Facility capacity evaluation: {eval_metrics['alloc_by_facility']}")
             print(f"Facility diversity evaluation: fac1: {eval_metrics['grp_composition_pct'][0][0]} - {eval_metrics['grp_composition_pct'][0][1]}, fac2: {eval_metrics['grp_composition_pct'][1][0]} - {eval_metrics['grp_composition_pct'][1][1]}")
 
-        # Generate group composition plot for each facility (different plots).
+        # Generate group composition plot for each facility (diffrent plots).
         for fid in range(self.facilities_size):
             fig, ax = plt.subplots(figsize=(5, 5))
             for gid in range(self.total_groups):
@@ -85,21 +87,9 @@ class Runner(object):
             if self.logger:
                 self.logger.save_plot(fig, f'facility_{fid}_group_composition.png')
 
-        # Dissimilarity Index
-        DI_sim = np.zeros(simulation_rounds)
-        for i in range(simulation_rounds):
-            A = grp_composition[i, :, 0].sum()
-            B = grp_composition[i, :, 1].sum()
-            DI = 0
-            for fid in range(self.facilities_size):
-                a = grp_composition[i, fid, 0]
-                b = grp_composition[i, fid, 1]
-                DI += np.abs(a/A - b/B)
-            DI = 1/2 * DI
-            DI_sim[i] = DI
-
+        # Generate Dissimilarity Index plot for all facilities.
         fig, ax = plt.subplots(figsize=(5, 5))
-        ax.plot(range(simulation_rounds), DI_sim, label=f'Dissimilarity Index')
+        ax.plot(range(simulation_rounds), dissimilarity_index, label=f'Dissimilarity Index')
         ax.set_xlabel('Simulation round')
         ax.set_ylabel('Dissimilarity Index')
         ax.set_ylim(0, 1)
@@ -195,10 +185,12 @@ class Runner(object):
         """
         alloc_by_facility, capacity = facility_capacity(self.population, self.facilities, allocation)
         grp_composition, grp_composition_pct = facility_group_composition(self.population, self.facilities, allocation)
+        di = dissimilarity_index(self.population, self.facilities, allocation, grp_composition)
 
         return {
             'alloc_by_facility': alloc_by_facility,
             'capacity': capacity,
             'grp_composition': grp_composition,
-            'grp_composition_pct': grp_composition_pct
+            'grp_composition_pct': grp_composition_pct,
+            'dissimilarity_index': di
         }
