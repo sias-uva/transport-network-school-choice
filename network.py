@@ -4,9 +4,9 @@ import numpy as np
 import math
 import os
 
-DEFAULT_EDGE_COLOR = 'black'
-
 class Network(object):
+    DEFAULT_EDGE_COLOR = 'black'
+    DEFAULT_IGRAPH_LAYOUT = ig.Graph.layout_grid
     def __init__(self, network_path, calc_tt_mx=False):
         """Holds the transport network.
 
@@ -20,7 +20,10 @@ class Network(object):
         # Load the network
         self.network = ig.Graph.Read(network_path)
         # Becomes relevant when we want to add edges to the network and plot the new edges.
-        self.network.es['color'] = DEFAULT_EDGE_COLOR
+        self.network.es['color'] = self.DEFAULT_EDGE_COLOR
+        self.network.es['label'] = ''
+        # If I just do 'id' it returns it as float, hence the weird list comprehension.
+        self.network.vs['label'] = [self.network.vs[i].index for i in range(len(self.network.vs))]
         # Keep a list of all the added edges (interventions) to the network.
         self.added_edges = []
         # Calculate the travel time matrix from all nodes to all nodes, store it so we don't have to re-calculate it every time.
@@ -72,15 +75,3 @@ class Network(object):
         """
         return np.array(self.network.get_adjacency().data)
 
-    def create_network_figure(self, edge_to_color=None):
-        """Plots the network using igraph's plot function.
-        """
-        if edge_to_color is not None:
-            edge_to_color['color'] = 'blue'
-
-        fig, ax = plt.subplots(figsize=(5, 5))
-        ig.plot(self.network, target=ax)
-
-        if edge_to_color is not None:
-            edge_to_color['color'] = DEFAULT_EDGE_COLOR
-        return fig

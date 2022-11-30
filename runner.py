@@ -4,6 +4,9 @@ import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
 from evaluation import dissimilarity_index, facility_capacity, facility_group_composition
 from intervention import create_random_edge
+import matplotlib
+# Matplotlib stopped working on my machine, so I had to add this line to make it work again.
+matplotlib.use("TKAgg")
 import matplotlib.pyplot as plt
 from network import Network
 from preference import toy_model, nearest_k
@@ -36,7 +39,7 @@ class Runner(object):
 
         # Safe a figure of the network to the output folder.
         if self.logger:
-            self.logger.save_plot(self.network.create_network_figure(), 'network.png')
+            self.logger.save_igraph_plot(self.network)
 
     def run_simulation(self, simulation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None):
         """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
@@ -71,7 +74,7 @@ class Runner(object):
             grp_composition[i] = eval_metrics['grp_composition']
             dissimilarity_index[i] = eval_metrics['dissimilarity_index']
 
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(5, 5))
             ax.imshow(eval_metrics['grp_composition'], cmap='Blues')
 
             # Show all ticks and label them with the respective list entries
@@ -92,14 +95,9 @@ class Runner(object):
                 self.logger.save_plot(fig, f"allocation_by_facility_and_group_{i}.png", round=i)
 
             # Create a plot with the network intervention.
-            intervention['color'] = 'blue'
-            fig = self.network.create_network_figure(edge_to_color=intervention)
             if self.logger:
-                self.logger.save_plot(fig, f"intervention_{i}.png", round=i)
-
-            # TODO: delete -- noise
-            print(f"Facility capacity evaluation: {eval_metrics['alloc_by_facility']}")
-            print(f"Facility diversity evaluation: fac1: {eval_metrics['grp_composition_pct'][0][0]} - {eval_metrics['grp_composition_pct'][0][1]}, fac2: {eval_metrics['grp_composition_pct'][1][0]} - {eval_metrics['grp_composition_pct'][1][1]}")
+                self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=intervention , round=i)
+            # fig = self.network.create_network_figure(self.logger.rounds_path / str(i) / f"intervention_{i}.pdf", edges_to_color=[intervention])
 
         # Generate group composition plot for each facility (diffrent plots).
         for fid in range(self.facilities_size):
@@ -142,6 +140,10 @@ class Runner(object):
         ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
         if self.logger:
             self.logger.save_plot(fig, f'facility_capacity.png')
+
+        # Generate plot of all network interventions
+        if self.logger:
+            self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
         
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
