@@ -2,12 +2,10 @@ import argparse
 from pathlib import Path
 import time
 import yaml
-from intervention import create_random_edge
 from logger import Logger
 from network import Network
 import pandas as pd
 from runner import Runner
-import datetime
 
 ## TODO - Automatically copy the config file to the output folder.
 
