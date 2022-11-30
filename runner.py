@@ -52,6 +52,7 @@ class Runner(object):
         _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
         alloc_by_facility = np.zeros((simulation_rounds, self.facilities_size))
+        capacity = np.zeros((simulation_rounds, self.facilities_size))
         grp_composition_pct = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
         grp_composition = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
         dissimilarity_index = np.zeros(simulation_rounds)
@@ -61,6 +62,7 @@ class Runner(object):
 
             _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
             alloc_by_facility[i] = eval_metrics['alloc_by_facility']
+            capacity[i] = eval_metrics['capacity']
             grp_composition_pct[i] = eval_metrics['grp_composition_pct']
             grp_composition[i] = eval_metrics['grp_composition']
             dissimilarity_index[i] = eval_metrics['dissimilarity_index']
@@ -98,7 +100,19 @@ class Runner(object):
         if self.logger:
             self.logger.save_plot(fig, f'dissimilarity_index.png')
         
-
+        # Generate Capacity plot for all facilities.
+        fig, ax = plt.subplots(figsize=(5, 5))
+        for fid in range(self.facilities_size):
+            ax.plot(range(simulation_rounds), capacity[:, fid], label=f'Facility {fid}')
+        ax.set_xlabel('Simulation round')
+        ax.set_ylabel('Capacity %')
+        ax.set_ylim(0, 2)
+        ax.legend()
+        fig.suptitle(f"Facility Capacity")
+        ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
+        if self.logger:
+            self.logger.save_plot(fig, f'facility_capacity.png')
+        
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
 
