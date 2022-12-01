@@ -66,7 +66,7 @@ class Logger(object):
             path.mkdir(parents=True, exist_ok=True)
             path = path / filename
             
-        ig.plot(network.network, target=path)
+        ig.plot(network.network, target=path, layout=network.network_layout)
 
         if edges_to_color is not None:
             for e in edges_to_color:

@@ -6,7 +6,6 @@ import os
 
 class Network(object):
     DEFAULT_EDGE_COLOR = 'black'
-    DEFAULT_IGRAPH_LAYOUT = ig.Graph.layout_grid
     def __init__(self, network_path, calc_tt_mx=False):
         """Holds the transport network.
 
@@ -19,6 +18,8 @@ class Network(object):
 
         # Load the network
         self.network = ig.Graph.Read(network_path)
+        # Network layout for plotting (to keep node positions consistent between plots)
+        self.network_layout = self.network.layout('kk')
         # Becomes relevant when we want to add edges to the network and plot the new edges.
         self.network.es['color'] = self.DEFAULT_EDGE_COLOR
         self.network.es['label'] = ''
