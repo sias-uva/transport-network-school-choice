@@ -1,5 +1,21 @@
 import numpy as np
 
+
+def facility_rank_distribution(pref_list, total_facilities):
+    """Returns a numpy array of size (facility_size, max nr of preferences) where each element in the array is the number of agents that have that facility as their n-th preference.
+
+    Args:
+        pref_list (np.array): array of size (nr of agents, nr of preferences) where each facility is sorted by preference.
+    Returns:
+        np.array: array of size (facility_size, max nr of preferences) where each element in the array is the number of agents that have that facility as their n-th preference.
+    """
+    # Don't know if we can speed this up, because preference lists can have -1 values for agents that don't have preferences over all facilities.
+    pref_position_by_facility = np.zeros((total_facilities, pref_list.shape[1]))
+    for i in range(total_facilities):
+        for j in range(pref_list.shape[1]):
+            pref_position_by_facility[i, j] = np.sum(pref_list[:, j] == i)
+    return pref_position_by_facility
+
 def facility_capacity(population, facilities, allocation, return_pct=True):
     """Returns an array of percentage of satisfied capacity per facility.
 

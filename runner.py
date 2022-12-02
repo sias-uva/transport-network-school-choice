@@ -2,9 +2,11 @@ import numpy as np
 from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
-from evaluation import dissimilarity_index, facility_capacity, facility_group_composition
+from evaluation import dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution
 from intervention import create_random_edge
 import matplotlib
+
+from plot import heatmap_from_numpy
 # Matplotlib stopped working on my machine, so I had to add this line to make it work again.
 matplotlib.use("TKAgg")
 import matplotlib.pyplot as plt
@@ -56,7 +58,7 @@ class Runner(object):
         # Note: this currently only runs properly for 2 groups.
 
         # Note: first round is vanilla - no interventions are added.
-        _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+        pref_list, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
         alloc_by_facility = np.zeros((simulation_rounds, self.facilities_size))
         capacity = np.zeros((simulation_rounds, self.facilities_size))
@@ -74,25 +76,24 @@ class Runner(object):
             grp_composition[i] = eval_metrics['grp_composition']
             dissimilarity_index[i] = eval_metrics['dissimilarity_index']
 
-            fig, ax = plt.subplots(figsize=(5, 5))
-            ax.imshow(eval_metrics['grp_composition'], cmap='Blues')
-
-            # Show all ticks and label them with the respective list entries
-            ax.set_xticks(np.arange(eval_metrics['grp_composition'].shape[0]), labels=np.arange(eval_metrics['grp_composition'].shape[0]))
-            ax.set_yticks(np.arange(eval_metrics['grp_composition'].shape[1]), labels=np.arange(eval_metrics['grp_composition'].shape[1]))
-
-            # Loop over data dimensions and create text annotations.
-            for k in range(eval_metrics['grp_composition'].shape[0]):
-                for l in range(eval_metrics['grp_composition'].shape[1]):
-                    ax.text(k, l, eval_metrics['grp_composition'][k, l], ha="center", va="center", color="orange")
-
-            ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
-            fig.suptitle(f"Allocation by facility and group - round {i}")
-            ax.set_xlabel("Groups")
-            ax.set_ylabel("Facilities")
-            fig.tight_layout()
+            alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
+                                    title=f"Allocation by facility and group - round {i}", 
+                                    subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                    xlabel='Groups',
+                                    ylabel='Facilities')
             if self.logger:
-                self.logger.save_plot(fig, f"allocation_by_facility_and_group_{i}.png", round=i)
+                self.logger.save_plot(alloc_heatmap, f"allocation_by_facility_and_group_{i}.png", round=i)
+
+            rank_distribution_heatmap = heatmap_from_numpy(eval_metrics['facility_rank_distr'], 
+                                        title=f"Facility rank distribution - round {i}",
+                                        subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                        xlabel='Rank',
+                                        ylabel='Facilities')
+            if self.logger:
+                self.logger.save_plot(rank_distribution_heatmap, f"rank_distribution_{i}.png", round=i)
+
+
+            # pref_heatmap = heatmap_from_numpy(eval_metrics['pref_by_facility'],)
 
             # Create a plot with the network intervention.
             if self.logger:
@@ -158,7 +159,7 @@ class Runner(object):
         """
         pref_list = self.generate_preferences(preferences_model, nearest_k_k=nearest_k_k)
         allocation = self.generate_allocation(pref_list, allocation_model)
-        eval_metrics = self.evaluate(allocation)
+        eval_metrics = self.evaluate(pref_list, allocation)
 
         return pref_list, allocation, eval_metrics
 
@@ -220,7 +221,7 @@ class Runner(object):
         print(f'adding ({x}, {y}) edge')
         return self.network.add_edge(x, y, w)
 
-    def evaluate(self, allocation):
+    def evaluate(self, pref_list, allocation):
         """Evaluates allocation according to evaluation metrics.
 
         Args:
@@ -231,10 +232,12 @@ class Runner(object):
         """
         alloc_by_facility, capacity = facility_capacity(self.population, self.facilities, allocation)
         grp_composition, grp_composition_pct = facility_group_composition(self.population, self.facilities, allocation)
+        facility_rank_distr = facility_rank_distribution(pref_list, self.facilities_size)
         di = dissimilarity_index(self.population, self.facilities, allocation, grp_composition)
 
         return {
             'alloc_by_facility': alloc_by_facility,
+            'facility_rank_distr': facility_rank_distr,
             'capacity': capacity,
             'grp_composition': grp_composition,
             'grp_composition_pct': grp_composition_pct,
