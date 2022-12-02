@@ -1,6 +1,7 @@
 import datetime
 from pathlib import Path
 import numpy as np
+import pandas as pd
 import yaml
 import igraph as ig
 
@@ -25,6 +26,20 @@ class Logger(object):
         with open(self.output_file, 'a') as f:
             f.write(text)
             f.write('\n')
+
+    def log_dataframe(self, dataframe: pd.DataFrame, filename: str, round=None):
+        """Saves a given pandas dataframe to the results folder.
+
+        Args:
+            text (str): the text to append.
+        """
+        if round is None:
+            dataframe.to_csv(path, index=False)
+        else: 
+            path = self.rounds_path / str(round)
+            path.mkdir(parents=True, exist_ok=True)
+
+            dataframe.to_csv(path / filename, index=False)
 
     def save_plot(self, fig, filename, round=None):
         """Saves the given figure to the results folder.

@@ -69,7 +69,13 @@ class Runner(object):
         for i in range(simulation_rounds):
             intervention = self.create_intervention(intervention_model)
 
-            _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+            pref_list, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+            # Log pref_list to a file.
+            if self.logger:
+                agentpref = self.population.copy()
+                agentpref['pref_list'] = pref_list.tolist()
+                self.logger.log_dataframe(agentpref, f'agents_pref_list_{i}.csv', round=i)
+            
             alloc_by_facility[i] = eval_metrics['alloc_by_facility']
             capacity[i] = eval_metrics['capacity']
             grp_composition_pct[i] = eval_metrics['grp_composition_pct']
