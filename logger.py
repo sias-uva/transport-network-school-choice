@@ -1,9 +1,8 @@
 import datetime
 from pathlib import Path
+import numpy as np
 import yaml
 import igraph as ig
-
-from network import Network
 
 class Logger(object):
     def __init__(self, config):
@@ -43,11 +42,11 @@ class Logger(object):
             
             fig.savefig(path / filename)
 
-    def save_igraph_plot(self, network, filename='network.pdf', edges_to_color=None, round=None):
+    def save_igraph_plot(self, network, filename='network.pdf', edges_to_color=None, facilities_to_label=None, round=None):
         """Saves a given igraph plot to the results folder.
 
         Args:
-            network (ig.Graph): The graph to save an image of.
+            network (network): The network to save an image of.
             filename (str, optional): the name of the file to save. Defaults to 'network.pdf'.
             edges_to_color (edge or list of edges, optional): an edge or a list of edges (ig.Edge to color). Defaults to None.
             round (int, optional): round of the simulation - gets appended to the filename and title. Defaults to None.
@@ -58,6 +57,11 @@ class Logger(object):
             for i, e in enumerate(edges_to_color):
                 e['color'] = 'blue'
                 e['label'] = i
+
+        if facilities_to_label is not None:
+            for v in network.network.vs:
+                if np.isin(v['id'], facilities_to_label):
+                    v['label'] = str(v['label']) + '*'
         
         if round is None:
             path = self.results_path / filename

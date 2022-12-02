@@ -41,7 +41,7 @@ class Runner(object):
 
         # Safe a figure of the network to the output folder.
         if self.logger:
-            self.logger.save_igraph_plot(self.network)
+            self.logger.save_igraph_plot(self.network, facilities_to_label=self.facilities['id'].values)
 
     def run_simulation(self, simulation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None):
         """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
