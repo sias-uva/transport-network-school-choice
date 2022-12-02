@@ -6,7 +6,7 @@ from evaluation import dissimilarity_index, facility_capacity, facility_group_co
 from intervention import create_random_edge
 import matplotlib
 
-from plot import heatmap_from_numpy
+from plot import get_figure, heatmap_from_numpy
 # Matplotlib stopped working on my machine, so I had to add this line to make it work again.
 matplotlib.use("TKAgg")
 import matplotlib.pyplot as plt
@@ -65,6 +65,7 @@ class Runner(object):
         grp_composition_pct = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
         grp_composition = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
         dissimilarity_index = np.zeros(simulation_rounds)
+        avg_pos_by_fac = np.zeros((simulation_rounds, self.facilities_size))
 
         for i in range(simulation_rounds):
             intervention = self.create_intervention(intervention_model)
@@ -81,6 +82,7 @@ class Runner(object):
             grp_composition_pct[i] = eval_metrics['grp_composition_pct']
             grp_composition[i] = eval_metrics['grp_composition']
             dissimilarity_index[i] = eval_metrics['dissimilarity_index']
+            avg_pos_by_fac[i] = eval_metrics['avg_pos_by_fac']
 
             alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
                                     title=f"Allocation by facility and group - round {i}", 
@@ -97,7 +99,6 @@ class Runner(object):
                                         ylabel='Facilities')
             if self.logger:
                 self.logger.save_plot(rank_distribution_heatmap, f"rank_distribution_{i}.png", round=i)
-
 
             # pref_heatmap = heatmap_from_numpy(eval_metrics['pref_by_facility'],)
 
@@ -134,6 +135,17 @@ class Runner(object):
         ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
         if self.logger:
             self.logger.save_plot(fig, f'dissimilarity_index.png')
+
+        # Generate Average Preference Position for all facilities.
+        fig, ax = get_figure("Average Preference Position", 
+                            f"{preferences_model} - {allocation_model} - {intervention_model}", 
+                            xlabel="Simulation round", 
+                            ylabel="Average Preference Position")
+        
+        for fid in range(self.facilities_size):
+            ax.plot(range(simulation_rounds), avg_pos_by_fac[:, fid], label=f'Facility {fid}')
+        if self.logger:
+            self.logger.save_plot(fig, f'average_facility_pref_position.png')
         
         # Generate Capacity plot for all facilities.
         fig, ax = plt.subplots(figsize=(5, 5))
@@ -238,12 +250,13 @@ class Runner(object):
         """
         alloc_by_facility, capacity = facility_capacity(self.population, self.facilities, allocation)
         grp_composition, grp_composition_pct = facility_group_composition(self.population, self.facilities, allocation)
-        facility_rank_distr = facility_rank_distribution(pref_list, self.facilities_size)
+        facility_rank_distr, avg_pos_by_fac = facility_rank_distribution(pref_list, self.facilities_size, return_avg_pos_by_fac=True)
         di = dissimilarity_index(self.population, self.facilities, allocation, grp_composition)
 
         return {
             'alloc_by_facility': alloc_by_facility,
             'facility_rank_distr': facility_rank_distr,
+            'avg_pos_by_fac': avg_pos_by_fac,
             'capacity': capacity,
             'grp_composition': grp_composition,
             'grp_composition_pct': grp_composition_pct,

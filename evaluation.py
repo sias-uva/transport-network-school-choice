@@ -1,20 +1,28 @@
 import numpy as np
 
 
-def facility_rank_distribution(pref_list, total_facilities):
+def facility_rank_distribution(pref_list, total_facilities, return_avg_pos_by_fac=False):
     """Returns a numpy array of size (facility_size, max nr of preferences) where each element in the array is the number of agents that have that facility as their n-th preference.
 
     Args:
         pref_list (np.array): array of size (nr of agents, nr of preferences) where each facility is sorted by preference.
+        total_facilities (int): total number of facilities.
+        return_avg_pos_by_fac (bool, optional): whether to return the average position of each facility in the preference list. Defaults to False.
     Returns:
-        np.array: array of size (facility_size, max nr of preferences) where each element in the array is the number of agents that have that facility as their n-th preference.
+        - np.array: array of size (facility_size, max nr of preferences) where each element in the array is the number of agents that have that facility as their n-th preference.
+        - np.array: (if return_avg_pos_by_fac is True) array of size (facility_size, 1) where each element is the average position of that facility in the preference list.
     """
     # Don't know if we can speed this up, because preference lists can have -1 values for agents that don't have preferences over all facilities.
     pref_position_by_facility = np.zeros((total_facilities, pref_list.shape[1]))
     for i in range(total_facilities):
         for j in range(pref_list.shape[1]):
             pref_position_by_facility[i, j] = np.sum(pref_list[:, j] == i)
-    return pref_position_by_facility
+    
+    if return_avg_pos_by_fac:
+        avg_pos_by_fac = (pref_position_by_facility * np.arange(1, pref_position_by_facility.shape[1] + 1)).sum(axis=1)/pref_list.shape[0]
+        return pref_position_by_facility, avg_pos_by_fac
+    else:    
+        return pref_position_by_facility
 
 def facility_capacity(population, facilities, allocation, return_pct=True):
     """Returns an array of percentage of satisfied capacity per facility.
