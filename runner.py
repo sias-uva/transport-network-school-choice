@@ -58,7 +58,7 @@ class Runner(object):
         # Note: this currently only runs properly for 2 groups.
 
         # Note: first round is vanilla - no interventions are added.
-        pref_list, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+        _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
         alloc_by_facility = np.zeros((simulation_rounds, self.facilities_size))
         capacity = np.zeros((simulation_rounds, self.facilities_size))
