@@ -9,7 +9,6 @@ import matplotlib
 from plot import get_figure, heatmap_from_numpy
 # Matplotlib stopped working on my machine, so I had to add this line to make it work again.
 matplotlib.use("TKAgg")
-import matplotlib.pyplot as plt
 from network import Network
 from preference import toy_model, nearest_k
 
@@ -109,30 +108,27 @@ class Runner(object):
 
         # Generate group composition plot for each facility (diffrent plots).
         for fid in range(self.facilities_size):
-            fig, ax = plt.subplots(figsize=(5, 5))
+            fig, ax = get_figure(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='Group composition',
+                                ylim=(0, 1))
             for gid in range(self.total_groups):
                 ax.plot(range(simulation_rounds), grp_composition_pct[:, fid, gid], label=f'Group {gid}')
-            
-            # ax.fill_between(range(simulation_rounds), grp0_pct, grp1_pct, color='#E8E8E8') # commented out because it does not generalize to more than 2 groups.
-            ax.set_xlabel('Simulation round')
-            ax.set_ylabel('Group composition')
-            ax.set_ylim(0, 1)
             ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
-            fig.suptitle(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition")
-            ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
             ax.legend()
 
             if self.logger:
                 self.logger.save_plot(fig, f'facility_{fid}_group_composition.png')
 
         # Generate Dissimilarity Index plot for all facilities.
-        fig, ax = plt.subplots(figsize=(5, 5))
+        fig, ax = get_figure(f"Dissimilarity Index",
+                            f"{preferences_model} - {allocation_model} - {intervention_model}",
+                            xlabel='Simulation round',
+                            ylabel='Dissimilarity Index',
+                            ylim=(0, 1))
         ax.plot(range(simulation_rounds), dissimilarity_index, label=f'Dissimilarity Index')
-        ax.set_xlabel('Simulation round')
-        ax.set_ylabel('Dissimilarity Index')
-        ax.set_ylim(0, 1)
-        fig.suptitle(f"Dissimilarity Index")
-        ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
+        
         if self.logger:
             self.logger.save_plot(fig, f'dissimilarity_index.png')
 
@@ -144,20 +140,20 @@ class Runner(object):
         
         for fid in range(self.facilities_size):
             ax.plot(range(simulation_rounds), avg_pos_by_fac[:, fid], label=f'Facility {fid}')
+
         ax.legend()
         if self.logger:
             self.logger.save_plot(fig, f'average_facility_pref_position.png')
         
         # Generate Capacity plot for all facilities.
-        fig, ax = plt.subplots(figsize=(5, 5))
+        fig, ax = get_figure(f"Facility Capacity",
+                            f"{preferences_model} - {allocation_model} - {intervention_model}",
+                            xlabel='Simulation round',
+                            ylabel='Capacity %',
+                            ylim=(0, 2))
         for fid in range(self.facilities_size):
             ax.plot(range(simulation_rounds), capacity[:, fid], label=f'Facility {fid}')
-        ax.set_xlabel('Simulation round')
-        ax.set_ylabel('Capacity %')
-        ax.set_ylim(0, 2)
         ax.legend()
-        fig.suptitle(f"Facility Capacity")
-        ax.set_title(f"{preferences_model} - {allocation_model} - {intervention_model}")
         if self.logger:
             self.logger.save_plot(fig, f'facility_capacity.png')
 

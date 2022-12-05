@@ -3,7 +3,7 @@ import numpy as np
 
 FIG_SIZE = (5, 5)
 
-def get_figure(title, subtitle='', figsize=FIG_SIZE, xlabel=None, ylabel=None):
+def get_figure(title, subtitle='', figsize=FIG_SIZE, xlabel=None, ylabel=None, ylim=None):
     """Returns a figure with the given title, subtitle, figsize, xlabel, ylabel.
     Args:
         title (str): the title of the figure.
@@ -11,6 +11,7 @@ def get_figure(title, subtitle='', figsize=FIG_SIZE, xlabel=None, ylabel=None):
         figsize (tuple, optional): the size of the figure. Defaults to FIG_SIZE.
         xlabel (str, optional): the label of the x axis. Defaults to None.
         ylabel (str, optional): the label of the y axis. Defaults to None.
+        ylim (tuple, optional): the limits of the y axis. Defaults to None.
     Returns:
         matplotlib.figure.Figure: the figure.
     """
@@ -20,6 +21,8 @@ def get_figure(title, subtitle='', figsize=FIG_SIZE, xlabel=None, ylabel=None):
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     fig.tight_layout()
+    if ylim is not None:
+        ax.set_ylim(ylim)
     return fig, ax
 
 def heatmap_from_numpy(numpy_array, title, subtitle='', figsize=FIG_SIZE, xlabel=None, ylabel=None, cmap='Blues'):
