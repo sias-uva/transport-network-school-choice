@@ -1,5 +1,6 @@
 import datetime
 from pathlib import Path
+from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import yaml
@@ -56,6 +57,7 @@ class Logger(object):
             path.mkdir(parents=True, exist_ok=True)
             
             fig.savefig(path / filename)
+        plt.close(fig)
 
     def save_igraph_plot(self, network, filename='network.pdf', edges_to_color=None, facilities_to_label=None, round=None):
         """Saves a given igraph plot to the results folder.
