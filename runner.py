@@ -144,6 +144,7 @@ class Runner(object):
         
         for fid in range(self.facilities_size):
             ax.plot(range(simulation_rounds), avg_pos_by_fac[:, fid], label=f'Facility {fid}')
+        ax.legend()
         if self.logger:
             self.logger.save_plot(fig, f'average_facility_pref_position.png')
         
