@@ -30,17 +30,17 @@ class Runner(object):
             logger.append_to_output_file(f"Group {g} size: {population[population['group'] == g].shape[0]}")
 
         # Calculate travel times for all agents in the population to all facilities.
-        self.travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
+        travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
 
         ## Just a random check if the above indexing works, to remove later on.
         pop_sample = population.sample()
         fac_sample = facilities.sample()
-        assert self.network.tt_mx[pop_sample.iloc[0]['node'], fac_sample.iloc[0]['node']] == self.travel_time[pop_sample.iloc[0]['id'], fac_sample.iloc[0]['id']], "Something wrong with travel time indexing - incompatible travel times between network pre-calculated and indexed values."
+        assert self.network.tt_mx[pop_sample.iloc[0]['node'], fac_sample.iloc[0]['node']] == travel_time[pop_sample.iloc[0]['id'], fac_sample.iloc[0]['id']], "Something wrong with travel time indexing - incompatible travel times between network pre-calculated and indexed values."
         ##
 
         # Safe a figure of the network to the output folder.
         if self.logger:
-            self.logger.save_igraph_plot(self.network, facilities_to_label=self.facilities['id'].values)
+            self.logger.save_igraph_plot(self.network, facilities_to_label=self.facilities['node'].values)
 
     def run_simulation(self, simulation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None):
         """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
@@ -189,13 +189,14 @@ class Runner(object):
             np.array: array of size (nr of agents, nr of facilities) where each facility is sorted by preference.
         """
         pref_list = None
+        travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
         if preferences_model == 'nearest_k':
             assert nearest_k_k, 'You need to specify nearest_k parameter in config.'
-            pref_list = nearest_k(self.travel_time, k=nearest_k_k)
+            pref_list = nearest_k(travel_time, k=nearest_k_k)
         elif preferences_model == 'toy_model':
             # Select facility qualities
             qualities = self.facilities.quality.to_numpy()
-            pref_list = toy_model(self.travel_time, qualities)
+            pref_list = toy_model(travel_time, qualities)
 
         assert pref_list is not None, 'No preference list was generated, specify a valid preferences_model parameter in config.'
         return pref_list

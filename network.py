@@ -66,6 +66,9 @@ class Network(object):
         """
         edge = self.network.add_edge(from_v, to_v, weight=weight)
         self.added_edges.append(edge)
+        # Update the travel time matrix.
+        # Reconsider this if we have a big network.
+        self.tt_mx = self.shortest_paths(self.network.vs, self.network.vs)
         return edge
 
     def get_adj_matrix(self):
