@@ -2,7 +2,7 @@ import numpy as np
 from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
-from evaluation import dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution
+from evaluation import dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, travel_time_to_allocation
 from intervention import create_random_edge
 import matplotlib
 
@@ -65,6 +65,9 @@ class Runner(object):
         grp_composition = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
         dissimilarity_index = np.zeros(simulation_rounds)
         avg_pos_by_fac = np.zeros((simulation_rounds, self.facilities_size))
+        # Mean travel time to facility for each agent and for each group.
+        mean_tt_to_alloc = np.zeros((simulation_rounds))
+        mean_tt_to_alloc_by_grp = np.zeros((simulation_rounds, self.total_groups))
 
         for i in range(simulation_rounds):
             intervention = self.create_intervention(intervention_model)
@@ -82,6 +85,8 @@ class Runner(object):
             grp_composition[i] = eval_metrics['grp_composition']
             dissimilarity_index[i] = eval_metrics['dissimilarity_index']
             avg_pos_by_fac[i] = eval_metrics['avg_pos_by_fac']
+            mean_tt_to_alloc[i] = eval_metrics['mean_tt_to_alloc']
+            mean_tt_to_alloc_by_grp[i] = eval_metrics['mean_tt_to_alloc_by_group']
 
             alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
                                     title=f"Allocation by facility and group - round {i}", 
@@ -162,6 +167,18 @@ class Runner(object):
         ax.legend()
         if self.logger:
             self.logger.save_plot(fig, f'facility_capacity.png')
+
+        # Generate Mean Travel Time to Allocation plot.
+        fig, ax = get_figure(f"Mean Travel Time to Allocated Facility",
+                            f"{preferences_model} - {allocation_model} - {intervention_model}",
+                            xlabel='Simulation round',
+                            ylabel='Mean Travel Time')
+        ax.plot(range(simulation_rounds), mean_tt_to_alloc, label=f'Mean Travel Time', color='#C4C4C4')
+        [ax.plot(range(simulation_rounds), mean_tt_to_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
+        fig.legend()
+        
+        if self.logger:
+            self.logger.save_plot(fig, f'dissimilarity_index.png')
 
         # Generate plot of all network interventions
         if self.logger:
@@ -256,7 +273,8 @@ class Runner(object):
         grp_composition, grp_composition_pct = facility_group_composition(self.population, self.facilities, allocation)
         facility_rank_distr, avg_pos_by_fac = facility_rank_distribution(pref_list, self.facilities_size, return_avg_pos_by_fac=True)
         di = dissimilarity_index(self.population, self.facilities, allocation, grp_composition)
-
+        mean_tt_to_alloc, mean_tt_to_alloc_by_group = travel_time_to_allocation(self.network.tt_mx, self.population, self.facilities, allocation, return_group_avg=True, groups=self.groups)
+        
         return {
             'alloc_by_facility': alloc_by_facility,
             'facility_rank_distr': facility_rank_distr,
@@ -264,5 +282,7 @@ class Runner(object):
             'capacity': capacity,
             'grp_composition': grp_composition,
             'grp_composition_pct': grp_composition_pct,
-            'dissimilarity_index': di
+            'dissimilarity_index': di,
+            'mean_tt_to_alloc': mean_tt_to_alloc,
+            'mean_tt_to_alloc_by_group': mean_tt_to_alloc_by_group
         }

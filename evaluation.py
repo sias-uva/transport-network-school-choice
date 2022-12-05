@@ -109,3 +109,28 @@ def dissimilarity_index(population, facilities, allocation, group_composition=No
         DI += np.abs(a/A - b/B)
     
     return 1/2 * DI
+
+def travel_time_to_allocation(tt_mx, population, facilities, allocation, return_group_avg=False, groups=None):
+    """Calculates the average travel time of of each agent (and group) to each allocated facility.
+    
+    Args:
+        tt_mx (np.array): travel time matrix - shape = (nodes_nr, nodes_nr)
+        population (pd.DataFrame): population dataframe - should have id column
+        groups (list): list of groups
+        facilities (pd.DataFrame): facility dataframe - should have id column
+        allocation (np.array): array of shape (total_pop, 1) where each agent is allocated to 1 facility.
+        return_group_avg (bool, optional): whether to return the average travel time of each group. Defaults to False.
+    """
+
+    if return_group_avg:
+        assert groups is not None, "To return group average travel time, you must provide the groups list."
+
+    tt_to_fac = tt_mx[population['node']][:, facilities['node']]
+    tt_to_alloc = tt_to_fac[np.arange(len(tt_to_fac)), allocation.flatten()]
+    
+    tt_to_alloc_mean = tt_to_alloc.mean()
+    if return_group_avg:
+        tt_to_alloc_by_group_mean = np.array([tt_to_alloc[population.index[population['group'] == g]].mean() for g in groups])
+        return tt_to_alloc_mean, tt_to_alloc_by_group_mean
+    else:
+        return tt_to_alloc_mean
