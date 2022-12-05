@@ -36,4 +36,4 @@ def random_serial_dictatorship(pref_list, capacities):
                 assignments[agent] = np.array([facility])
                 capacities[facility] -= 1
                 break
-    return assignments
+    return assignments.astype(int)
