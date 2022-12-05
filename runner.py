@@ -99,7 +99,13 @@ class Runner(object):
             if self.logger:
                 self.logger.save_plot(rank_distribution_heatmap, f"rank_distribution_{i}.png", round=i)
 
-            # pref_heatmap = heatmap_from_numpy(eval_metrics['pref_by_facility'],)
+            travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
+                                        title=f"Travel Time between Nodes - round {i}",
+                                        subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                        xlabel='Nodes',
+                                        ylabel='Nodes')
+            if self.logger:
+                self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
 
             # Create a plot with the network intervention.
             if self.logger:
