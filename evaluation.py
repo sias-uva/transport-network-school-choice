@@ -122,15 +122,40 @@ def travel_time_to_allocation(tt_mx, population, facilities, allocation, return_
         return_group_avg (bool, optional): whether to return the average travel time of each group. Defaults to False.
     """
 
-    if return_group_avg:
-        assert groups is not None, "To return group average travel time, you must provide the groups list."
-
     tt_to_fac = tt_mx[population['node']][:, facilities['node']]
     tt_to_alloc = tt_to_fac[np.arange(len(tt_to_fac)), allocation.flatten()]
     
     tt_to_alloc_mean = tt_to_alloc.mean()
     if return_group_avg:
+        assert groups is not None, "To return group average travel time, you must provide the groups list."
+
         tt_to_alloc_by_group_mean = np.array([tt_to_alloc[population.index[population['group'] == g]].mean() for g in groups])
         return tt_to_alloc_mean, tt_to_alloc_by_group_mean
     else:
         return tt_to_alloc_mean
+
+
+def preference_of_allocation(pref_list: np.array, allocation: np.array, return_group_avg=False, group_membership=None):
+    """Calculates the average position of the allocated facility in the preference list of each agent (and/or group).
+
+    Args:
+        pref_list (np.array): preference list - shape = (total_pop, nr_facilities)
+        allocation (np.array): array of shape (total_pop, 1) where each agent is allocated to 1 facility.
+        return_group_avg (bool, optional): whether to return the average position of each group. Defaults to False.
+        group_membership (_type_, optional): group of each agent - should have equal nr of rows with pref_list/allocation. Defaults to None.
+
+    Returns:
+        float: average position of the allocated facility in the preference list of each agent.
+        np.array: (if return_group_avg is True) average position of each group in the preference list of each agent.
+    """
+    alloc_pos = np.where(pref_list == allocation)[1]
+
+    if return_group_avg:
+        assert group_membership is not None, "To return group average preference position, you must provide the groups list."
+        assert group_membership.shape[0] == allocation.shape[0], "agent_group must be of the same length as allocation."
+
+        alloc_pos_by_group = [alloc_pos[group_membership == g].mean() for g in np.unique(group_membership)]
+
+        return alloc_pos.mean(), alloc_pos_by_group
+    else:
+        return alloc_pos.mean()

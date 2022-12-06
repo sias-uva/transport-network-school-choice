@@ -2,7 +2,7 @@ import numpy as np
 from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
-from evaluation import dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, travel_time_to_allocation
+from evaluation import dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, preference_of_allocation, travel_time_to_allocation
 from intervention import create_random_edge
 import matplotlib
 
@@ -23,6 +23,8 @@ class Runner(object):
         self.facilities_size = facilities.shape[0]
         self.population_size = population.shape[0]
         self.groups= population['group'].unique()
+        self.population['group_id'] = population['group'].apply(lambda x: np.searchsorted(self.groups, x))
+
         self.total_groups = population['group'].nunique()
         # Log stuff
         logger.append_to_output_file(f'facilities_size: {self.facilities_size}\npopulation_size: {self.population_size}\ntotal_groups: {self.total_groups}')
@@ -68,6 +70,9 @@ class Runner(object):
         # Mean travel time to facility for each agent and for each group.
         mean_tt_to_alloc = np.zeros((simulation_rounds))
         mean_tt_to_alloc_by_grp = np.zeros((simulation_rounds, self.total_groups))
+        # Mean position in preferences for allocated facilities for each agent and for each group.
+        mean_pos_of_alloc = np.zeros((simulation_rounds))
+        mean_pos_of_alloc_by_grp = np.zeros((simulation_rounds, self.total_groups))
         interventions = []
 
         for i in range(simulation_rounds):
@@ -89,6 +94,8 @@ class Runner(object):
             avg_pos_by_fac[i] = eval_metrics['avg_pos_by_fac']
             mean_tt_to_alloc[i] = eval_metrics['mean_tt_to_alloc']
             mean_tt_to_alloc_by_grp[i] = eval_metrics['mean_tt_to_alloc_by_group']
+            mean_pos_of_alloc[i] = eval_metrics['pref_of_alloc']
+            mean_pos_of_alloc_by_grp[i] = eval_metrics['pref_of_alloc_by_group']
 
             alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
                                     title=f"Allocation by facility and group - round {i}", 
@@ -187,6 +194,18 @@ class Runner(object):
             self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
             # Save all network interventions to the output file.
             self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions]}")
+
+        # Generate Mean Position in pref list for allocation plot
+        fig, ax = get_figure(f"Mean Position in Preference of Allocated Facility",
+                            f"{preferences_model} - {allocation_model} - {intervention_model}",
+                            xlabel='Simulation round',
+                            ylabel='Mean Position in Preference List')
+        ax.plot(range(simulation_rounds), mean_pos_of_alloc, label=f'Mean Position', color='#C4C4C4')
+        [ax.plot(range(simulation_rounds), mean_pos_of_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
+        fig.legend()
+        if self.logger:
+            # Save the mean position in pref list plot.
+            self.logger.save_plot(fig, f'mean_pref_position_of_allocation.png')
         
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
@@ -278,7 +297,8 @@ class Runner(object):
         facility_rank_distr, avg_pos_by_fac = facility_rank_distribution(pref_list, self.facilities_size, return_avg_pos_by_fac=True)
         di = dissimilarity_index(self.population, self.facilities, allocation, grp_composition)
         mean_tt_to_alloc, mean_tt_to_alloc_by_group = travel_time_to_allocation(self.network.tt_mx, self.population, self.facilities, allocation, return_group_avg=True, groups=self.groups)
-        
+        pref_of_alloc, pref_of_alloc_by_group = preference_of_allocation(pref_list, allocation, return_group_avg=True, group_membership=self.population['group_id'].values)
+
         return {
             'alloc_by_facility': alloc_by_facility,
             'facility_rank_distr': facility_rank_distr,
@@ -288,5 +308,7 @@ class Runner(object):
             'grp_composition_pct': grp_composition_pct,
             'dissimilarity_index': di,
             'mean_tt_to_alloc': mean_tt_to_alloc,
-            'mean_tt_to_alloc_by_group': mean_tt_to_alloc_by_group
+            'mean_tt_to_alloc_by_group': mean_tt_to_alloc_by_group,
+            'pref_of_alloc': pref_of_alloc,
+            'pref_of_alloc_by_group': pref_of_alloc_by_group
         }
