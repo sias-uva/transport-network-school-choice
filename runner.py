@@ -27,9 +27,10 @@ class Runner(object):
 
         self.total_groups = population['group'].nunique()
         # Log stuff
-        logger.append_to_output_file(f'facilities_size: {self.facilities_size}\npopulation_size: {self.population_size}\ntotal_groups: {self.total_groups}')
-        for g in self.groups:
-            logger.append_to_output_file(f"Group {g} size: {population[population['group'] == g].shape[0]}")
+        if self.logger:
+            logger.append_to_output_file(f'facilities_size: {self.facilities_size}\npopulation_size: {self.population_size}\ntotal_groups: {self.total_groups}')
+            for g in self.groups:
+                logger.append_to_output_file(f"Group {g} size: {population[population['group'] == g].shape[0]}")
 
         # Calculate travel times for all agents in the population to all facilities.
         travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
