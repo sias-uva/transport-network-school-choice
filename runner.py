@@ -68,9 +68,11 @@ class Runner(object):
         # Mean travel time to facility for each agent and for each group.
         mean_tt_to_alloc = np.zeros((simulation_rounds))
         mean_tt_to_alloc_by_grp = np.zeros((simulation_rounds, self.total_groups))
+        interventions = []
 
         for i in range(simulation_rounds):
             intervention = self.create_intervention(intervention_model)
+            interventions.append(intervention)
 
             pref_list, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
             # Log pref_list to a file.
@@ -178,11 +180,13 @@ class Runner(object):
         fig.legend()
         
         if self.logger:
-            self.logger.save_plot(fig, f'dissimilarity_index.png')
-
-        # Generate plot of all network interventions
-        if self.logger:
+            # Save the mean travel time plot.
+            self.logger.save_plot(fig, f'mean_tt_to_allocation.png')
+            
+            # Generate plot of all network interventions
             self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
+            # Save all network interventions to the output file.
+            self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions]}")
         
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
