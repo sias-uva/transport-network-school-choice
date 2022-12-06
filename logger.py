@@ -73,7 +73,7 @@ class Logger(object):
             if type(edges_to_color) is not list: edges_to_color = [ edges_to_color ]
             for i, e in enumerate(edges_to_color):
                 e['color'] = 'blue'
-                e['label'] = i
+                e['label'] = i + 1
 
         if facilities_to_label is not None:
             for v in network.network.vs:

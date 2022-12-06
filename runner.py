@@ -60,7 +60,7 @@ class Runner(object):
         # Note: this currently only runs properly for 2 groups.
 
         # Note: first round is vanilla - no interventions are added.
-        _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+        # _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
         alloc_by_facility = np.zeros((simulation_rounds, self.facilities_size))
         capacity = np.zeros((simulation_rounds, self.facilities_size))
@@ -77,8 +77,10 @@ class Runner(object):
         interventions = []
 
         for i in range(simulation_rounds):
-            intervention = self.create_intervention(intervention_model)
-            interventions.append(intervention)
+            # On the first round, we don't want to add any interventions, just run an agent round.
+            if i > 0:
+                intervention = self.create_intervention(intervention_model)
+                interventions.append(intervention)
 
             pref_list, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
             # Log pref_list to a file.
@@ -123,9 +125,8 @@ class Runner(object):
                 self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
 
             # Create a plot with the network intervention.
-            if self.logger:
+            if i > 0 and self.logger:
                 self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=intervention , round=i)
-            # fig = self.network.create_network_figure(self.logger.rounds_path / str(i) / f"intervention_{i}.pdf", edges_to_color=[intervention])
 
         # Generate group composition plot for each facility (diffrent plots).
         for fid in range(self.facilities_size):
@@ -190,11 +191,6 @@ class Runner(object):
         if self.logger:
             # Save the mean travel time plot.
             self.logger.save_plot(fig, f'mean_tt_to_allocation.png')
-            
-            # Generate plot of all network interventions
-            self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
-            # Save all network interventions to the output file.
-            self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions]}")
 
         # Generate Mean Position in pref list for allocation plot
         fig, ax = get_figure(f"Mean Position in Preference of Allocated Facility",
@@ -207,6 +203,11 @@ class Runner(object):
         if self.logger:
             # Save the mean position in pref list plot.
             self.logger.save_plot(fig, f'mean_pref_position_of_allocation.png')
+
+             # Generate plot of all network interventions
+            self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
+            # Save all network interventions to the output file.
+            self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions]}")
         
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.

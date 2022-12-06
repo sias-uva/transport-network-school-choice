@@ -10,4 +10,5 @@ preferences_model: 'toy_model'
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['random']
 intervention_model: 'random'
-simulation_rounds: 10
+# Note that on the first simulation round there are no interventions added to the network.
+simulation_rounds: 11
