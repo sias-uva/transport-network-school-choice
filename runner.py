@@ -3,7 +3,7 @@ from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
 from evaluation import dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, preference_of_allocation, travel_time_to_allocation
-from intervention import create_random_edge
+from intervention import create_random_edge, maximize_closeness_centrality
 import matplotlib
 
 from plot import get_figure, heatmap_from_numpy
@@ -207,7 +207,7 @@ class Runner(object):
              # Generate plot of all network interventions
             self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
             # Save all network interventions to the output file.
-            self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions]}")
+            self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions if i is not None]}")
         
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
@@ -279,11 +279,17 @@ class Runner(object):
         x, y, w = None, None, None
         if intervention_model == 'random':
             x, y, w = create_random_edge(self.network)
+        elif intervention_model == 'closeness':
+            x, y, w = maximize_closeness_centrality(self.network, self.facilities.iloc[0]['node'].item())
+        else:
+            assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
 
-        assert x is not None, 'No intervention was generated, specify a valid intervention_model parameter in config.'
-
-        print(f'adding ({x}, {y}) edge')
-        return self.network.add_edge(x, y, w)
+        if x is None:
+            print('No intervention was created.')
+            return None
+        else:
+            print(f'adding ({x}, {y}) edge')
+            return self.network.add_edge(x, y, w)
 
     def evaluate(self, pref_list, allocation):
         """Evaluates allocation according to evaluation metrics.
