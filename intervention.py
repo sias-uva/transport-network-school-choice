@@ -49,8 +49,6 @@ def maximize_closeness_centrality(network: Network, node_id: int, edge_weight=1)
         print('Cannot add more edges, all nodes are connected to the given node.')
         return None, None, None
 
-    # assert len(candidate_edges) > 0, 'Cannot add more edges, all nodes are connected to the given node.'
-
     # Initialize a variable to store the maximum closeness centrality
     max_centrality = 0
 
