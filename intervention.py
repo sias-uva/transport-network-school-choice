@@ -60,7 +60,7 @@ def maximize_closeness_centrality(network: Network, node_id: int, edge_weight=1)
     # Loop through all the possible edges
     for edge in candidate_edges:
         # Add the edge to the graph
-        network.add_edge(edge[0], edge[1], edge_weight)
+        network.network.add_edge(edge[0], edge[1], weight=edge_weight)
 
         # Calculate the closeness centrality of the input node
         centrality = network.network.closeness(node)
