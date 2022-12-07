@@ -280,7 +280,10 @@ class Runner(object):
         if intervention_model == 'random':
             x, y, w = create_random_edge(self.network)
         elif intervention_model == 'closeness':
-            x, y, w = maximize_closeness_centrality(self.network, self.facilities.iloc[0]['node'].item())
+            # Find the facility with the lowest closeness centrality to augment, then find the edge that maximizes that node's centrality.
+            fac_nodes = self.facilities['node'].values
+            node_to_augment = fac_nodes[np.argmin(self.network.network.closeness(fac_nodes))].item()
+            x, y, w = maximize_closeness_centrality(self.network, node_to_augment)
         else:
             assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
 
