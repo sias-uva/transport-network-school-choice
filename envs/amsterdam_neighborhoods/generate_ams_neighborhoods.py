@@ -66,7 +66,7 @@ facilities.append({'id': 0, 'node': 58, 'facility': 'school_0', 'capacity': 300,
 facilities.append({'id': 0, 'node': 290, 'facility': 'school_1', 'capacity': 300, 'quality': 0.5})
 facilities.append({'id': 0, 'node': 246, 'facility': 'school_2', 'capacity': 300, 'quality': 0.5})
 
-pd.DataFrame(facilities).to_csv('population.csv', index=False)
+pd.DataFrame(facilities).to_csv('facilities.csv', index=False)
 #%% Plot the environment specifications.
 ams_nb['group_pop_diff'] = ams_nb['nr_dutch_w_migr_in_node'] - ams_nb['nr_nw_migr_in_node']
 ams_nb['group_pop_ratio'] = ams_nb['nr_dutch_w_migr_in_node'].div(ams_nb['nr_nw_migr_in_node'])
