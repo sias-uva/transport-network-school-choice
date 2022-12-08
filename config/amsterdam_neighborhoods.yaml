@@ -1,0 +1,14 @@
+# General
+network_file: './envs/amsterdam_neighborhoods/network.gml'
+population_file: './envs/amsterdam_neighborhoods/population.csv'
+facilities_file: './envs/amsterdam_neighborhoods/facilities.csv'
+# Applicable values: ['nearest_k', 'toy_model']
+preferences_model: 'toy_model'
+# Needed if preferences_model = 'nearest_k' OR 'toy_model'
+# nearest_k: 2
+# Applicable values: ['first_choice', 'random_serial_dictatorship']
+allocation_model: 'random_serial_dictatorship'
+# Applicable values: ['random', 'closeness']
+intervention_model: 'random'
+# Note that on the first simulation round there are no interventions added to the network.
+simulation_rounds: 11

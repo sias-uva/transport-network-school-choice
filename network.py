@@ -48,7 +48,7 @@ class Network(object):
             for j, d in enumerate(dest):
                 sp = self.network.distances(o, d)[0][0]
                 if sp == math.inf:
-                    print(f'Failed for {o["node_id"]} - {d["node_id"]}: No path found between them')
+                    print(f'Failed for {o["id"]} - {d["id"]}: No path found between them')
                     continue
                 tt_mx[i, j] = sp
 
