@@ -1,4 +1,4 @@
 id,node,facility,capacity,quality
 0,58,school_0,300,0.5
-0,290,school_1,300,0.5
-0,246,school_2,300,0.5
+1,290,school_1,300,0.5
+2,246,school_2,300,0.5
