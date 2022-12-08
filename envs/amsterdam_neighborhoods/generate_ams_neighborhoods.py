@@ -90,4 +90,4 @@ axs[1][1].set_title("Group population ratio (generated)")
 fig.suptitle(f"Amsterdam environment: {ams_nb['gen_pop'].sum()} agents, {ams_nb['gen_pop'].count()} nodes, \n groups: {ses_groups}")
 fig.savefig('./ams-env.png', dpi=300)
 
-# %%
+print('Successfullly generated the environment.')

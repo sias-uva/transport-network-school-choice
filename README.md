@@ -9,3 +9,8 @@
 
 ### Architecture
 ![architecture of the system](https://github.com/dimichai/transport-network-school-choice/blob/main/images/architecture.png)
+
+## Generate environments
+Amsterdam Neighborhoods: 
+
+    cd envs/amsterdam_neighborhoods && python generate_ams_neighborhoods.py
