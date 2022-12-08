@@ -43,28 +43,30 @@ ams_ses.loc[:, 'nr_dutch_w_migr'] = ams_ses['nr_dutch'] + ams_ses['nr_w_migr']
 ses_groups = ['nr_dutch_w_migr', 'nr_nw_migr']
 for g in ses_groups:
     group_pop = ams_ses[g].sum() / ams_ses['real_pop'].sum() * generated_pop
-    ams_ses.loc[:, g + '_in_node'] = ams_ses[g] / ams_ses[g].sum() * group_pop
-    ams_ses.loc[:, g + '_in_node'] = ams_ses[g + '_in_node'].round().astype(int)
+    ams_ses[g + '_in_node'] = ams_ses[g] / ams_ses[g].sum() * group_pop
+    ams_ses[g + '_in_node'] = ams_ses[g + '_in_node'].round().astype(int)
 
 ams_nb = ams_nb.merge(ams_ses, on='BU_CODE')
 ams_nb['gen_pop'] = ams_nb['nr_dutch_w_migr_in_node'] + ams_nb['nr_nw_migr_in_node']
 
-agents = pd.DataFrame(columns=['id', 'node_id', 'group'])
+# agents = pd.DataFrame(columns=['id', 'node_id', 'group'])
+agents = []
 for i, nb in ams_nb.iterrows():
     for g in ses_groups:
         for j in range(nb[g + '_in_node']):
             g = g.replace('_in_node', '')
             g = g.replace('nr_', '')
-            agents = agents.append({'id': len(agents), 'node_id': nb['node_id'], 'group': g}, ignore_index=True)
+            agents.append({'id': len(agents), 'node_id': nb['node_id'], 'group': g})
 
-agents.to_csv('population.csv', index=False)
+pd.DataFrame(agents).to_csv('population.csv', index=False)
 # %% Generate the facilities - for now just toy data until we have the schools
-facilities = pd.DataFrame(columns=['id', 'node', 'facility', 'capacity', 'quality'])
-facilities = facilities.append({'id': 0, 'node': 58, 'facility': 'school_0', 'capacity': 300, 'quality': 0.5}, ignore_index=True)
-facilities = facilities.append({'id': 0, 'node': 290, 'facility': 'school_1', 'capacity': 300, 'quality': 0.5}, ignore_index=True)
-facilities = facilities.append({'id': 0, 'node': 246, 'facility': 'school_2', 'capacity': 300, 'quality': 0.5}, ignore_index=True)
+# facilities = pd.DataFrame(columns=['id', 'node', 'facility', 'capacity', 'quality'])
+facilities = []
+facilities.append({'id': 0, 'node': 58, 'facility': 'school_0', 'capacity': 300, 'quality': 0.5})
+facilities.append({'id': 0, 'node': 290, 'facility': 'school_1', 'capacity': 300, 'quality': 0.5})
+facilities.append({'id': 0, 'node': 246, 'facility': 'school_2', 'capacity': 300, 'quality': 0.5})
 
-facilities.to_csv('population.csv', index=False)
+pd.DataFrame(facilities).to_csv('population.csv', index=False)
 #%% Plot the environment specifications.
 ams_nb['group_pop_diff'] = ams_nb['nr_dutch_w_migr_in_node'] - ams_nb['nr_nw_migr_in_node']
 ams_nb['group_pop_ratio'] = ams_nb['nr_dutch_w_migr_in_node'].div(ams_nb['nr_nw_migr_in_node'])
