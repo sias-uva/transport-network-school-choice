@@ -117,12 +117,13 @@ class Runner(object):
                                             ylabel='Facilities')
                 self.logger.save_plot(rank_distribution_heatmap, f"rank_distribution_{i}.png", round=i)
 
-                travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
-                                            title=f"Travel Time between Nodes - round {i}",
-                                            subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                            xlabel='Nodes',
-                                            ylabel='Nodes')
-                self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
+                # Filtered out cause its useless when the network is large and increases runtime 10x.
+                # travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
+                #                             title=f"Travel Time between Nodes - round {i}",
+                #                             subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                #                             xlabel='Nodes',
+                #                             ylabel='Nodes')
+                # self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
 
                 # Create a plot with the network intervention.
                 if i > 0 :
@@ -196,7 +197,7 @@ class Runner(object):
             ax.plot(range(simulation_rounds), mean_pos_of_alloc, label=f'Mean Position', color='#C4C4C4')
             [ax.plot(range(simulation_rounds), mean_pos_of_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
             fig.legend()
-            
+
             # Save the mean position in pref list plot.
             self.logger.save_plot(fig, f'mean_pref_position_of_allocation.png')
 
