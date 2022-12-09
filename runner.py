@@ -1,3 +1,4 @@
+import time
 import numpy as np
 from logger import Logger
 import pandas as pd
@@ -100,112 +101,106 @@ class Runner(object):
             mean_pos_of_alloc[i] = eval_metrics['pref_of_alloc']
             mean_pos_of_alloc_by_grp[i] = eval_metrics['pref_of_alloc_by_group']
 
-            alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
-                                    title=f"Allocation by facility and group - round {i}", 
-                                    subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                    figsize=(10, 10),
-                                    xlabel='Groups',
-                                    ylabel='Facilities')
             if self.logger:
+                alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
+                                        title=f"Allocation by facility and group - round {i}", 
+                                        subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                        figsize=(10, 10),
+                                        xlabel='Groups',
+                                        ylabel='Facilities')
                 self.logger.save_plot(alloc_heatmap, f"allocation_by_facility_and_group_{i}.png", round=i)
 
-            rank_distribution_heatmap = heatmap_from_numpy(eval_metrics['facility_rank_distr'], 
-                                        title=f"Facility rank distribution - round {i}",
-                                        subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                        xlabel='Rank',
-                                        ylabel='Facilities')
-            if self.logger:
+                rank_distribution_heatmap = heatmap_from_numpy(eval_metrics['facility_rank_distr'], 
+                                            title=f"Facility rank distribution - round {i}",
+                                            subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                            xlabel='Rank',
+                                            ylabel='Facilities')
                 self.logger.save_plot(rank_distribution_heatmap, f"rank_distribution_{i}.png", round=i)
 
-            travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
-                                        title=f"Travel Time between Nodes - round {i}",
-                                        subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                        xlabel='Nodes',
-                                        ylabel='Nodes')
-            if self.logger:
+                travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
+                                            title=f"Travel Time between Nodes - round {i}",
+                                            subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                            xlabel='Nodes',
+                                            ylabel='Nodes')
                 self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
 
-            # Create a plot with the network intervention.
-            if i > 0 and self.logger:
-                self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=intervention , round=i)
+                # Create a plot with the network intervention.
+                if i > 0 :
+                    self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=intervention , round=i)
 
-        # Generate group composition plot for each facility (diffrent plots).
-        for fid in range(self.facilities_size):
-            fig, ax = get_figure(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition",
-                                f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                xlabel='Simulation round',
-                                ylabel='Group composition',
-                                ylim=(0, 1))
-            for gid in range(self.total_groups):
-                ax.plot(range(simulation_rounds), grp_composition_pct[:, fid, gid], label=f'Group {gid}')
-            ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
-            ax.legend()
+        if self.logger:
+            # Generate group composition plot for each facility (diffrent plots).
+            for fid in range(self.facilities_size):
+                fig, ax = get_figure(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition",
+                                    f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                    xlabel='Simulation round',
+                                    ylabel='Group composition',
+                                    ylim=(0, 1))
+                for gid in range(self.total_groups):
+                    ax.plot(range(simulation_rounds), grp_composition_pct[:, fid, gid], label=f'Group {gid}')
+                ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
+                ax.legend()
 
-            if self.logger:
                 self.logger.save_plot(fig, f'facility_{fid}_group_composition.png')
 
-        # Generate Dissimilarity Index plot for all facilities.
-        fig, ax = get_figure(f"Dissimilarity Index",
-                            f"{preferences_model} - {allocation_model} - {intervention_model}",
-                            xlabel='Simulation round',
-                            ylabel='Dissimilarity Index',
-                            ylim=(0, 1))
-        ax.plot(range(simulation_rounds), dissimilarity_index, label=f'Dissimilarity Index')
-        
-        if self.logger:
+            # Generate Dissimilarity Index plot for all facilities.
+            fig, ax = get_figure(f"Dissimilarity Index",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='Dissimilarity Index',
+                                ylim=(0, 1))
+            ax.plot(range(simulation_rounds), dissimilarity_index, label=f'Dissimilarity Index')
+            
             self.logger.save_plot(fig, f'dissimilarity_index.png')
 
-        # Generate Average Preference Position for all facilities.
-        fig, ax = get_figure("Average Preference Position", 
-                            f"{preferences_model} - {allocation_model} - {intervention_model}", 
-                            xlabel="Simulation round", 
-                            ylabel="Average Preference Position")
-        
-        for fid in range(self.facilities_size):
-            ax.plot(range(simulation_rounds), avg_pos_by_fac[:, fid], label=f'Facility {fid}')
+            # Generate Average Preference Position for all facilities.
+            fig, ax = get_figure("Average Preference Position", 
+                                f"{preferences_model} - {allocation_model} - {intervention_model}", 
+                                xlabel="Simulation round", 
+                                ylabel="Average Preference Position")
+            
+            for fid in range(self.facilities_size):
+                ax.plot(range(simulation_rounds), avg_pos_by_fac[:, fid], label=f'Facility {fid}')
 
-        ax.legend()
-        if self.logger:
+            ax.legend()
             self.logger.save_plot(fig, f'average_facility_pref_position.png')
         
-        # Generate Capacity plot for all facilities.
-        fig, ax = get_figure(f"Facility Capacity",
-                            f"{preferences_model} - {allocation_model} - {intervention_model}",
-                            xlabel='Simulation round',
-                            ylabel='Capacity %',
-                            ylim=(0, 2))
-        for fid in range(self.facilities_size):
-            ax.plot(range(simulation_rounds), capacity[:, fid], label=f'Facility {fid}')
-        ax.legend()
-        if self.logger:
+            # Generate Capacity plot for all facilities.
+            fig, ax = get_figure(f"Facility Capacity",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='Capacity %',
+                                ylim=(0, 2))
+            for fid in range(self.facilities_size):
+                ax.plot(range(simulation_rounds), capacity[:, fid], label=f'Facility {fid}')
+            ax.legend()
             self.logger.save_plot(fig, f'facility_capacity.png')
 
-        # Generate Mean Travel Time to Allocation plot.
-        fig, ax = get_figure(f"Mean Travel Time to Allocated Facility",
-                            f"{preferences_model} - {allocation_model} - {intervention_model}",
-                            xlabel='Simulation round',
-                            ylabel='Mean Travel Time')
-        ax.plot(range(simulation_rounds), mean_tt_to_alloc, label=f'Mean Travel Time', color='#C4C4C4')
-        [ax.plot(range(simulation_rounds), mean_tt_to_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
-        fig.legend()
-        
-        if self.logger:
+            # Generate Mean Travel Time to Allocation plot.
+            fig, ax = get_figure(f"Mean Travel Time to Allocated Facility",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='Mean Travel Time')
+            ax.plot(range(simulation_rounds), mean_tt_to_alloc, label=f'Mean Travel Time', color='#C4C4C4')
+            [ax.plot(range(simulation_rounds), mean_tt_to_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
+            fig.legend()
+            
             # Save the mean travel time plot.
             self.logger.save_plot(fig, f'mean_tt_to_allocation.png')
 
-        # Generate Mean Position in pref list for allocation plot
-        fig, ax = get_figure(f"Mean Position in Preference of Allocated Facility",
-                            f"{preferences_model} - {allocation_model} - {intervention_model}",
-                            xlabel='Simulation round',
-                            ylabel='Mean Position in Preference List')
-        ax.plot(range(simulation_rounds), mean_pos_of_alloc, label=f'Mean Position', color='#C4C4C4')
-        [ax.plot(range(simulation_rounds), mean_pos_of_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
-        fig.legend()
-        if self.logger:
+            # Generate Mean Position in pref list for allocation plot
+            fig, ax = get_figure(f"Mean Position in Preference of Allocated Facility",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='Mean Position in Preference List')
+            ax.plot(range(simulation_rounds), mean_pos_of_alloc, label=f'Mean Position', color='#C4C4C4')
+            [ax.plot(range(simulation_rounds), mean_pos_of_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
+            fig.legend()
+            
             # Save the mean position in pref list plot.
             self.logger.save_plot(fig, f'mean_pref_position_of_allocation.png')
 
-             # Generate plot of all network interventions
+            # Generate plot of all network interventions
             self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
             # Save all network interventions to the output file.
             self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions if i is not None]}")

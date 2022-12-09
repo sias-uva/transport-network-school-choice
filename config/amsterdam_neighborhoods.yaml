@@ -11,4 +11,4 @@ allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['random', 'closeness']
 intervention_model: 'closeness'
 # Note that on the first simulation round there are no interventions added to the network.
-simulation_rounds: 11
+simulation_rounds: 6
