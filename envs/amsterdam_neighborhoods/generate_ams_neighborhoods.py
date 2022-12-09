@@ -28,7 +28,7 @@ for i, nb_i in ams_nb.iterrows():
             graph.add_edge(nb_nodes[i], nb_nodes[j])
 
 ig.plot(graph, layout=[(v['y'], v['x']) for v in graph.vs], 
-        vertex_size=10, target='network.pdf')
+        vertex_size=10, target='./network.pdf')
 ig.write(graph, 'network.gml')
 
 # %% Generate population of agents for each node in the network.
