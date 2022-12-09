@@ -9,7 +9,8 @@ import igraph as ig
 class Logger(object):
     def __init__(self, config):
         now = datetime.datetime.today().strftime('%Y%m%d_%H_%M_%S.%f')
-        self.results_path = Path('./results') / f"{now}_{config['preferences_model']}_{config['allocation_model']}_{config['intervention_model']}"
+        environment = config['network_file'].split('/')[2]
+        self.results_path = Path('./results') / f"{now}_{environment}_{config['preferences_model']}_{config['allocation_model']}_{config['intervention_model']}"
         self.results_path.mkdir(parents=True, exist_ok=True)
         self.rounds_path = self.results_path / 'rounds'
         self.rounds_path.mkdir(parents=True, exist_ok=True)
@@ -93,4 +94,3 @@ class Logger(object):
             for e in edges_to_color:
                 e['color'] = network.DEFAULT_EDGE_COLOR
                 e['label'] = None
-                

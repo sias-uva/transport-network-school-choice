@@ -103,6 +103,7 @@ class Runner(object):
             alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
                                     title=f"Allocation by facility and group - round {i}", 
                                     subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                    figsize=(10, 10),
                                     xlabel='Groups',
                                     ylabel='Facilities')
             if self.logger:
