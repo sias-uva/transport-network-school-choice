@@ -61,9 +61,9 @@ pd.DataFrame(agents).to_csv('population.csv', index=False)
 # %% Generate the facilities - for now just toy data until we have the schools
 # facilities = pd.DataFrame(columns=['id', 'node', 'facility', 'capacity', 'quality'])
 facilities = []
-facilities.append({'id': 0, 'node': 58, 'facility': 'school_0', 'capacity': 300, 'quality': 0.5})
-facilities.append({'id': 1, 'node': 290, 'facility': 'school_1', 'capacity': 300, 'quality': 0.5})
-facilities.append({'id': 2, 'node': 246, 'facility': 'school_2', 'capacity': 300, 'quality': 0.5})
+facilities.append({'id': 0, 'node': 58, 'facility': 'school_0', 'capacity': 400, 'quality': 0.5})
+facilities.append({'id': 1, 'node': 290, 'facility': 'school_1', 'capacity': 400, 'quality': 0.5})
+facilities.append({'id': 2, 'node': 246, 'facility': 'school_2', 'capacity': 400, 'quality': 0.5})
 
 pd.DataFrame(facilities).to_csv('facilities.csv', index=False)
 #%% Plot the environment specifications.
