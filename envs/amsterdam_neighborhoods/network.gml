@@ -1,4 +1,4 @@
-Creator "igraph version 0.10.2 Thu Dec  8 11:43:40 2022"
+Creator "igraph version 0.10.2 Fri Dec  9 15:29:03 2022"
 Version 1
 graph
 [
@@ -3835,6 +3835,310 @@ graph
     y 52.3147829060779
     name "Landelijk gebied Driemond"
   ]
+  node
+  [
+    id 479
+    code "BU03840101"
+    x 4.96998114935901
+    y 52.3525498661118
+    name "Buytenstee"
+  ]
+  node
+  [
+    id 480
+    code "BU03840102"
+    x 4.97182459170145
+    y 52.3492292838813
+    name "Oud Diemen"
+  ]
+  node
+  [
+    id 481
+    code "BU03840103"
+    x 4.97552373149789
+    y 52.349954050185
+    name "Vogelweide"
+  ]
+  node
+  [
+    id 482
+    code "BU03840104"
+    x 4.9795995968876
+    y 52.3485589344245
+    name "Scheepskwartier"
+  ]
+  node
+  [
+    id 483
+    code "BU03840105"
+    x 4.98349252546759
+    y 52.3467105076838
+    name "Vlindertuin"
+  ]
+  node
+  [
+    id 484
+    code "BU03840106"
+    x 4.98893508218609
+    y 52.3435227970042
+    name "Diemerpolder"
+  ]
+  node
+  [
+    id 485
+    code "BU03840201"
+    x 4.95824728660961
+    y 52.3407470411837
+    name "Centrum West"
+  ]
+  node
+  [
+    id 486
+    code "BU03840202"
+    x 4.96203285589087
+    y 52.3444838424531
+    name "Ruimzicht West"
+  ]
+  node
+  [
+    id 487
+    code "BU03840203"
+    x 4.96546253344095
+    y 52.3483254867193
+    name "Spoorzicht"
+  ]
+  node
+  [
+    id 488
+    code "BU03840204"
+    x 4.9760086760997
+    y 52.3440448466371
+    name "Buitenlust"
+  ]
+  node
+  [
+    id 489
+    code "BU03840205"
+    x 4.97678068617581
+    y 52.3408276558294
+    name "Spoordriehoek"
+  ]
+  node
+  [
+    id 490
+    code "BU03840206"
+    x 4.96904469646771
+    y 52.3419186283415
+    name "Ruimzicht Oost"
+  ]
+  node
+  [
+    id 491
+    code "BU03840207"
+    x 4.96613464025564
+    y 52.3385225769031
+    name "Centrum Oost"
+  ]
+  node
+  [
+    id 492
+    code "BU03840208"
+    x 4.97207742302045
+    y 52.3418377182025
+    name "Studentenflats Rode Kruislaan"
+  ]
+  node
+  [
+    id 493
+    code "BU03840301"
+    x 4.9501617200147
+    y 52.3344366755902
+    name "Akkerland"
+  ]
+  node
+  [
+    id 494
+    code "BU03840302"
+    x 4.95348285151515
+    y 52.3372648716232
+    name "Bomenrijk"
+  ]
+  node
+  [
+    id 495
+    code "BU03840303"
+    x 4.95748549051568
+    y 52.3377101580159
+    name "Beukenhorst"
+  ]
+  node
+  [
+    id 496
+    code "BU03840304"
+    x 4.96322811596503
+    y 52.3364560686689
+    name "Anne Frank"
+  ]
+  node
+  [
+    id 497
+    code "BU03840305"
+    x 4.96089030942782
+    y 52.3347744182852
+    name "Schelpenhoek"
+  ]
+  node
+  [
+    id 498
+    code "BU03840306"
+    x 4.95741957383125
+    y 52.3332099750853
+    name "Kruidenhof"
+  ]
+  node
+  [
+    id 499
+    code "BU03840307"
+    x 4.95330365869493
+    y 52.3314427821399
+    name "Polderland"
+  ]
+  node
+  [
+    id 500
+    code "BU03840308"
+    x 4.94762719391886
+    y 52.3293901104299
+    name "Biesbosch"
+  ]
+  node
+  [
+    id 501
+    code "BU03840401"
+    x 4.95245990805505
+    y 52.3258754873889
+    name "Bergwijkpark"
+  ]
+  node
+  [
+    id 502
+    code "BU03840501"
+    x 4.95548819258961
+    y 52.3289305743005
+    name "Campus Diemen Zuid"
+  ]
+  node
+  [
+    id 503
+    code "BU03840502"
+    x 4.96098655865855
+    y 52.3292480468216
+    name "Holland Park"
+  ]
+  node
+  [
+    id 504
+    code "BU03840503"
+    x 4.9617916911964
+    y 52.3265789160956
+    name "Holland Park Zuid"
+  ]
+  node
+  [
+    id 505
+    code "BU03840504"
+    x 4.95656589929957
+    y 52.3269954741063
+    name "Holland Park West"
+  ]
+  node
+  [
+    id 506
+    code "BU03840601"
+    x 4.96882897109134
+    y 52.3313030512171
+    name "Verrijn Stuart"
+  ]
+  node
+  [
+    id 507
+    code "BU03840602"
+    x 4.97790854563176
+    y 52.332400765248
+    name "De Sniep"
+  ]
+  node
+  [
+    id 508
+    code "BU03840603"
+    x 4.98357849728878
+    y 52.3318951151795
+    name "Stammerdijk"
+  ]
+  node
+  [
+    id 509
+    code "BU03840701"
+    x 4.97250604300793
+    y 52.3345660376603
+    name "Plantage de Sniep Zuid"
+  ]
+  node
+  [
+    id 510
+    code "BU03840702"
+    x 4.97400451929125
+    y 52.3368538914933
+    name "Plantage de Sniep Noord"
+  ]
+  node
+  [
+    id 511
+    code "BU03840703"
+    x 4.97767244890639
+    y 52.3389735857783
+    name "Sportpark De Diemen"
+  ]
+  node
+  [
+    id 512
+    code "BU03840801"
+    x 4.99840685627336
+    y 52.3277871384152
+    name "Gemeenschapspolder"
+  ]
+  node
+  [
+    id 513
+    code "BU03840802"
+    x 4.99889103944976
+    y 52.3372096486923
+    name "Overdiemerpolder"
+  ]
+  node
+  [
+    id 514
+    code "BU03840803"
+    x 5.01410450777337
+    y 52.3387250796611
+    name "Overdiemen"
+  ]
+  node
+  [
+    id 515
+    code "BU03840804"
+    x 5.02567312047709
+    y 52.3441417201054
+    name "Diemer Vijfhoek"
+  ]
+  node
+  [
+    id 516
+    code "BU04370001"
+    x 4.93817439615013
+    y 52.3312967352243
+    name "Duivendrecht"
+  ]
   edge
   [
     source 1
@@ -6962,6 +7266,46 @@ graph
   ]
   edge
   [
+    source 479
+    target 171
+  ]
+  edge
+  [
+    source 481
+    target 171
+  ]
+  edge
+  [
+    source 482
+    target 171
+  ]
+  edge
+  [
+    source 483
+    target 171
+  ]
+  edge
+  [
+    source 484
+    target 171
+  ]
+  edge
+  [
+    source 513
+    target 171
+  ]
+  edge
+  [
+    source 514
+    target 171
+  ]
+  edge
+  [
+    source 515
+    target 171
+  ]
+  edge
+  [
     source 173
     target 172
   ]
@@ -8087,6 +8431,11 @@ graph
   ]
   edge
   [
+    source 515
+    target 244
+  ]
+  edge
+  [
     source 247
     target 246
   ]
@@ -8552,13 +8901,43 @@ graph
   ]
   edge
   [
+    source 485
+    target 274
+  ]
+  edge
+  [
     source 277
+    target 275
+  ]
+  edge
+  [
+    source 485
+    target 275
+  ]
+  edge
+  [
+    source 486
+    target 275
+  ]
+  edge
+  [
+    source 487
     target 275
   ]
   edge
   [
     source 277
     target 276
+  ]
+  edge
+  [
+    source 479
+    target 277
+  ]
+  edge
+  [
+    source 487
+    target 277
   ]
   edge
   [
@@ -8572,12 +8951,32 @@ graph
   ]
   edge
   [
+    source 485
+    target 278
+  ]
+  edge
+  [
+    source 494
+    target 278
+  ]
+  edge
+  [
+    source 516
+    target 278
+  ]
+  edge
+  [
     source 280
     target 279
   ]
   edge
   [
     source 281
+    target 280
+  ]
+  edge
+  [
+    source 516
     target 280
   ]
   edge
@@ -8593,6 +8992,11 @@ graph
   edge
   [
     source 286
+    target 281
+  ]
+  edge
+  [
+    source 516
     target 281
   ]
   edge
@@ -10712,7 +11116,27 @@ graph
   ]
   edge
   [
+    source 516
+    target 438
+  ]
+  edge
+  [
     source 440
+    target 439
+  ]
+  edge
+  [
+    source 500
+    target 439
+  ]
+  edge
+  [
+    source 501
+    target 439
+  ]
+  edge
+  [
+    source 516
     target 439
   ]
   edge
@@ -10733,6 +11157,16 @@ graph
   edge
   [
     source 450
+    target 440
+  ]
+  edge
+  [
+    source 501
+    target 440
+  ]
+  edge
+  [
+    source 504
     target 440
   ]
   edge
@@ -10878,6 +11312,11 @@ graph
   edge
   [
     source 461
+    target 449
+  ]
+  edge
+  [
+    source 504
     target 449
   ]
   edge
@@ -11052,7 +11491,37 @@ graph
   ]
   edge
   [
+    source 504
+    target 458
+  ]
+  edge
+  [
+    source 506
+    target 458
+  ]
+  edge
+  [
+    source 507
+    target 458
+  ]
+  edge
+  [
+    source 508
+    target 458
+  ]
+  edge
+  [
+    source 512
+    target 458
+  ]
+  edge
+  [
     source 464
+    target 459
+  ]
+  edge
+  [
+    source 512
     target 459
   ]
   edge
@@ -11098,6 +11567,11 @@ graph
   edge
   [
     source 478
+    target 464
+  ]
+  edge
+  [
+    source 512
     target 464
   ]
   edge
@@ -11249,5 +11723,475 @@ graph
   [
     source 478
     target 477
+  ]
+  edge
+  [
+    source 512
+    target 478
+  ]
+  edge
+  [
+    source 480
+    target 479
+  ]
+  edge
+  [
+    source 481
+    target 479
+  ]
+  edge
+  [
+    source 487
+    target 479
+  ]
+  edge
+  [
+    source 488
+    target 479
+  ]
+  edge
+  [
+    source 481
+    target 480
+  ]
+  edge
+  [
+    source 482
+    target 481
+  ]
+  edge
+  [
+    source 487
+    target 481
+  ]
+  edge
+  [
+    source 488
+    target 481
+  ]
+  edge
+  [
+    source 483
+    target 482
+  ]
+  edge
+  [
+    source 488
+    target 482
+  ]
+  edge
+  [
+    source 484
+    target 483
+  ]
+  edge
+  [
+    source 488
+    target 483
+  ]
+  edge
+  [
+    source 488
+    target 484
+  ]
+  edge
+  [
+    source 512
+    target 484
+  ]
+  edge
+  [
+    source 513
+    target 484
+  ]
+  edge
+  [
+    source 486
+    target 485
+  ]
+  edge
+  [
+    source 490
+    target 485
+  ]
+  edge
+  [
+    source 491
+    target 485
+  ]
+  edge
+  [
+    source 494
+    target 485
+  ]
+  edge
+  [
+    source 495
+    target 485
+  ]
+  edge
+  [
+    source 496
+    target 485
+  ]
+  edge
+  [
+    source 487
+    target 486
+  ]
+  edge
+  [
+    source 488
+    target 486
+  ]
+  edge
+  [
+    source 490
+    target 486
+  ]
+  edge
+  [
+    source 488
+    target 487
+  ]
+  edge
+  [
+    source 490
+    target 487
+  ]
+  edge
+  [
+    source 489
+    target 488
+  ]
+  edge
+  [
+    source 490
+    target 488
+  ]
+  edge
+  [
+    source 512
+    target 488
+  ]
+  edge
+  [
+    source 513
+    target 488
+  ]
+  edge
+  [
+    source 490
+    target 489
+  ]
+  edge
+  [
+    source 491
+    target 489
+  ]
+  edge
+  [
+    source 510
+    target 489
+  ]
+  edge
+  [
+    source 511
+    target 489
+  ]
+  edge
+  [
+    source 512
+    target 489
+  ]
+  edge
+  [
+    source 491
+    target 490
+  ]
+  edge
+  [
+    source 492
+    target 490
+  ]
+  edge
+  [
+    source 510
+    target 490
+  ]
+  edge
+  [
+    source 496
+    target 491
+  ]
+  edge
+  [
+    source 506
+    target 491
+  ]
+  edge
+  [
+    source 509
+    target 491
+  ]
+  edge
+  [
+    source 510
+    target 491
+  ]
+  edge
+  [
+    source 494
+    target 493
+  ]
+  edge
+  [
+    source 499
+    target 493
+  ]
+  edge
+  [
+    source 500
+    target 493
+  ]
+  edge
+  [
+    source 516
+    target 493
+  ]
+  edge
+  [
+    source 495
+    target 494
+  ]
+  edge
+  [
+    source 497
+    target 494
+  ]
+  edge
+  [
+    source 498
+    target 494
+  ]
+  edge
+  [
+    source 499
+    target 494
+  ]
+  edge
+  [
+    source 516
+    target 494
+  ]
+  edge
+  [
+    source 496
+    target 495
+  ]
+  edge
+  [
+    source 497
+    target 495
+  ]
+  edge
+  [
+    source 497
+    target 496
+  ]
+  edge
+  [
+    source 506
+    target 496
+  ]
+  edge
+  [
+    source 509
+    target 496
+  ]
+  edge
+  [
+    source 498
+    target 497
+  ]
+  edge
+  [
+    source 506
+    target 497
+  ]
+  edge
+  [
+    source 499
+    target 498
+  ]
+  edge
+  [
+    source 502
+    target 498
+  ]
+  edge
+  [
+    source 503
+    target 498
+  ]
+  edge
+  [
+    source 506
+    target 498
+  ]
+  edge
+  [
+    source 500
+    target 499
+  ]
+  edge
+  [
+    source 501
+    target 499
+  ]
+  edge
+  [
+    source 502
+    target 499
+  ]
+  edge
+  [
+    source 503
+    target 499
+  ]
+  edge
+  [
+    source 501
+    target 500
+  ]
+  edge
+  [
+    source 502
+    target 500
+  ]
+  edge
+  [
+    source 516
+    target 500
+  ]
+  edge
+  [
+    source 502
+    target 501
+  ]
+  edge
+  [
+    source 504
+    target 501
+  ]
+  edge
+  [
+    source 505
+    target 501
+  ]
+  edge
+  [
+    source 503
+    target 502
+  ]
+  edge
+  [
+    source 505
+    target 502
+  ]
+  edge
+  [
+    source 504
+    target 503
+  ]
+  edge
+  [
+    source 505
+    target 503
+  ]
+  edge
+  [
+    source 506
+    target 503
+  ]
+  edge
+  [
+    source 505
+    target 504
+  ]
+  edge
+  [
+    source 506
+    target 504
+  ]
+  edge
+  [
+    source 507
+    target 506
+  ]
+  edge
+  [
+    source 509
+    target 506
+  ]
+  edge
+  [
+    source 508
+    target 507
+  ]
+  edge
+  [
+    source 509
+    target 507
+  ]
+  edge
+  [
+    source 512
+    target 507
+  ]
+  edge
+  [
+    source 512
+    target 508
+  ]
+  edge
+  [
+    source 510
+    target 509
+  ]
+  edge
+  [
+    source 512
+    target 509
+  ]
+  edge
+  [
+    source 511
+    target 510
+  ]
+  edge
+  [
+    source 512
+    target 510
+  ]
+  edge
+  [
+    source 512
+    target 511
+  ]
+  edge
+  [
+    source 513
+    target 512
+  ]
+  edge
+  [
+    source 514
+    target 513
+  ]
+  edge
+  [
+    source 515
+    target 514
   ]
 ]

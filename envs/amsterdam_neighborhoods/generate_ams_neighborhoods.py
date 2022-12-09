@@ -9,8 +9,8 @@ import igraph as ig
 import numpy as np
 import matplotlib.pyplot as plt
 
-ams_nb = gpd.read_file('./ams-neighbourhoods.geojson')
-ams_ses = pd.read_csv('./ams-ses.csv')
+ams_nb = gpd.read_file('./ams-diemen-duiven-neighbourhoods.geojson')
+ams_ses = pd.read_csv('./ams-diemen-duiven-ses.csv')
 # Rename it to avoid confusion between the real and the generated population.
 ams_ses = ams_ses.rename(columns={'pop': 'real_pop'})
 # %% Create the network from the amsterdam neighborhoods.
@@ -28,7 +28,7 @@ for i, nb_i in ams_nb.iterrows():
             graph.add_edge(nb_nodes[i], nb_nodes[j])
 
 ig.plot(graph, layout=[(v['y'], v['x']) for v in graph.vs], 
-        vertex_size=10)
+        vertex_size=10, target='network.pdf')
 ig.write(graph, 'network.gml')
 
 # %% Generate population of agents for each node in the network.
@@ -90,3 +90,4 @@ fig.suptitle(f"Amsterdam environment: {ams_nb['gen_pop'].sum()} agents, {ams_nb[
 fig.savefig('./ams-env.png', dpi=300)
 
 print('Successfullly generated the environment.')
+# %%
