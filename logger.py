@@ -60,7 +60,7 @@ class Logger(object):
             fig.savefig(path / filename)
         plt.close(fig)
 
-    def save_igraph_plot(self, network, filename='network.pdf', edges_to_color=None, facilities_to_label=None, round=None):
+    def save_igraph_plot(self, network, filename='network.pdf', edges_to_color=None, facilities_to_label=None, round=None, vertex_size=10, vertex_label_size=7):
         """Saves a given igraph plot to the results folder.
 
         Args:
@@ -68,6 +68,8 @@ class Logger(object):
             filename (str, optional): the name of the file to save. Defaults to 'network.pdf'.
             edges_to_color (edge or list of edges, optional): an edge or a list of edges (ig.Edge to color). Defaults to None.
             round (int, optional): round of the simulation - gets appended to the filename and title. Defaults to None.
+            vertex_size (int, optional): size of the vertices to plot. Defaults to 10.
+            vertex_label_size (int, optional): size of the vertex labels to plot. Defaults to 5.
         """
         # TODO: Instead of doing this maybe create a new copy of the network and plot that? Consider memory constraints.
         if edges_to_color is not None:
@@ -87,8 +89,17 @@ class Logger(object):
             path = self.rounds_path / str(round)
             path.mkdir(parents=True, exist_ok=True)
             path = path / filename
-            
-        ig.plot(network.network, target=path, layout=network.network_layout)
+        
+        network.network.vs['label_size'] = vertex_label_size
+        if 'x' in network.network.vs.attribute_names():
+            layout=[(v['y'], v['x']) for v in network.network.vs]
+        else:
+            layout=None
+
+        ig.plot(network.network,
+                target=path, 
+                layout=layout if layout is not None else network.network_layout, 
+                vertex_size=vertex_size)
 
         if edges_to_color is not None:
             for e in edges_to_color:
