@@ -43,13 +43,13 @@ def heatmap_from_numpy(numpy_array, title, subtitle='', figsize=FIG_SIZE, xlabel
 
     ax.imshow(numpy_array, cmap=cmap)
     # Show all ticks and label them with the respective list entries
-    ax.set_xticks(np.arange(numpy_array.shape[0]), labels=np.arange(numpy_array.shape[0]))
-    ax.set_yticks(np.arange(numpy_array.shape[1]), labels=np.arange(numpy_array.shape[1]))
+    ax.set_xticks(np.arange(numpy_array.shape[1]), labels=np.arange(numpy_array.shape[1]))
+    ax.set_yticks(np.arange(numpy_array.shape[0]), labels=np.arange(numpy_array.shape[0]))
     
     # Loop over data dimensions and create text annotations.
     for k in range(numpy_array.shape[0]):
         for l in range(numpy_array.shape[1]):
-            ax.text(k, l, numpy_array[k, l], ha="center", va="center", color="orange")
+            ax.text(l, k, numpy_array[k, l], ha="center", va="center", color="orange")
 
     return fig
 
