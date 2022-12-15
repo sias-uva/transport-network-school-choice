@@ -13,6 +13,22 @@ matplotlib.use("TKAgg")
 from network import Network
 from preference import toy_model, nearest_k
 
+def calculate_ci(array: np.array, z=1.96):
+    """Calculates the mean, standard error, and confidence interval of the given array.
+
+    Args:
+        array (np.array): the array.
+        z (float, optional): the z value for the confidence interval. Defaults to 1.96.
+
+    Returns:
+        np.array: the mean and confidence interval of the given array.
+    """
+
+    m = array.mean()
+    std = array.std()
+    se = std/np.sqrt(array.shape[0])
+    return m, m - z * se, m + z * se
+
 class Runner(object):
     def __init__(self, network: Network, population: pd.DataFrame, facilities: pd.DataFrame, logger: Logger):
 
@@ -46,11 +62,12 @@ class Runner(object):
         if self.logger:
             self.logger.save_igraph_plot(self.network, facilities_to_label=self.facilities['node'].values)
 
-    def run_simulation(self, simulation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None):
+    def run_simulation(self, simulation_rounds: int, allocation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None):
         """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
 
         Args:
             simulation_rounds (int): total nr of simulation rounds to run.
+            allocation_rounds (int): nr of preference-allocation rounds to run per simulation round.
             preferences_model (str): preference model to use.
             allocation_model (str): allocation model to use.
             intervention_model (str): network intervention model to use.
@@ -67,7 +84,7 @@ class Runner(object):
         capacity = np.zeros((simulation_rounds, self.facilities_size))
         grp_composition_pct = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
         grp_composition = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
-        dissimilarity_index = np.zeros(simulation_rounds)
+        dissimilarity_index = np.zeros((simulation_rounds, allocation_rounds))
         avg_pos_by_fac = np.zeros((simulation_rounds, self.facilities_size))
         # Mean travel time to facility for each agent and for each group.
         mean_tt_to_alloc = np.zeros((simulation_rounds))
@@ -83,23 +100,24 @@ class Runner(object):
                 intervention = self.create_intervention(intervention_model)
                 interventions.append(intervention)
 
-            pref_list, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
-            # Log pref_list to a file.
-            if self.logger:
-                agentpref = self.population.copy()
-                agentpref['pref_list'] = pref_list.tolist()
-                self.logger.log_dataframe(agentpref, f'agents_pref_list_{i}.csv', round=i)
-            
-            alloc_by_facility[i] = eval_metrics['alloc_by_facility']
-            capacity[i] = eval_metrics['capacity']
-            grp_composition_pct[i] = eval_metrics['grp_composition_pct']
-            grp_composition[i] = eval_metrics['grp_composition']
-            dissimilarity_index[i] = eval_metrics['dissimilarity_index']
-            avg_pos_by_fac[i] = eval_metrics['avg_pos_by_fac']
-            mean_tt_to_alloc[i] = eval_metrics['mean_tt_to_alloc']
-            mean_tt_to_alloc_by_grp[i] = eval_metrics['mean_tt_to_alloc_by_group']
-            mean_pos_of_alloc[i] = eval_metrics['pref_of_alloc']
-            mean_pos_of_alloc_by_grp[i] = eval_metrics['pref_of_alloc_by_group']
+            for j in range(allocation_rounds):
+                pref_list, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+                # Log pref_list to a file.
+                if self.logger:
+                    agentpref = self.population.copy()
+                    agentpref['pref_list'] = pref_list.tolist()
+                    self.logger.log_dataframe(agentpref, f'agents_pref_list_{i}.csv', round=i)
+                
+                alloc_by_facility[i] = eval_metrics['alloc_by_facility']
+                capacity[i] = eval_metrics['capacity']
+                grp_composition_pct[i] = eval_metrics['grp_composition_pct']
+                grp_composition[i] = eval_metrics['grp_composition']
+                dissimilarity_index[i][j] = eval_metrics['dissimilarity_index']
+                avg_pos_by_fac[i] = eval_metrics['avg_pos_by_fac']
+                mean_tt_to_alloc[i] = eval_metrics['mean_tt_to_alloc']
+                mean_tt_to_alloc_by_grp[i] = eval_metrics['mean_tt_to_alloc_by_group']
+                mean_pos_of_alloc[i] = eval_metrics['pref_of_alloc']
+                mean_pos_of_alloc_by_grp[i] = eval_metrics['pref_of_alloc_by_group']
 
             if self.logger:
                 alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
@@ -145,12 +163,14 @@ class Runner(object):
                 self.logger.save_plot(fig, f'facility_{fid}_group_composition.png')
 
             # Generate Dissimilarity Index plot for all facilities.
+            diss_results = np.apply_along_axis(calculate_ci, 1, dissimilarity_index)
             fig, ax = get_figure(f"Dissimilarity Index",
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
                                 xlabel='Simulation round',
                                 ylabel='Dissimilarity Index',
                                 ylim=(0, 1))
-            ax.plot(range(simulation_rounds), dissimilarity_index, label=f'Dissimilarity Index')
+            ax.plot(range(simulation_rounds), diss_results[:, 0], label=f'Dissimilarity Index')
+            ax.fill_between(range(simulation_rounds), diss_results[:, 1], diss_results[:, 2], color='b', alpha=.1)
             
             self.logger.save_plot(fig, f'dissimilarity_index.png')
 

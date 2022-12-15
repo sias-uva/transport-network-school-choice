@@ -36,7 +36,9 @@ def random_serial_dictatorship(pref_list, capacities):
                 assignments[agent] = np.array([facility])
                 capacities[facility] -= 1
                 break
-
+    
+    # this is done to reset the shuffle of the lottery. (python stuff)
+    del lottery
     assert len(np.unique(assignments)) <= len(np.unique(pref_list)), 'Some agents were not assigned and this should not happen, or we should take care of it.'
 
     return assignments.astype(int)
