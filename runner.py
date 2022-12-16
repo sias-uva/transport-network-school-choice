@@ -3,7 +3,7 @@ import numpy as np
 from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
-from evaluation import dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, preference_of_allocation, travel_time_to_allocation
+from evaluation import calculate_ci, dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, preference_of_allocation, travel_time_to_allocation
 from intervention import create_random_edge, maximize_closeness_centrality
 import matplotlib
 
@@ -12,22 +12,6 @@ from plot import get_figure, heatmap_from_numpy
 matplotlib.use("TKAgg")
 from network import Network
 from preference import toy_model, nearest_k
-
-def calculate_ci(array: np.array, z=1.96):
-    """Calculates the mean, standard error, and confidence interval of the given array.
-
-    Args:
-        array (np.array): the array.
-        z (float, optional): the z value for the confidence interval. Defaults to 1.96.
-
-    Returns:
-        np.array: the mean and confidence interval of the given array.
-    """
-
-    m = array.mean()
-    std = array.std()
-    se = std/np.sqrt(array.shape[0])
-    return m, m - z * se, m + z * se
 
 class Runner(object):
     def __init__(self, network: Network, population: pd.DataFrame, facilities: pd.DataFrame, logger: Logger):
@@ -80,18 +64,18 @@ class Runner(object):
         # Note: first round is vanilla - no interventions are added.
         # _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
-        alloc_by_facility = np.zeros((simulation_rounds, self.facilities_size))
-        capacity = np.zeros((simulation_rounds, self.facilities_size))
-        grp_composition_pct = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
-        grp_composition = np.zeros((simulation_rounds, self.facilities_size, self.total_groups))
+        alloc_by_facility = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size))
+        capacity = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size))
+        grp_composition_pct = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size, self.total_groups))
+        grp_composition = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size, self.total_groups))
         dissimilarity_index = np.zeros((simulation_rounds, allocation_rounds))
-        avg_pos_by_fac = np.zeros((simulation_rounds, self.facilities_size))
+        avg_pos_by_fac = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size))
         # Mean travel time to facility for each agent and for each group.
-        mean_tt_to_alloc = np.zeros((simulation_rounds))
-        mean_tt_to_alloc_by_grp = np.zeros((simulation_rounds, self.total_groups))
+        mean_tt_to_alloc = np.zeros((simulation_rounds, allocation_rounds))
+        mean_tt_to_alloc_by_grp = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
         # Mean position in preferences for allocated facilities for each agent and for each group.
-        mean_pos_of_alloc = np.zeros((simulation_rounds))
-        mean_pos_of_alloc_by_grp = np.zeros((simulation_rounds, self.total_groups))
+        mean_pos_of_alloc = np.zeros((simulation_rounds, allocation_rounds))
+        mean_pos_of_alloc_by_grp = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
         interventions = []
 
         for i in range(simulation_rounds):
@@ -108,20 +92,20 @@ class Runner(object):
                     agentpref['pref_list'] = pref_list.tolist()
                     self.logger.log_dataframe(agentpref, f'agents_pref_list_{i}.csv', round=i)
                 
-                alloc_by_facility[i] = eval_metrics['alloc_by_facility']
-                capacity[i] = eval_metrics['capacity']
-                grp_composition_pct[i] = eval_metrics['grp_composition_pct']
-                grp_composition[i] = eval_metrics['grp_composition']
+                alloc_by_facility[i][j] = eval_metrics['alloc_by_facility']
+                capacity[i][j] = eval_metrics['capacity']
+                grp_composition_pct[i][j] = eval_metrics['grp_composition_pct']
+                grp_composition[i][j] = eval_metrics['grp_composition']
                 dissimilarity_index[i][j] = eval_metrics['dissimilarity_index']
-                avg_pos_by_fac[i] = eval_metrics['avg_pos_by_fac']
-                mean_tt_to_alloc[i] = eval_metrics['mean_tt_to_alloc']
-                mean_tt_to_alloc_by_grp[i] = eval_metrics['mean_tt_to_alloc_by_group']
-                mean_pos_of_alloc[i] = eval_metrics['pref_of_alloc']
-                mean_pos_of_alloc_by_grp[i] = eval_metrics['pref_of_alloc_by_group']
+                avg_pos_by_fac[i][j] = eval_metrics['avg_pos_by_fac']
+                mean_tt_to_alloc[i][j] = eval_metrics['mean_tt_to_alloc']
+                mean_tt_to_alloc_by_grp[i][j] = eval_metrics['mean_tt_to_alloc_by_group']
+                mean_pos_of_alloc[i][j] = eval_metrics['pref_of_alloc']
+                mean_pos_of_alloc_by_grp[i][j] = eval_metrics['pref_of_alloc_by_group']
 
             if self.logger:
-                alloc_heatmap = heatmap_from_numpy(eval_metrics['grp_composition'], 
-                                        title=f"Allocation by facility and group - round {i}", 
+                alloc_heatmap = heatmap_from_numpy(grp_composition.mean(axis=1)[i], 
+                                        title=f"Allocation by facility and group (mean) - round {i}", 
                                         subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
                                         figsize=(10, 10),
                                         xlabel='Groups',
@@ -149,6 +133,7 @@ class Runner(object):
 
         if self.logger:
             # Generate group composition plot for each facility (diffrent plots).
+            grpcomp_ci = np.apply_along_axis(calculate_ci, 1, grp_composition_pct)
             for fid in range(self.facilities_size):
                 fig, ax = get_figure(f"Facility {self.facilities.iloc[fid]['facility']} ({fid}) - Group Composition",
                                     f"{preferences_model} - {allocation_model} - {intervention_model}",
@@ -156,21 +141,23 @@ class Runner(object):
                                     ylabel='Group composition',
                                     ylim=(0, 1))
                 for gid in range(self.total_groups):
-                    ax.plot(range(simulation_rounds), grp_composition_pct[:, fid, gid], label=f'Group {gid}')
+                    # plot the mean
+                    ax.plot(range(simulation_rounds), grpcomp_ci[:, 0, fid, gid], label=f'Group {gid}')
+                    ax.fill_between(range(simulation_rounds), grpcomp_ci[:, 1, fid, gid], grpcomp_ci[:, 2, fid, gid], alpha=.2)
                 ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
                 ax.legend()
 
                 self.logger.save_plot(fig, f'facility_{fid}_group_composition.png')
 
             # Generate Dissimilarity Index plot for all facilities.
-            diss_results = np.apply_along_axis(calculate_ci, 1, dissimilarity_index)
+            diss_ci = np.apply_along_axis(calculate_ci, 1, dissimilarity_index)
             fig, ax = get_figure(f"Dissimilarity Index",
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
                                 xlabel='Simulation round',
                                 ylabel='Dissimilarity Index',
                                 ylim=(0, 1))
-            ax.plot(range(simulation_rounds), diss_results[:, 0], label=f'Dissimilarity Index')
-            ax.fill_between(range(simulation_rounds), diss_results[:, 1], diss_results[:, 2], color='b', alpha=.1)
+            ax.plot(range(simulation_rounds), diss_ci[:, 0], label=f'Dissimilarity Index')
+            ax.fill_between(range(simulation_rounds), diss_ci[:, 1], diss_ci[:, 2], color='b', alpha=.1)
             
             self.logger.save_plot(fig, f'dissimilarity_index.png')
 
@@ -180,42 +167,54 @@ class Runner(object):
                                 xlabel="Simulation round", 
                                 ylabel="Average Preference Position")
             
+            facpref_ci = np.apply_along_axis(calculate_ci, 1, avg_pos_by_fac)
             for fid in range(self.facilities_size):
-                ax.plot(range(simulation_rounds), avg_pos_by_fac[:, fid], label=f'Facility {fid}')
+                ax.plot(range(simulation_rounds), facpref_ci[:, 0, fid], label=f'Facility {fid}')
+                ax.fill_between(range(simulation_rounds), facpref_ci[:, 1, fid], facpref_ci[:, 2, fid], color='b', alpha=.1)
 
             ax.legend()
             self.logger.save_plot(fig, f'average_facility_pref_position.png')
         
             # Generate Capacity plot for all facilities.
+            cap_ci = np.apply_along_axis(calculate_ci, 1, capacity)
             fig, ax = get_figure(f"Facility Capacity",
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
                                 xlabel='Simulation round',
                                 ylabel='Capacity %',
                                 ylim=(0, 2))
             for fid in range(self.facilities_size):
-                ax.plot(range(simulation_rounds), capacity[:, fid], label=f'Facility {fid}')
+                ax.plot(range(simulation_rounds), cap_ci[:, 0, fid], label=f'Facility {fid}')
+                ax.fill_between(range(simulation_rounds), cap_ci[:, 1, fid], cap_ci[:, 2, fid], alpha=.1)
             ax.legend()
             self.logger.save_plot(fig, f'facility_capacity.png')
 
             # Generate Mean Travel Time to Allocation plot.
+            mttalloc_ci = np.apply_along_axis(calculate_ci, 1, mean_tt_to_alloc)
+            mttallocgrp_ci = np.apply_along_axis(calculate_ci, 1, mean_tt_to_alloc_by_grp)
             fig, ax = get_figure(f"Mean Travel Time to Allocated Facility",
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
                                 xlabel='Simulation round',
                                 ylabel='Mean Travel Time')
-            ax.plot(range(simulation_rounds), mean_tt_to_alloc, label=f'Mean Travel Time', color='#C4C4C4')
-            [ax.plot(range(simulation_rounds), mean_tt_to_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
+            ax.plot(range(simulation_rounds), mttalloc_ci[:, 0], label=f'Mean Travel Time', color='#C4C4C4')
+            ax.fill_between(range(simulation_rounds), mttalloc_ci[:, 1], mttalloc_ci[:, 2], alpha=.1)
+            [ax.plot(range(simulation_rounds), mttallocgrp_ci[:, 0, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
+            [ax.fill_between(range(simulation_rounds), mttallocgrp_ci[:, 1, g], mttallocgrp_ci[:, 2, g], alpha=.1, color=f'C{g}') for g in range(self.total_groups)]
             fig.legend()
             
             # Save the mean travel time plot.
             self.logger.save_plot(fig, f'mean_tt_to_allocation.png')
 
             # Generate Mean Position in pref list for allocation plot
+            mposalloc_ci = np.apply_along_axis(calculate_ci, 1, mean_pos_of_alloc)
+            mposallocgrp_ci = np.apply_along_axis(calculate_ci, 1, mean_pos_of_alloc_by_grp)
             fig, ax = get_figure(f"Mean Position in Preference of Allocated Facility",
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
                                 xlabel='Simulation round',
                                 ylabel='Mean Position in Preference List')
-            ax.plot(range(simulation_rounds), mean_pos_of_alloc, label=f'Mean Position', color='#C4C4C4')
-            [ax.plot(range(simulation_rounds), mean_pos_of_alloc_by_grp[:, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
+            ax.plot(range(simulation_rounds), mposalloc_ci[:, 0], label=f'Mean Position', color='#C4C4C4')
+            ax.fill_between(range(simulation_rounds), mposalloc_ci[:, 1], mposalloc_ci[:, 2], alpha=.1)
+            [ax.plot(range(simulation_rounds), mposallocgrp_ci[:, 0, g], label=f'Group {self.groups[g]}', color=f'C{g}') for g in range(self.total_groups)]
+            [ax.fill_between(range(simulation_rounds), mposallocgrp_ci[:, 1, g], mposallocgrp_ci[:, 2, g], alpha=.1, color=f'C{g}') for g in range(self.total_groups)]
             fig.legend()
 
             # Save the mean position in pref list plot.

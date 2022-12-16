@@ -1,5 +1,20 @@
 import numpy as np
 
+def calculate_ci(array: np.array, z=1.96):
+    """Calculates the mean, standard error, and confidence interval of the given array.
+
+    Args:
+        array (np.array): the array.
+        z (float, optional): the z value for the confidence interval. Defaults to 1.96.
+
+    Returns:
+        np.array: the mean and confidence interval of the given array.
+    """
+
+    m = array.mean()
+    std = array.std()
+    se = std/np.sqrt(array.shape[0])
+    return m, m - z * se, m + z * se
 
 def facility_rank_distribution(pref_list, total_facilities, return_avg_pos_by_fac=False):
     """Returns a numpy array of size (facility_size, max nr of preferences) where each element in the array is the number of agents that have that facility as their n-th preference.
