@@ -43,6 +43,18 @@ class Logger(object):
 
             dataframe.to_csv(path / filename, index=False)
 
+    def log_numpy_array(self, array: np.array, filename: str, round=None):
+        """Saves a given numpy array to the results folder.
+
+        Args:
+            text (str): the text to append.
+        """
+        path = self.results_path / filename
+        if round is not None:
+            path = self.rounds_path / str(round) / filename
+
+        np.savetxt(path, array, delimiter=',')
+
     def save_plot(self, fig, filename, round=None):
         """Saves the given figure to the results folder.
 

@@ -75,7 +75,6 @@ class Runner(object):
         mean_tt_to_alloc_by_grp = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
         # Mean utility for each agent and for each group on the assigned facility.
         mean_agent_utility = np.zeros((simulation_rounds, allocation_rounds, self.population_size))
-        mean_group_utility = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
         # Mean position in preferences for allocated facilities for each agent and for each group.
         mean_pos_of_alloc = np.zeros((simulation_rounds, allocation_rounds))
         mean_pos_of_alloc_by_grp = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
@@ -178,6 +177,7 @@ class Runner(object):
 
             # Generate Dissimilarity Index plot for all facilities.
             diss_ci = np.apply_along_axis(calculate_ci, 1, dissimilarity_index)
+            self.logger.log_numpy_array(diss_ci, 'dissimilarity_index.txt')
             fig, ax = get_figure(f"Dissimilarity Index",
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
                                 xlabel='Simulation round',
