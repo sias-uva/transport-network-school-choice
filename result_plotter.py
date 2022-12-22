@@ -1,4 +1,5 @@
 #%% This file is just for plotting results of multiple runs in one plot and creating other output-related plots.
+# It is therefore meant to be used as a script and not as a module.
 import numpy as np
 from pathlib import Path
 from plot import get_figure
