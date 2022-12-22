@@ -12,7 +12,7 @@ def nearest_k(tt_mx, k):
     """
 
     assert k <= tt_mx.shape[1], f'Cannot pick nearest {k} out of {tt_mx.shape[1]} facilities' 
-    return tt_mx.argsort()[:, :k]
+    return tt_mx.argsort()[:, :k], tt_mx
 
 
 def toy_model(tt_mx, qualities):
@@ -27,6 +27,5 @@ def toy_model(tt_mx, qualities):
     #normalize travel times
     tt_mxn = tt_mx / tt_mx.sum(axis=1)[:, np.newaxis]
     tt_mxn = np.divide(tt_mxn, qualities)
-    return tt_mxn.argsort()
 
-
+    return tt_mxn.argsort(), tt_mxn

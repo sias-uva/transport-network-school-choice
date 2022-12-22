@@ -73,6 +73,9 @@ class Runner(object):
         # Mean travel time to facility for each agent and for each group.
         mean_tt_to_alloc = np.zeros((simulation_rounds, allocation_rounds))
         mean_tt_to_alloc_by_grp = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
+        # Mean utility for each agent and for each group on the assigned facility.
+        mean_agent_utility = np.zeros((simulation_rounds, allocation_rounds, self.population_size))
+        mean_group_utility = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
         # Mean position in preferences for allocated facilities for each agent and for each group.
         mean_pos_of_alloc = np.zeros((simulation_rounds, allocation_rounds))
         mean_pos_of_alloc_by_grp = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
@@ -85,7 +88,7 @@ class Runner(object):
                 interventions.append(intervention)
 
             for j in range(allocation_rounds):
-                pref_list, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+                pref_list, utility, allocation, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
                 # Log pref_list to a file.
                 if self.logger:
                     agentpref = self.population.copy()
@@ -102,6 +105,7 @@ class Runner(object):
                 mean_tt_to_alloc_by_grp[i][j] = eval_metrics['mean_tt_to_alloc_by_group']
                 mean_pos_of_alloc[i][j] = eval_metrics['pref_of_alloc']
                 mean_pos_of_alloc_by_grp[i][j] = eval_metrics['pref_of_alloc_by_group']
+                mean_agent_utility[i][j] = utility[range(self.population_size), allocation.flatten()]
 
             if self.logger:
                 alloc_heatmap = heatmap_from_numpy(grp_composition.mean(axis=1)[i], 
@@ -119,13 +123,36 @@ class Runner(object):
                                             ylabel='Facilities')
                 self.logger.save_plot(rank_distribution_heatmap, f"rank_distribution_{i}.png", round=i)
 
+                # Create a matplotlib plot with the distribution of utility for each agent, based on the assigned facility.
+                # TODO NOTE: This doubles the running time of the simulation, -- I am thinking maybe we can store everything and then plot it all at the end?
+                fig, ax = get_figure(f"Utility distribution for agents on assigned facility - round {i}",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Utility',
+                                ylabel='Frequency')
+                ax.hist(mean_agent_utility[i].flatten())
+                ax.axvline(mean_agent_utility[i].flatten().mean(), linestyle='dashed', linewidth=1)
+                self.logger.save_plot(fig, f"agent_utility_distribution_{i}.png", round=i)
+
+                fig, ax = get_figure(f"Utility distribution for groups on assigned facility - round {i}",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Utility',
+                                ylabel='Frequency')
+                
+                group_memberships = self.population['group'].values
+                for g_id, g in enumerate(self.groups):
+                    ax.hist(mean_agent_utility[i, :, group_memberships == g].flatten(), label=f"Group {g}", color=f"C{g_id}", alpha=0.5)
+                    ax.axvline(mean_agent_utility[i, :, group_memberships == g].flatten().mean(), color=f"C{g_id}", linestyle='dashed', linewidth=1)
+                
+                ax.legend()
+                self.logger.save_plot(fig, f"group_utility_distribution_{i}.png", round=i)
+
                 # Filtered out cause its useless when the network is large and increases runtime 10x.
-                # travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
-                #                             title=f"Travel Time between Nodes - round {i}",
-                #                             subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
-                #                             xlabel='Nodes',
-                #                             ylabel='Nodes')
-                # self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
+                travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
+                                            title=f"Travel Time between Nodes - round {i}",
+                                            subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                            xlabel='Nodes',
+                                            ylabel='Nodes')
+                self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
 
                 # Create a plot with the network intervention.
                 if i > 0 :
@@ -236,34 +263,40 @@ class Runner(object):
         Returns:
             list: preference_list, allocation, capacity_eval, diversity_eval
         """
-        pref_list = self.generate_preferences(preferences_model, nearest_k_k=nearest_k_k)
+        pref_list, utility = self.generate_preferences(preferences_model, nearest_k_k=nearest_k_k, return_utility=True)
         allocation = self.generate_allocation(pref_list, allocation_model)
         eval_metrics = self.evaluate(pref_list, allocation)
 
-        return pref_list, allocation, eval_metrics
+        return pref_list, utility, allocation, eval_metrics
 
-    def generate_preferences(self, preferences_model: str, nearest_k_k=None):
+    def generate_preferences(self, preferences_model: str, nearest_k_k=None, return_utility=False):
         """Generates preferences for each agent in the population, according to preferences_model.
 
         Args:
             preferences_model (str): preference model to use.
             nearest_k_k (int, optional): k parameter in nearest_k preference model. Defaults to None.
-
+            return_utility (bool, optional): whether to return the utility of each agent (the score assigned to each facility). Defaults to False.
         Returns:
-            np.array: array of size (nr of agents, nr of facilities) where each facility is sorted by preference.
+            - np.array: array of size (nr of agents, nr of facilities) where each facility is sorted by preference.
+            - np.array: array of size (nr of agents, nr of facilities) where each facility is assigned a utility score.
         """
         pref_list = None
+        utility = None
         travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
         if preferences_model == 'nearest_k':
             assert nearest_k_k, 'You need to specify nearest_k parameter in config.'
-            pref_list = nearest_k(travel_time, k=nearest_k_k)
+            pref_list, utility = nearest_k(travel_time, k=nearest_k_k)
         elif preferences_model == 'toy_model':
             # Select facility qualities
             qualities = self.facilities.quality.to_numpy()
-            pref_list = toy_model(travel_time, qualities)
+            pref_list, utility = toy_model(travel_time, qualities)
 
         assert pref_list is not None, 'No preference list was generated, specify a valid preferences_model parameter in config.'
-        return pref_list
+        
+        if return_utility:
+            return pref_list, utility
+        else: 
+            return pref_list
     
     def generate_allocation(self, pref_list, allocation_model):
         """Generates allocation of facilities to agents according to allocation_model.
