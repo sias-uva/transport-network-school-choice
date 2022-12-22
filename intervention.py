@@ -24,17 +24,20 @@ def create_random_edge(network: Network, edge_weight=1):
     assert adj_mx[x][y] == 0, 'Selected nodes are already connected via an edge.'
     return x, y, edge_weight
 
-def maximize_closeness_centrality(network: Network, node_id: int, edge_weight=1):
-    """Returns the edge that maximizes the closeness centrality of the given node.
+def maximize_node_centrality(network: Network, node_id: int, centrality_measure: str, edge_weight=1):
+    """Returns the edge that maximizes the given centrality measure of the given node.
 
     Args:
         network (Network): the network.
-        node_id (int): the node we want to maximize the closeness centrality of.
+        node_id (int): the node we want to maximize the centrality of.
+        centrality_measure (str): the centrality measure to maximize for. Accepted values: ['closeness', 'betweenness', 'degree'].
         edge_weight (int, optional): weight of the edge to add. Defaults to 1.
 
     Returns:
-        tuple: (x, y, edge_weight) where x and y are the indices of the nodes to connect and edge_weight is the weight of the edge that maximizes the closeness centrality of the given node.
+        tuple: (x, y, edge_weight) where x and y are the indices of the nodes to connect and edge_weight is the weight of the edge that maximizes the centrality of the given node.
     """
+    assert centrality_measure in ['closeness', 'betweenness', 'degree'], 'Invalid centrality measure.'
+    
     # Get the node object from the node ID
     node = network.network.vs.find(node_id)
 
@@ -49,10 +52,10 @@ def maximize_closeness_centrality(network: Network, node_id: int, edge_weight=1)
         print('Cannot add more edges, all nodes are connected to the given node.')
         return None, None, None
 
-    # Initialize a variable to store the maximum closeness centrality
+    # Initialize a variable to store the maximum centrality
     max_centrality = 0
 
-    # Initialize a variable to store the edge with the maximum closeness centrality
+    # Initialize a variable to store the edge with the maximum centrality
     max_edge = None
 
     # Loop through all the possible edges
@@ -60,8 +63,13 @@ def maximize_closeness_centrality(network: Network, node_id: int, edge_weight=1)
         # Add the edge to the graph
         network.network.add_edge(edge[0], edge[1], weight=edge_weight)
 
-        # Calculate the closeness centrality of the input node
-        centrality = network.network.closeness(node)
+        # Calculate the centrality of the input node
+        if centrality_measure == 'closeness':
+            centrality = network.network.closeness(node)
+        elif centrality_measure == 'betweenness':
+            centrality = network.network.betweenness(node)
+        elif centrality_measure == 'degree':
+            centrality = network.network.degree(node)
 
         # If the centrality is greater than the current maximum,
         # update the maximum and the edge with the maximum centrality
@@ -72,5 +80,5 @@ def maximize_closeness_centrality(network: Network, node_id: int, edge_weight=1)
         # Remove the edge from the graph
         network.network.delete_edges(edge)
 
-    # Return the edge with the maximum closeness centrality
+    # Return the edge with the maximum centrality
     return max_edge[0], max_edge[1], edge_weight

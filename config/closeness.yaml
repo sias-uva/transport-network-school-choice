@@ -8,7 +8,7 @@ preferences_model: 'toy_model'
 # nearest_k: 2
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
-# Applicable values: ['random', 'closeness']
+# Applicable values: ['random', 'closeness', 'betweenness', 'degree']
 intervention_model: 'closeness'
 # Note that on the first simulation round there are no interventions added to the network.
 simulation_rounds: 11

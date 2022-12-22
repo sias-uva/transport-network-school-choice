@@ -1,16 +1,16 @@
 #%% This file is just for plotting results of multiple runs in one plot and creating other output-related plots.
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 from pathlib import Path
 from plot import get_figure
 
 # results to plot
-results = ['20221222_16_27_44.819029_sbm_toy_model_random_serial_dictatorship_closeness',
-           '20221222_16_38_01.903090_sbm_toy_model_random_serial_dictatorship_random']
+results = ['20221222_16_38_01.903090_sbm_toy_model_random_serial_dictatorship_random',
+           '20221222_16_27_44.819029_sbm_toy_model_random_serial_dictatorship_closeness',       
+           '20221222_16_49_59.724805_sbm_toy_model_random_serial_dictatorship_betweenness',
+           '20221222_16_51_46.671943_sbm_toy_model_random_serial_dictatorship_degree']
 
 # Names of the results
-names = ['sbm_closeness', 'sbm_random']
+names = ['random', 'closeness', 'betweenness', 'degree']
 result_path = Path('./results')
 
 # Confidence intervals of dissimilarity index

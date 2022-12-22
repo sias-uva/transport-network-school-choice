@@ -4,7 +4,7 @@ from logger import Logger
 import pandas as pd
 from allocation import first_choice, random_serial_dictatorship
 from evaluation import calculate_ci, dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, preference_of_allocation, travel_time_to_allocation
-from intervention import create_random_edge, maximize_closeness_centrality
+from intervention import create_random_edge, maximize_node_centrality
 import matplotlib
 
 from plot import get_figure, heatmap_from_numpy
@@ -326,13 +326,21 @@ class Runner(object):
             intervention_model (str): network intervention model to use.
         """
         x, y, w = None, None, None
+        fac_nodes = self.facilities['node'].values
         if intervention_model == 'random':
             x, y, w = create_random_edge(self.network)
         elif intervention_model == 'closeness':
             # Find the facility with the lowest closeness centrality to augment, then find the edge that maximizes that node's centrality.
-            fac_nodes = self.facilities['node'].values
             node_to_augment = fac_nodes[np.argmin(self.network.network.closeness(fac_nodes))].item()
-            x, y, w = maximize_closeness_centrality(self.network, node_to_augment)
+            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'closeness')
+        elif intervention_model == 'betweenness':
+            # Find the facility with the lowest betweenness centrality to augment, then find the edge that maximizes that node's centrality.
+            node_to_augment = fac_nodes[np.argmin(self.network.network.betweenness(fac_nodes))].item()
+            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'betweenness')
+        elif intervention_model == 'degree':
+            # Find the facility with the lowest degree centrality to augment, then find the edge that maximizes that node's centrality.
+            node_to_augment = fac_nodes[np.argmin(self.network.network.degree(fac_nodes))].item()
+            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'degree')
         else:
             assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
 
