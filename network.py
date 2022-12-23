@@ -79,3 +79,40 @@ class Network(object):
         """
         return np.array(self.network.get_adjacency().data)
 
+    def weighted_closeness(self, nodes=None, weights=None, normalized=False):
+        """Calculates the weighted closeness centrality of a given node and given node weights.
+
+        Args:
+            nodes (int or list): node/s to calculate the weighted closeness centrality for. If none, it will calculate the centrality for all nodes.
+            weights (list): weights of each node. If none, it will calculate the unweighted centrality of the nodes.
+            normalized (bool, optional): if true, values will be normalized by multiplying them with nr of nodes - 1 . Defaults to True.
+
+        Returns:
+            np.float64: the calculated weighted closeness centrality.
+        """
+        if nodes is None:
+            nodes = self.network.vs.indices
+
+        if type(nodes) is not list: nodes = [ nodes ]
+
+        if weights is None:
+            weights = np.array([1] * len(nodes))
+
+        if self.tt_mx is None:
+            shortest_paths = np.array(self.network.shortest_paths(target=nodes))
+        else: 
+            shortest_paths = self.tt_mx[:, nodes]
+        
+        if len(nodes) == 1:
+            shortest_paths = shortest_paths.flatten()
+            weighted_shortest_paths = shortest_paths * weights
+            weighted_closeness = 1 / weighted_shortest_paths.sum()
+        else:
+            weighted_shortest_paths = shortest_paths * np.array(weights)[np.newaxis].T
+            weighted_closeness = 1 / weighted_shortest_paths.sum(axis=1)
+        
+        # Normalize the way igraph closeness does it.
+        if normalized:
+            return weighted_closeness * (shortest_paths.shape[0] - 1)
+            
+        return weighted_closeness
