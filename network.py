@@ -98,18 +98,24 @@ class Network(object):
         if weights is None:
             weights = np.array([1] * len(nodes))
 
-        if self.tt_mx is None:
-            shortest_paths = np.array(self.network.shortest_paths(target=nodes))
-        else: 
-            shortest_paths = self.tt_mx[:, nodes]
+        # For now I want to recalculate the shortest paths every time in this step, otherwise it's dangerous because we don't always update the self.tt_mx.
+        # if self.tt_mx is None:
+        shortest_paths = np.array(self.network.shortest_paths(target=nodes))
+        # else: 
+            # shortest_paths = self.tt_mx[:, nodes]
         
         if len(nodes) == 1:
             shortest_paths = shortest_paths.flatten()
             weighted_shortest_paths = shortest_paths * weights
-            weighted_closeness = 1 / weighted_shortest_paths.sum()
+            weighted_closeness = np.divide(1, weighted_shortest_paths.sum())
+            # If weight is 0, the weighted_closeness will be inf. Set it to 0.
+            if weighted_closeness == np.inf: weighted_closeness = 0
         else:
             weighted_shortest_paths = shortest_paths * np.array(weights)[np.newaxis].T
-            weighted_closeness = 1 / weighted_shortest_paths.sum(axis=1)
+            weighted_closeness = np.divide(1, weighted_shortest_paths.sum(axis=1))
+            # If weight is 0, the weighted_closeness will be inf. Set it to 0.
+            weighted_closeness[weighted_closeness == np.inf] = 0
+        
         
         # Normalize the way igraph closeness does it.
         if normalized:

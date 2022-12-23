@@ -26,6 +26,9 @@ class Runner(object):
         self.population['group_id'] = population.groupby('group').ngroup()
         self.group_sizes = self.population['group_id'].value_counts()
         self.group_names = self.population.groupby('group_id')['group'].first()
+        # For each group, we want to know how its population is distributed over the network nodes. This helps us to calculate metrics weighted by group.
+        # We reindex with the node indices to make sure that we have a value for each node, even if the group is not present in that node.
+        self.group_node_distr = [(self.population[self.population['group_id'] == gid].groupby('node')['id'].count() / self.group_sizes[gid]).reindex(network.network.vs.indices, fill_value=0) for gid in self.group_names.index]
 
         self.total_groups = self.population['group_id'].nunique()
 
@@ -343,10 +346,11 @@ class Runner(object):
             # Find the facility with the lowest degree centrality to augment, then find the edge that maximizes that node's centrality.
             node_to_augment = fac_nodes[np.argmin(self.network.network.degree(fac_nodes))].item()
             x, y, w = maximize_node_centrality(self.network, node_to_augment, 'degree')
-        # elif intervention_model == 'group_closeness':
-            
-        #     group_0_closeness = self.network.weighted_closeness()
-        #     x, y, w = maximize_node_centrality(self.network, node_to_augment, 'degree')
+        elif intervention_model == 'group_closeness':
+            group_closenesses = np.array([self.network.weighted_closeness(weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
+            # Returns a tuple of (group_id, node_id) where node_id is the node with the lowest closeness with respect to group_id.
+            grp_to_augment, node_to_augment = np.unravel_index(group_closenesses.argmin(), group_closenesses.shape)
+            x, y, w = maximize_node_centrality(self.network, node_to_augment.item(), 'group_closeness', group_weights=self.group_node_distr[grp_to_augment].values)
         else:
             assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
 

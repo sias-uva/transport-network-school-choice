@@ -1,6 +1,28 @@
 import numpy as np
 from network import Network
 
+def get_candidate_edges(network: Network, node_id: int):
+    """Returns a list of candidate edges to add to the network, that are not already conncted to the given node.
+
+    Args:
+        network (Network): the network.
+        node_id (int): the node to connect to.
+
+    Returns:
+        list: list of candidate edges to add to the network, that are not already conncted to the given node.
+    """    
+    # Get the indices of the non-connected nodes in the adjacecy matrix.
+    candidate_nodes = np.where(network.get_adj_matrix()[node_id] == 0)
+
+    candidate_edges = [(node_id, cn) for cn in candidate_nodes[0] if cn != node_id]
+
+    if len(candidate_edges) == 0:
+        print('Cannot add more edges, all nodes are connected to the given node.')
+        return None
+    
+    return candidate_edges
+    
+
 def create_random_edge(network: Network, edge_weight=1):
     """Creates a random edge between two nodes that are not connected.
 
@@ -24,7 +46,7 @@ def create_random_edge(network: Network, edge_weight=1):
     assert adj_mx[x][y] == 0, 'Selected nodes are already connected via an edge.'
     return x, y, edge_weight
 
-def maximize_node_centrality(network: Network, node_id: int, centrality_measure: str, edge_weight=1):
+def maximize_node_centrality(network: Network, node_id: int, centrality_measure: str, group_weights=None, edge_weight=1):
     """Returns the edge that maximizes the given centrality measure of the given node.
 
     Args:
@@ -36,25 +58,18 @@ def maximize_node_centrality(network: Network, node_id: int, centrality_measure:
     Returns:
         tuple: (x, y, edge_weight) where x and y are the indices of the nodes to connect and edge_weight is the weight of the edge that maximizes the centrality of the given node.
     """
-    assert centrality_measure in ['closeness', 'betweenness', 'degree'], 'Invalid centrality measure.'
-    
+    assert centrality_measure in ['closeness', 'betweenness', 'degree', 'group_closeness'], 'Invalid centrality measure.'
+
     # Get the node object from the node ID
     node = network.network.vs.find(node_id)
 
-    # Get the current adjacency matrix of the network.
-    adj_mx = network.get_adj_matrix()
-    # Get the indices of the non-connected nodes in the adjacecy matrix.
-    candidate_nodes = np.where(adj_mx[node_id] == 0)
+    candidate_edges = get_candidate_edges(network, node_id)
 
-    candidate_edges = [(node_id, cn) for cn in candidate_nodes[0] if cn != node_id]
-
-    if len(candidate_edges) == 0:
-        print('Cannot add more edges, all nodes are connected to the given node.')
+    if candidate_edges is None:
         return None, None, None
 
     # Initialize a variable to store the maximum centrality
     max_centrality = 0
-
     # Initialize a variable to store the edge with the maximum centrality
     max_edge = None
 
@@ -70,6 +85,11 @@ def maximize_node_centrality(network: Network, node_id: int, centrality_measure:
             centrality = network.network.betweenness(node)
         elif centrality_measure == 'degree':
             centrality = network.network.degree(node)
+        elif centrality_measure == 'group_closeness':
+            if group_weights is None:
+                raise ValueError('Group weights must be provided to calculate group closeness.')
+
+            centrality = network.weighted_closeness(node_id, weights=group_weights)
 
         # If the centrality is greater than the current maximum,
         # update the maximum and the edge with the maximum centrality
@@ -82,3 +102,19 @@ def maximize_node_centrality(network: Network, node_id: int, centrality_measure:
 
     # Return the edge with the maximum centrality
     return max_edge[0], max_edge[1], edge_weight
+
+# def maximize_group_node_centrality(network: Network, node_id: int, group_id: int, centrality_measure: str, edge_weight=1):
+#     assert centrality_measure in ['group_closeness'], 'Invalid centrality measure.'
+
+#     # Get the node object from the node ID
+#     node = network.network.vs.find(node_id)
+
+#     candidate_edges = get_candidate_edges(network, node_id)
+
+#     if candidate_edges is None:
+#         return None, None, None
+
+#     # Initialize a variable to store the maximum centrality
+#     max_centrality = 0
+#     # Initialize a variable to store the edge with the maximum centrality
+#     max_edge = None
