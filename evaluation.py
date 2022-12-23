@@ -144,7 +144,7 @@ def travel_time_to_allocation(tt_mx, population, facilities, allocation, return_
     if return_group_avg:
         assert groups is not None, "To return group average travel time, you must provide the groups list."
 
-        tt_to_alloc_by_group_mean = np.array([tt_to_alloc[population.index[population['group'] == g]].mean() for g in groups])
+        tt_to_alloc_by_group_mean = np.array([tt_to_alloc[population.index[population['group_id'] == g]].mean() for g in groups.index])
         return tt_to_alloc_mean, tt_to_alloc_by_group_mean
     else:
         return tt_to_alloc_mean

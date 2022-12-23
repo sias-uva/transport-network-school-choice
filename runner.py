@@ -23,15 +23,17 @@ class Runner(object):
 
         self.facilities_size = facilities.shape[0]
         self.population_size = population.shape[0]
-        self.groups= population['group'].unique()
-        self.population['group_id'] = population['group'].apply(lambda x: np.searchsorted(self.groups, x))
+        self.population['group_id'] = population.groupby('group').ngroup()
+        self.group_sizes = self.population['group_id'].value_counts()
+        self.group_names = self.population.groupby('group_id')['group'].first()
 
-        self.total_groups = population['group'].nunique()
+        self.total_groups = self.population['group_id'].nunique()
+
         # Log stuff
         if self.logger:
             logger.append_to_output_file(f'facilities_size: {self.facilities_size}\npopulation_size: {self.population_size}\ntotal_groups: {self.total_groups}')
-            for g in self.groups:
-                logger.append_to_output_file(f"Group {g} size: {population[population['group'] == g].shape[0]}")
+            for g in self.group_names.index:
+                logger.append_to_output_file(f"Group {self.group_names[g]} size: {self.population[self.population['group_id'] == g].shape[0]}")
 
         # Calculate travel times for all agents in the population to all facilities.
         travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
@@ -137,10 +139,10 @@ class Runner(object):
                                 xlabel='Utility',
                                 ylabel='Frequency')
                 
-                group_memberships = self.population['group'].values
-                for g_id, g in enumerate(self.groups):
-                    ax.hist(mean_agent_utility[i, :, group_memberships == g].flatten(), label=f"Group {g}", color=f"C{g_id}", alpha=0.5)
-                    ax.axvline(mean_agent_utility[i, :, group_memberships == g].flatten().mean(), color=f"C{g_id}", linestyle='dashed', linewidth=1)
+                group_memberships = self.population['group_id'].values
+                for g_id in self.group_names.index:
+                    ax.hist(mean_agent_utility[i, :, group_memberships == g_id].flatten(), label=f"Group {self.group_names[g_id]}", color=f"C{g_id}", alpha=0.5)
+                    ax.axvline(mean_agent_utility[i, :, group_memberships == g_id].flatten().mean(), color=f"C{g_id}", linestyle='dashed', linewidth=1)
                 
                 ax.legend()
                 self.logger.save_plot(fig, f"group_utility_distribution_{i}.png", round=i)
@@ -168,7 +170,7 @@ class Runner(object):
                                     ylim=(0, 1))
                 for gid in range(self.total_groups):
                     # plot the mean
-                    ax.plot(range(simulation_rounds), grpcomp_ci[:, 0, fid, gid], label=f'Group {gid}')
+                    ax.plot(range(simulation_rounds), grpcomp_ci[:, 0, fid, gid], label=f'Group {self.group_names[gid]}')
                     ax.fill_between(range(simulation_rounds), grpcomp_ci[:, 1, fid, gid], grpcomp_ci[:, 2, fid, gid], alpha=.2)
                 ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
                 ax.legend()
@@ -224,7 +226,7 @@ class Runner(object):
                                 ylabel='Mean Travel Time')
             ax.plot(range(simulation_rounds), mttalloc_ci[:, 0], label=f'Mean Travel Time', color='#C4C4C4')
             ax.fill_between(range(simulation_rounds), mttalloc_ci[:, 1], mttalloc_ci[:, 2], alpha=.1)
-            [ax.plot(range(simulation_rounds), mttallocgrp_ci[:, 0, g], label=f'Group {self.groups[g]}') for g in range(self.total_groups)]
+            [ax.plot(range(simulation_rounds), mttallocgrp_ci[:, 0, g], label=f'Group {self.group_names[g]}') for g in range(self.total_groups)]
             [ax.fill_between(range(simulation_rounds), mttallocgrp_ci[:, 1, g], mttallocgrp_ci[:, 2, g], alpha=.1, color=f'C{g}') for g in range(self.total_groups)]
             fig.legend()
             
@@ -240,7 +242,7 @@ class Runner(object):
                                 ylabel='Mean Position in Preference List')
             ax.plot(range(simulation_rounds), mposalloc_ci[:, 0], label=f'Mean Position', color='#C4C4C4')
             ax.fill_between(range(simulation_rounds), mposalloc_ci[:, 1], mposalloc_ci[:, 2], alpha=.1)
-            [ax.plot(range(simulation_rounds), mposallocgrp_ci[:, 0, g], label=f'Group {self.groups[g]}', color=f'C{g}') for g in range(self.total_groups)]
+            [ax.plot(range(simulation_rounds), mposallocgrp_ci[:, 0, g], label=f'Group {self.group_names[g]}', color=f'C{g}') for g in range(self.total_groups)]
             [ax.fill_between(range(simulation_rounds), mposallocgrp_ci[:, 1, g], mposallocgrp_ci[:, 2, g], alpha=.1, color=f'C{g}') for g in range(self.total_groups)]
             fig.legend()
 
@@ -341,6 +343,10 @@ class Runner(object):
             # Find the facility with the lowest degree centrality to augment, then find the edge that maximizes that node's centrality.
             node_to_augment = fac_nodes[np.argmin(self.network.network.degree(fac_nodes))].item()
             x, y, w = maximize_node_centrality(self.network, node_to_augment, 'degree')
+        # elif intervention_model == 'group_closeness':
+            
+        #     group_0_closeness = self.network.weighted_closeness()
+        #     x, y, w = maximize_node_centrality(self.network, node_to_augment, 'degree')
         else:
             assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
 
@@ -364,7 +370,7 @@ class Runner(object):
         grp_composition, grp_composition_pct = facility_group_composition(self.population, self.facilities, allocation)
         facility_rank_distr, avg_pos_by_fac = facility_rank_distribution(pref_list, self.facilities_size, return_avg_pos_by_fac=True)
         di = dissimilarity_index(self.population, self.facilities, allocation, grp_composition)
-        mean_tt_to_alloc, mean_tt_to_alloc_by_group = travel_time_to_allocation(self.network.tt_mx, self.population, self.facilities, allocation, return_group_avg=True, groups=self.groups)
+        mean_tt_to_alloc, mean_tt_to_alloc_by_group = travel_time_to_allocation(self.network.tt_mx, self.population, self.facilities, allocation, return_group_avg=True, groups=self.group_names)
         pref_of_alloc, pref_of_alloc_by_group = preference_of_allocation(pref_list, allocation, return_group_avg=True, group_membership=self.population['group_id'].values)
 
         return {
