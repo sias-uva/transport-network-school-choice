@@ -5,13 +5,14 @@ from pathlib import Path
 from plot import get_figure
 
 # results to plot
-results = ['20221222_16_38_01.903090_sbm_toy_model_random_serial_dictatorship_random',
-           '20221222_16_27_44.819029_sbm_toy_model_random_serial_dictatorship_closeness',       
-           '20221222_16_49_59.724805_sbm_toy_model_random_serial_dictatorship_betweenness',
-           '20221222_16_51_46.671943_sbm_toy_model_random_serial_dictatorship_degree']
+results = ['20221223_17_04_58.447799_sbm_toy_model_random_serial_dictatorship_random',
+           '20221223_17_05_11.352955_sbm_toy_model_random_serial_dictatorship_closeness',       
+           '20221223_17_05_22.281079_sbm_toy_model_random_serial_dictatorship_betweenness',
+           '20221223_17_05_42.548594_sbm_toy_model_random_serial_dictatorship_degree',
+           '20221223_17_05_54.536520_sbm_toy_model_random_serial_dictatorship_group_closeness']
 
 # Names of the results
-names = ['random', 'closeness', 'betweenness', 'degree']
+names = ['random', 'closeness', 'betweenness', 'degree', 'group_closeness']
 result_path = Path('./results')
 
 # Confidence intervals of dissimilarity index
