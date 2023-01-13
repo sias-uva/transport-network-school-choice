@@ -93,7 +93,7 @@ class Network(object):
         if nodes is None:
             nodes = self.network.vs.indices
 
-        if type(nodes) is not list: nodes = [ nodes ]
+        if type(nodes) is not list and type(nodes) is not np.ndarray: nodes = [ nodes ]
 
         if weights is None:
             weights = np.array([1] * len(nodes))
@@ -112,7 +112,7 @@ class Network(object):
             if weighted_closeness == np.inf: weighted_closeness = 0
         else:
             weighted_shortest_paths = shortest_paths * np.array(weights)[np.newaxis].T
-            weighted_closeness = np.divide(1, weighted_shortest_paths.sum(axis=1))
+            weighted_closeness = np.divide(1, weighted_shortest_paths.sum(axis=0))
             # If weight is 0, the weighted_closeness will be inf. Set it to 0.
             weighted_closeness[weighted_closeness == np.inf] = 0
         

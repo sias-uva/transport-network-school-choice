@@ -9,7 +9,7 @@ results = ['20221223_17_04_58.447799_sbm_toy_model_random_serial_dictatorship_ra
            '20221223_17_05_11.352955_sbm_toy_model_random_serial_dictatorship_closeness',       
            '20221223_17_05_22.281079_sbm_toy_model_random_serial_dictatorship_betweenness',
            '20221223_17_05_42.548594_sbm_toy_model_random_serial_dictatorship_degree',
-           '20221223_17_05_54.536520_sbm_toy_model_random_serial_dictatorship_group_closeness']
+           '20230113_11_35_36.277816_sbm_toy_model_random_serial_dictatorship_group_closeness']
 
 # Names of the results
 names = ['random', 'closeness', 'betweenness', 'degree', 'group_closeness']
