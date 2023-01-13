@@ -79,16 +79,15 @@ class Network(object):
         """
         return np.array(self.network.get_adjacency().data)
 
-    def weighted_closeness(self, nodes=None, weights=None, normalized=False):
-        """Calculates the weighted closeness centrality of a given node and given node weights.
+    def _preprocess_nodes_weights_paths(self, nodes=None, weights=None):
+        """Internal helper function to preprocesses the nodes and weights arguments for the weighted_closeness and weighted_betweenness functions and calculate shortest paths.
 
         Args:
             nodes (int or list): node/s to calculate the weighted closeness centrality for. If none, it will calculate the centrality for all nodes.
             weights (list): weights of each node. If none, it will calculate the unweighted centrality of the nodes.
-            normalized (bool, optional): if true, values will be normalized by multiplying them with nr of nodes - 1 . Defaults to True.
-
+            weights (_type_, optional): _description_. Defaults to None.
         Returns:
-            np.float64: the calculated weighted closeness centrality.
+            tuple: nodes, weights, shortest_paths
         """
         if nodes is None:
             nodes = self.network.vs.indices
@@ -103,7 +102,23 @@ class Network(object):
         shortest_paths = np.array(self.network.shortest_paths(target=nodes))
         # else: 
             # shortest_paths = self.tt_mx[:, nodes]
+
+        return nodes, weights, shortest_paths
+
+    def weighted_closeness(self, nodes=None, weights=None, normalized=False):
+        """Calculates the weighted closeness centrality of a given node and given node weights.
+
+        Args:
+            nodes (int or list): node/s to calculate the weighted closeness centrality for. If none, it will calculate the centrality for all nodes.
+            weights (list): weights of each node. If none, it will calculate the unweighted centrality of the nodes.
+            normalized (bool, optional): if true, values will be normalized by multiplying them with nr of nodes - 1 . Defaults to True.
+
+        Returns:
+            np.float64: the calculated weighted closeness centrality.
+        """
         
+        nodes, weights, shortest_paths = self._preprocess_nodes_weights_paths(nodes, weights)
+
         if len(nodes) == 1:
             shortest_paths = shortest_paths.flatten()
             weighted_shortest_paths = shortest_paths * weights
