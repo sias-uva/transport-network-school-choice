@@ -360,6 +360,13 @@ class Runner(object):
             # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
             node_to_augment = fac_nodes[node_idx_to_augment].item()
             x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_betweenness', group_weights=self.group_node_distr[grp_to_augment].values)
+        elif intervention_model == 'group_degree':
+            group_degree = np.array([self.network.weighted_degree(fac_nodes, weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
+            # Returns a tuple of (group_id, node_id) where node_id is the node with the lowest degree with respect to group_id.
+            grp_to_augment, node_idx_to_augment = np.unravel_index(group_degree.argmin(), group_degree.shape)
+            # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
+            node_to_augment = fac_nodes[node_idx_to_augment].item()
+            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_degree', group_weights=self.group_node_distr[grp_to_augment].values)
         else:
             assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
 

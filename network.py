@@ -169,3 +169,23 @@ class Network(object):
             weighted_betweenness[i] = b_sum / 2 
 
         return weighted_betweenness
+
+    def weighted_degree(self, nodes=None, weights=None):
+        """Calculates the weighted degree centrality of a given node and given node weights.
+
+        Args:
+            nodes (int or list): node/s to calculate the weighted degree centrality for. If none, it will calculate the centrality for all nodes.
+            weights (list): weights of each node. If none, it will calculate the unweighted centrality of the nodes.
+
+        Returns:
+            np.float64: the calculated weighted degree centrality.
+        """
+        nodes, _ = self._preprocess_nodes_weights(nodes, weights)
+
+        # TODO: delete this and move to _preprocess_nodes_weights, once we verify that it works for all weighted centrality measures.
+        weights = np.array([1] * len(self.network.vs)) if weights is None else np.array(weights)
+
+        # This takes into account the weights of the neighbors.
+        weighted_degree = np.array([sum(weights[n]) for n in self.network.neighborhood(nodes, order=1, mindist=1)])
+        
+        return weighted_degree

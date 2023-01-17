@@ -10,10 +10,11 @@ results = ['20221223_17_04_58.447799_sbm_toy_model_random_serial_dictatorship_ra
            '20221223_17_05_22.281079_sbm_toy_model_random_serial_dictatorship_betweenness',
            '20221223_17_05_42.548594_sbm_toy_model_random_serial_dictatorship_degree',
            '20230113_11_35_36.277816_sbm_toy_model_random_serial_dictatorship_group_closeness',
-           '20230117_16_32_47.453349_sbm_toy_model_random_serial_dictatorship_group_betweenness']
+           '20230117_16_32_47.453349_sbm_toy_model_random_serial_dictatorship_group_betweenness',
+           '20230117_17_08_29.527758_sbm_toy_model_random_serial_dictatorship_group_degree']
 
 # Names of the results
-names = ['random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness']
+names = ['random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
 result_path = Path('./results')
 
 # Confidence intervals of dissimilarity index

@@ -52,13 +52,13 @@ def maximize_node_centrality(network: Network, node_id: int, centrality_measure:
     Args:
         network (Network): the network.
         node_id (int): the node we want to maximize the centrality of.
-        centrality_measure (str): the centrality measure to maximize for. Accepted values: ['closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness'].
+        centrality_measure (str): the centrality measure to maximize for. Accepted values: ['closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree'].
         edge_weight (int, optional): weight of the edge to add. Defaults to 1.
 
     Returns:
         tuple: (x, y, edge_weight) where x and y are the indices of the nodes to connect and edge_weight is the weight of the edge that maximizes the centrality of the given node.
     """
-    assert centrality_measure in ['closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness'], 'Invalid centrality measure.'
+    assert centrality_measure in ['closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree'], 'Invalid centrality measure.'
 
     # Get the node object from the node ID
     node = network.network.vs.find(node_id)
@@ -95,6 +95,11 @@ def maximize_node_centrality(network: Network, node_id: int, centrality_measure:
                 raise ValueError('Group weights must be provided to calculate group betweenness.')
 
             centrality = network.weighted_betweeness(node_id, weights=group_weights)
+        elif centrality_measure == 'group_degree':
+            if group_weights is None:
+                raise ValueError('Group weights must be provided to calculate group degree.')
+
+            centrality = network.weighted_degree(node_id, weights=group_weights)
 
         # If the centrality is greater than the current maximum,
         # update the maximum and the edge with the maximum centrality
