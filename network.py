@@ -79,15 +79,15 @@ class Network(object):
         """
         return np.array(self.network.get_adjacency().data)
 
-    def _preprocess_nodes_weights_paths(self, nodes=None, weights=None):
-        """Internal helper function to preprocesses the nodes and weights arguments for the weighted_closeness and weighted_betweenness functions and calculate shortest paths.
+    def _preprocess_nodes_weights(self, nodes=None, weights=None):
+        """Internal helper function to preprocesses the nodes and weights arguments for the weighted_closeness and weighted_betweenness functions.
 
         Args:
             nodes (int or list): node/s to calculate the weighted closeness centrality for. If none, it will calculate the centrality for all nodes.
             weights (list): weights of each node. If none, it will calculate the unweighted centrality of the nodes.
             weights (_type_, optional): _description_. Defaults to None.
         Returns:
-            tuple: nodes, weights, shortest_paths
+            tuple: nodes, weights
         """
         if nodes is None:
             nodes = self.network.vs.indices
@@ -97,13 +97,7 @@ class Network(object):
         if weights is None:
             weights = np.array([1] * len(nodes))
 
-        # For now I want to recalculate the shortest paths every time in this step, otherwise it's dangerous because we don't always update the self.tt_mx.
-        # if self.tt_mx is None:
-        shortest_paths = np.array(self.network.shortest_paths(target=nodes))
-        # else: 
-            # shortest_paths = self.tt_mx[:, nodes]
-
-        return nodes, weights, shortest_paths
+        return nodes, weights
 
     def weighted_closeness(self, nodes=None, weights=None, normalized=False):
         """Calculates the weighted closeness centrality of a given node and given node weights.
@@ -117,7 +111,13 @@ class Network(object):
             np.float64: the calculated weighted closeness centrality.
         """
         
-        nodes, weights, shortest_paths = self._preprocess_nodes_weights_paths(nodes, weights)
+        nodes, weights = self._preprocess_nodes_weights(nodes, weights)
+
+        # For now I want to recalculate the shortest paths every time in this step, otherwise it's dangerous because we don't always update the self.tt_mx.
+        # if self.tt_mx is None:
+        shortest_paths = np.array(self.network.shortest_paths(target=nodes))
+        # else: 
+            # shortest_paths = self.tt_mx[:, nodes]
 
         if len(nodes) == 1:
             shortest_paths = shortest_paths.flatten()
@@ -137,3 +137,35 @@ class Network(object):
             return weighted_closeness * (shortest_paths.shape[0] - 1)
             
         return weighted_closeness
+
+    def weighted_betweeness(self, nodes=None, weights=None):
+        """Calculates the weighted betweenness centrality of a given node and given node weights.
+
+        Args:
+            nodes (int or list): node/s to calculate the weighted betweenness centrality for. If none, it will calculate the centrality for all nodes.
+            weights (list): weights of each node. If none, it will calculate the unweighted centrality of the nodes.
+
+        Returns:
+            np.float64: the calculated weighted betweenness centrality.
+        """
+        nodes, weights = self._preprocess_nodes_weights(nodes, weights)
+
+        weighted_betweenness = np.array([0.0] * len(nodes))
+
+        all_nodes = self.network.vs
+        for i, u in enumerate(nodes):
+            b_sum = 0.0
+            for s in all_nodes:
+                if s.index == u: continue
+                for t in all_nodes:
+                    if t.index == u or t == s: continue
+
+                    sp = self.network.get_all_shortest_paths(s, t)
+                    n_in_sp = len([v for path in sp for v in path if v == u])
+                    # Weighted betweenness -- if weights == None, this will be 1 and it will calculate the conventional betweenness.
+                    b_sum += n_in_sp / len(sp) * weights[i]
+            
+            # Undirected graph
+            weighted_betweenness[i] = b_sum / 2 
+
+        return weighted_betweenness
