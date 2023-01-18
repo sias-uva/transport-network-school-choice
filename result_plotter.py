@@ -9,12 +9,13 @@ results = ['20221223_17_04_58.447799_sbm_toy_model_random_serial_dictatorship_ra
            '20221223_17_05_11.352955_sbm_toy_model_random_serial_dictatorship_closeness',       
            '20221223_17_05_22.281079_sbm_toy_model_random_serial_dictatorship_betweenness',
            '20221223_17_05_42.548594_sbm_toy_model_random_serial_dictatorship_degree',
-           '20230113_11_35_36.277816_sbm_toy_model_random_serial_dictatorship_group_closeness',
-           '20230117_16_32_47.453349_sbm_toy_model_random_serial_dictatorship_group_betweenness',
-           '20230117_17_08_29.527758_sbm_toy_model_random_serial_dictatorship_group_degree']
+           '20230117_17_24_48.556593_sbm_toy_model_random_serial_dictatorship_group_closeness',
+           '20230117_17_25_01.117971_sbm_toy_model_random_serial_dictatorship_group_betweenness',
+           '20230117_17_25_29.002672_sbm_toy_model_random_serial_dictatorship_group_degree']
 
 # Names of the results
 names = ['random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
+line_styles = ['--', '--', '--', '--', '-', '-', '-']
 result_path = Path('./results')
 
 # Confidence intervals of dissimilarity index
@@ -34,12 +35,13 @@ for result in results:
 fig, ax = get_figure(f"Dissimilarity Index",
                     xlabel='Simulation round',
                     ylabel='Dissimilarity Index',
+                    figsize=(7, 5),
                     ylim=(0, 1))
 
 for i in range(len(results)):
     sim_rounds = diss_ci[i].shape[0]
 
-    ax.plot(range(sim_rounds), diss_ci[i][:, 0], label=f'{names[i]}')
+    ax.plot(range(sim_rounds), diss_ci[i][:, 0], line_styles[i], label=f'{names[i]}')
     ax.fill_between(range(sim_rounds), diss_ci[i][:, 1], diss_ci[i][:, 2], color=f'C{i}', alpha=.1)
 
 fig.legend()
