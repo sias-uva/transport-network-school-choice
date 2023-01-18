@@ -95,7 +95,7 @@ class Network(object):
         if type(nodes) is not list and type(nodes) is not np.ndarray: nodes = [ nodes ]
 
         if weights is None:
-            weights = np.array([1] * len(nodes))
+            weights = np.array([1] * len(self.network.vs))
 
         return nodes, weights
 
@@ -111,7 +111,7 @@ class Network(object):
             np.float64: the calculated weighted closeness centrality.
         """
         
-        nodes, weights = self._preprocess_nodes_weights(nodes, weights)
+        nodes, weights  = self._preprocess_nodes_weights(nodes, weights)
 
         # For now I want to recalculate the shortest paths every time in this step, otherwise it's dangerous because we don't always update the self.tt_mx.
         # if self.tt_mx is None:
@@ -155,7 +155,7 @@ class Network(object):
         all_nodes = self.network.vs
         for i, u in enumerate(nodes):
             b_sum = 0.0
-            for s in all_nodes:
+            for j, s in enumerate(all_nodes):
                 if s.index == u: continue
                 for t in all_nodes:
                     if t.index == u or t == s: continue
@@ -163,7 +163,7 @@ class Network(object):
                     sp = self.network.get_all_shortest_paths(s, t)
                     n_in_sp = len([v for path in sp for v in path if v == u])
                     # Weighted betweenness -- if weights == None, this will be 1 and it will calculate the conventional betweenness.
-                    b_sum += n_in_sp / len(sp) * weights[i]
+                    b_sum += n_in_sp / len(sp) * weights[j]
             
             # Undirected graph
             weighted_betweenness[i] = b_sum / 2 
@@ -180,10 +180,7 @@ class Network(object):
         Returns:
             np.float64: the calculated weighted degree centrality.
         """
-        nodes, _ = self._preprocess_nodes_weights(nodes, weights)
-
-        # TODO: delete this and move to _preprocess_nodes_weights, once we verify that it works for all weighted centrality measures.
-        weights = np.array([1] * len(self.network.vs)) if weights is None else np.array(weights)
+        nodes, weights = self._preprocess_nodes_weights(nodes, weights)
 
         # This takes into account the weights of the neighbors.
         weighted_degree = np.array([sum(weights[n]) for n in self.network.neighborhood(nodes, order=1, mindist=1)])
