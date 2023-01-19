@@ -13,6 +13,19 @@ ams_nb = gpd.read_file('./ams-diemen-duiven-neighbourhoods.geojson')
 ams_ses = pd.read_csv('./ams-diemen-duiven-ses.csv')
 # Rename it to avoid confusion between the real and the generated population.
 ams_ses = ams_ses.rename(columns={'pop': 'real_pop'})
+
+# Schools data
+ams_schools = gpd.read_file('./ams-schools.geojson', )
+ams_schools.geometry = gpd.points_from_xy(x=ams_schools['Lng'], y=ams_schools['Lat'])
+# Attach the neighborhood to each school.
+# This will filter out schools that are not in amsterdam.
+ams_schools = gpd.sjoin(ams_schools, ams_nb, how="inner", predicate="within").drop(['index_right', 'cent_x', 'cent_y'], axis=1)
+# Reset the id after spatial join
+ams_schools = ams_schools.drop(['id'], axis=1).reset_index(drop=True).reset_index().rename(columns={'index': 'id'})
+# TODO Change to actual values when we got them.
+ams_schools['capacity'] = 1000000000
+ams_schools['quality'] = 1
+# gpd.sjoin(ams_schools, ams_nb, how="inner", op="within")
 # %% Create the network from the amsterdam neighborhoods.
 graph = ig.Graph()
 nb_nodes = []
@@ -63,12 +76,16 @@ for i, nb in ams_nb.iterrows():
 pd.DataFrame(agents).to_csv('population.csv', index=False)
 # %% Generate the facilities - for now just toy data until we have the schools
 # facilities = pd.DataFrame(columns=['id', 'node', 'facility', 'capacity', 'quality'])
-facilities = []
-facilities.append({'id': 0, 'node': 58, 'facility': 'school_0', 'capacity': 400, 'quality': 0.5})
-facilities.append({'id': 1, 'node': 290, 'facility': 'school_1', 'capacity': 400, 'quality': 0.5})
-facilities.append({'id': 2, 'node': 246, 'facility': 'school_2', 'capacity': 400, 'quality': 0.5})
+# facilities = []
+# facilities.append({'id': 0, 'node': 58, 'facility': 'school_0', 'capacity': 400, 'quality': 0.5})
+# facilities.append({'id': 1, 'node': 290, 'facility': 'school_1', 'capacity': 400, 'quality': 0.5})
+# facilities.append({'id': 2, 'node': 246, 'facility': 'school_2', 'capacity': 400, 'quality': 0.5})
 
-pd.DataFrame(facilities).to_csv('facilities.csv', index=False)
+# pd.DataFrame(facilities).to_csv('facilities.csv', index=False)
+
+ams_nodes = pd.DataFrame([(n['code'], n.index) for n in nb_nodes], columns=('BU_CODE', 'node_id'))
+ams_schools = ams_schools[['id', 'Name', 'BU_CODE', 'capacity', 'quality']].merge(ams_nodes, on='BU_CODE').rename(columns={'node_id': 'node', 'Name': 'facility'})
+ams_schools.to_csv('schools.csv', index=False)
 #%% Plot the environment specifications.
 ams_nb['group_pop_diff'] = ams_nb['nr_dutch_w_migr_in_node'] - ams_nb['nr_nw_migr_in_node']
 ams_nb['group_pop_ratio'] = ams_nb['nr_dutch_w_migr_in_node'].div(ams_nb['nr_nw_migr_in_node'])
