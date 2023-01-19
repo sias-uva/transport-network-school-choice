@@ -151,12 +151,12 @@ class Runner(object):
                 self.logger.save_plot(fig, f"group_utility_distribution_{i}.png", round=i)
 
                 # Filtered out cause its useless when the network is large and increases runtime 10x.
-                travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
-                                            title=f"Travel Time between Nodes - round {i}",
-                                            subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                            xlabel='Nodes',
-                                            ylabel='Nodes')
-                self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
+                # travel_time_heatmap = heatmap_from_numpy(self.network.tt_mx,
+                #                             title=f"Travel Time between Nodes - round {i}",
+                #                             subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                #                             xlabel='Nodes',
+                #                             ylabel='Nodes')
+                # self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
 
                 # Create a plot with the network intervention.
                 if i > 0 :
