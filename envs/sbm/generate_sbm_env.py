@@ -12,6 +12,7 @@ g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
 maj_pop_pct = [0.6, 0.8, 0.9]
+# maj_pop_pct = [1]
 p_in = 0.7
 p_out = 0.01
 network_name = f"SBM_{g0}_{g1}_{p_in}_{p_out}"
@@ -65,7 +66,7 @@ for i in range(total_pop):
     agents.append({'id': i, 'node': node, 'group': group})
 
 agents = pd.DataFrame(agents)
-agents.to_csv('./population.csv', index=False)
+agents.to_csv(f'./population_{network_name}.csv', index=False)
 
 #%% Generate facilities
 fac_nodes = []
@@ -80,6 +81,6 @@ facilities = []
 for i, f in enumerate(fac_nodes):
     facilities.append({'id': i, 'node': f, 'facility': f'school_{i}', 'capacity': 400, 'quality': 0.5})
     
-pd.DataFrame(facilities).to_csv('facilities.csv', index=False)
+pd.DataFrame(facilities).to_csv(f'facilities_{network_name}.csv', index=False)
 
 # %%
