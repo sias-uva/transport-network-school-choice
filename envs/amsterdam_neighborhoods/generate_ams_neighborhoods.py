@@ -110,4 +110,19 @@ fig.suptitle(f"Amsterdam environment: {ams_nb['gen_pop'].sum()} agents, {ams_nb[
 fig.savefig('./ams-env.png', dpi=300)
 
 print('Successfullly generated the environment.')
+# %% Create fully connected
+adj_mx = graph.get_adjacency()
+
+for i in range(adj_mx.shape[0]):
+    print('added edges for node', i)
+    adj_mx = graph.get_adjacency()
+
+    edges_to_add = [(i, j) for j in range(adj_mx.shape[0]) if adj_mx[i, j] == 0]
+    
+    graph.add_edges(edges_to_add)
+
+ig.plot(graph, layout=[(v['y'], v['x']) for v in graph.vs], 
+        vertex_size=10, target='./network_full.pdf')
+
+ig.write(graph, 'network_full.gml')
 # %%
