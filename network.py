@@ -1,8 +1,8 @@
 import igraph as ig
-from matplotlib import pyplot as plt
 import numpy as np
 import math
 import os
+from collections import deque
 
 class Network(object):
     DEFAULT_EDGE_COLOR = 'black'
@@ -115,7 +115,9 @@ class Network(object):
 
         # For now I want to recalculate the shortest paths every time in this step, otherwise it's dangerous because we don't always update the self.tt_mx.
         # if self.tt_mx is None:
-        shortest_paths = np.array(self.network.shortest_paths(target=nodes))
+        # shortest_paths = np.array(self.network.shortest_paths(target=np.unique(nodes)))[nodes] # shortest_paths does not work for duplicate nodes (but nodes argument can have duplicates, if multiple facilities are located in one node), hence we use np.unique and then filter the result
+        # shortest_paths = np.array(self.network.shortest_paths(target=nodes))
+        shortest_paths = np.array(self.network.shortest_paths())[:, nodes]
         # else: 
             # shortest_paths = self.tt_mx[:, nodes]
 
@@ -150,25 +152,61 @@ class Network(object):
         """
         nodes, weights = self._preprocess_nodes_weights(nodes, weights)
 
-        weighted_betweenness = np.array([0.0] * len(nodes))
+        all_nodes = self.network.vs.indices
 
-        all_nodes = self.network.vs
-        for i, u in enumerate(nodes):
-            b_sum = 0.0
-            for j, s in enumerate(all_nodes):
-                if s.index == u: continue
-                for t in all_nodes:
-                    if t.index == u or t == s: continue
+        C = np.array([0.0] * len(all_nodes))
+        A = self.network.neighborhood()
+        for s in all_nodes:
+            S = []
+            P = dict((w,[]) for w in all_nodes)
+            g = dict((t, 0) for t in all_nodes); g[s] = 1
+            d = dict((t, -1) for t in all_nodes); d[s] = 0
+            Q = deque([])
+            Q.append(s)
+            while Q:
+                v = Q.popleft()
+                S.append(v)
+                for w in A[v]:
+                    if d[w] < 0:
+                        Q.append(w)
+                        d[w] = d[v] + 1
+                    if d[w] == d[v] + 1:
+                        g[w] = g[w] + g[v]
+                        P[w].append(v)
+            e = dict((v, 0) for v in all_nodes)
+            while S:
+                w = S.pop()
+                for v in P[w]:
+                    e[v] = e[v] + (g[v]/g[w]) * (1 + e[w])
+                if w != s:
+                    C[w] = C[w] + e[w]
 
-                    sp = self.network.get_all_shortest_paths(s, t)
-                    n_in_sp = len([v for path in sp for v in path if v == u])
-                    # Weighted betweenness -- if weights == None, this will be 1 and it will calculate the conventional betweenness.
-                    b_sum += n_in_sp / len(sp) * weights[j]
-            
-            # Undirected graph
-            weighted_betweenness[i] = b_sum / 2 
+        C = C[nodes] / 2
 
-        return weighted_betweenness
+        # ----- START Original, very slow code ------
+        # all_nodes = self.network.vs
+        # for i, u in enumerate(nodes):
+        #     b_sum = 0.0
+        #     for j, s in enumerate(all_nodes):
+        #         if s.index == u: continue
+        #         for t in all_nodes:
+        #             if t.index == u or t == s: continue
+
+        #             sp = self.network.get_all_shortest_paths(s, t)
+        #             n_in_sp = len([v for path in sp for v in path if v == u])
+
+        #             # Weighted betweenness -- if weights == None, this will be 1 and it will calculate the conventional betweenness.
+        #             b_sum += n_in_sp / len(sp) * weights[j]
+
+        #     # Undirected graph
+        #     weighted_betweenness[i] = b_sum / 2
+        #     print(f'calculated betweenness for {u}')
+
+        # ----- END Original, very slow code ------
+
+        # print(f'calculated betweenness {i} nodes')
+
+        return C
 
     def weighted_degree(self, nodes=None, weights=None):
         """Calculates the weighted degree centrality of a given node and given node weights.
