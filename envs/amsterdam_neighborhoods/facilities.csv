@@ -1,4 +1,4 @@
-id,node,facility,capacity,popularity
+id,node,facility,capacity,quality
 1,323,Amsterdams Beroepscollege Noorderlicht,140.0,0.65
 4,53,Barlaeus Gymnasium,135.0,1.59
 5,136,Berlage Lyceum,240.0,0.49
