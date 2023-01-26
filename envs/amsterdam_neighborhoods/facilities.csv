@@ -1,4 +1,48 @@
-id,node,facility,capacity,quality
-0,58,school_0,400,0.5
-1,290,school_1,400,0.5
-2,246,school_2,400,0.5
+id,node,facility,capacity,popularity
+1,323,Amsterdams Beroepscollege Noorderlicht,140.0,0.65
+4,53,Barlaeus Gymnasium,135.0,1.59
+5,136,Berlage Lyceum,240.0,0.49
+6,439,Bindelmeer College,160.0,0.55
+7,296,Bredero Beroepscollege,60.0,0.38
+8,296,SvPO Amsterdam,62.0,0.65
+9,354,Bredero Mavo,173.0,0.46
+10,381,Calandlyceum,399.0,0.46
+11,418,Calvijn College,155.0,0.93
+12,105,Cartesius Lyceum,168.0,0.48
+13,172,Cburg College,100.0,0.62
+17,271,College De Meer,150.0,0.62
+19,396,Comenius Lyceum Amsterdam,206.0,0.86
+20,82,Cornelius Haga Lyceum,300.0,0.44
+24,269,De Amsterdamse MAVO,71.0,1.01
+25,290,De nieuwe Havo,100.0,0.30
+26,290,Vox College,75.0,0.55
+29,218,Sweelinck College,140.0,0.24
+30,223,Fons Vitae Lyceum,168.0,2.07
+32,121,St. Nicolaaslyceum,224.0,2.05
+33,237,Gerrit van der Veen College,146.0,0.89
+34,237,Ignatiusgymnasium,145.0,1.09
+36,393,Hervormd Lyceum West,233.0,0.44
+37,235,Hervormd Lyceum Zuid,168.0,0.32
+38,85,Het 4e Gymnasium,140.0,1.33
+39,215,Het Amsterdams Lyceum,172.0,1.06
+42,252,Hubertus & Berkhoff,150.0,0.95
+43,115,Huygens College,160.0,0.50
+44,339,Hyperion Lyceum,140.0,1.29
+47,469,Ir. Lely Lyceum,375.0,0.55
+48,131,IVKO,112.0,1.43
+49,429,Joodse Scholengemeenschap Maimonides,26.0,0.50
+50,144,Kiem Montessori,75.0,0.61
+56,415,Lumion,308.0,1.14
+57,104,Marcanti College,233.0,0.24
+58,249,Mediacollege Amsterdam,75.0,0.89
+59,142,Metis Montessori Lyceum,162.0,1.53
+60,147,Montessori Lyceum Oostpoort,195.0,0.69
+61,363,Mundus College,168.0,0.42
+62,450,Open Schoolgemeenschap Bijlmer,336.0,0.76
+64,261,Pieter Nieuwland College,203.0,0.55
+65,288,Spinoza Lyceum,230.0,1.86
+66,257,Spinoza20first,180.0,0.57
+67,362,Spring High,75.0,0.48
+69,34,Vinse School,66.0,1.14
+70,234,Vossius Gymnasium,135.0,0.86
+73,137,Zuiderlicht College,144.0,0.81
