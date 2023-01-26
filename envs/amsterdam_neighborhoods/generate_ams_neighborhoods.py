@@ -48,30 +48,26 @@ ig.write(graph, 'network.gml')
 # %% Generate population of agents for each node in the network.
 graph = ig.Graph.Read('network.gml')
 ams_nb['node_id'] = [v.index for v in nb_nodes]
-generated_pop = 1050
+generated_pop = 1000
 # Keep only relevant ses attributes.
 ams_ses = ams_ses[['BU_CODE', 'real_pop', 'nr_dutch', 'nr_w_migr', 'nr_nw_migr']]
 ams_ses.loc[:, 'nr_dutch_w_migr'] = ams_ses['nr_dutch'] + ams_ses['nr_w_migr']
-
+ams_ses.loc[:, 'real_pop_pct'] = ams_ses['real_pop'] / ams_ses['real_pop'].sum()
+ams_nb = ams_nb.merge(ams_ses, on='BU_CODE')
 # List of socio-economic attributes to base the group definitions on.
 ses_groups = ['nr_dutch_w_migr', 'nr_nw_migr']
-for g in ses_groups:
-    group_pop = ams_ses[g].sum() / ams_ses['real_pop'].sum() * generated_pop
-    ams_ses[g + '_in_node'] = ams_ses[g] / ams_ses[g].sum() * group_pop
-    ams_ses[g + '_in_node'] = ams_ses[g + '_in_node'].round().astype(int)
 
-ams_nb = ams_nb.merge(ams_ses, on='BU_CODE')
-ams_nb['gen_pop'] = ams_nb['nr_dutch_w_migr_in_node'] + ams_nb['nr_nw_migr_in_node']
-
+#%%
 agents = []
-for i, nb in ams_nb.iterrows():
-    for g in ses_groups:
-        for j in range(nb[g + '_in_node']):
-            g = g.replace('_in_node', '')
-            g = g.replace('nr_', '')
-            agents.append({'id': len(agents), 'node': nb['node_id'], 'group': g})
+for i in range(generated_pop):
+    node = np.random.choice(ams_nb['node_id'], p=ams_nb['real_pop_pct'])
+    node_ses = ams_nb[ams_nb['node_id'] == node]
+    group = np.random.choice(ses_groups, p=[node_ses.iloc[0][ses_groups[0]]/node_ses.iloc[0]['real_pop'],
+                                            node_ses.iloc[0][ses_groups[1]]/node_ses.iloc[0]['real_pop']])
+    agents.append({'id': i, 'node': node, 'group': group})
 
-pd.DataFrame(agents).to_csv('population.csv', index=False)
+ams_agents = pd.DataFrame(agents)
+ams_agents.to_csv(f'population_{generated_pop}.csv', index=False)
 # %% Generate the facilities - for now just toy data until we have the schools
 
 facilities = []
@@ -91,7 +87,11 @@ ams_nodes = pd.DataFrame([(n['code'], n.index) for n in nb_nodes], columns=('BU_
 ams_schools = ams_schools[['id', 'Name', 'BU_CODE', 'Capacity', 'Popularity', 'quality']] \
                         .merge(ams_nodes, on='BU_CODE').rename(columns={'node_id': 'node', 'Name': 'facility', 'Capacity': 'capacity', 'Popularity': 'popularity'})
 ams_schools.to_csv('schools.csv', index=False)
-#%% Plot the environment specifications.
+#%% Plot the environment real population and generated population side by side, so we can compare the distribution.
+ams_nb = ams_nb.merge(ams_agents.groupby('node')['id'].count().rename('gen_pop'), left_on='node_id', right_on='node', how='left')
+ams_nb = ams_nb.merge(ams_agents[ams_agents['group'] == ses_groups[0]].groupby('node')['id'].count().rename(f'{ses_groups[0]}_in_node'), left_on='node_id', right_on='node', how='left')
+ams_nb = ams_nb.merge(ams_agents[ams_agents['group'] == ses_groups[1]].groupby('node')['id'].count().rename(f'{ses_groups[1]}_in_node'), left_on='node_id', right_on='node', how='left')
+
 ams_nb['group_pop_diff'] = ams_nb['nr_dutch_w_migr_in_node'] - ams_nb['nr_nw_migr_in_node']
 ams_nb['group_pop_ratio'] = ams_nb['nr_dutch_w_migr_in_node'].div(ams_nb['nr_nw_migr_in_node'])
 ams_nb.loc[ams_nb['nr_nw_migr_in_node'] > ams_nb['nr_dutch_w_migr_in_node'], 'group_pop_ratio'] = - ams_nb['nr_nw_migr_in_node'].div(ams_nb['nr_dutch_w_migr_in_node'])
