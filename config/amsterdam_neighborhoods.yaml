@@ -1,7 +1,7 @@
 # General
 network_file: './envs/amsterdam_neighborhoods/network.gml'
 population_file: './envs/amsterdam_neighborhoods/population.csv'
-facilities_file: './envs/amsterdam_neighborhoods/facilities.csv'
+facilities_file: './envs/amsterdam_neighborhoods/schools.csv'
 # Applicable values: ['nearest_k', 'toy_model']
 preferences_model: 'toy_model'
 # Needed if preferences_model = 'nearest_k' OR 'toy_model'
@@ -9,7 +9,7 @@ preferences_model: 'toy_model'
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
-intervention_model: 'closeness'
+intervention_model: 'random'
 # Note that on the first simulation round there are no interventions added to the network.
 simulation_rounds: 6
 # How many times to run the agent rounds (preference + allocation) on each simulation round.
