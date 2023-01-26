@@ -8,6 +8,10 @@ import geopandas as gpd
 import igraph as ig
 import numpy as np
 import matplotlib.pyplot as plt
+import random
+
+random.seed(42)
+np.random.seed(42)
 
 ams_nb = gpd.read_file('./ams-diemen-duiven-neighbourhoods.geojson')
 ams_ses = pd.read_csv('./ams-diemen-duiven-ses.csv')
@@ -17,6 +21,8 @@ ams_ses = ams_ses.rename(columns={'pop': 'real_pop'})
 # Schools data
 ams_schools = gpd.read_file('./ams-schools.geojson', )
 ams_schools.geometry = gpd.points_from_xy(x=ams_schools['Lng'], y=ams_schools['Lat'])
+# Keep schools with capacity data.
+ams_schools = ams_schools.dropna(subset=['Capacity'])
 # Attach the neighborhood to each school.
 # This will filter out schools that are not in amsterdam.
 ams_schools = gpd.sjoin(ams_schools, ams_nb, how="inner", predicate="within").drop(['index_right', 'cent_x', 'cent_y'], axis=1)
@@ -70,17 +76,17 @@ ams_agents = pd.DataFrame(agents)
 ams_agents.to_csv(f'population_{generated_pop}.csv', index=False)
 # %% Generate the facilities - for now just toy data until we have the schools
 
-facilities = []
-for i, f_i in ams_schools.iterrows():
-    # Skip schools with unknown capacity
-    if f_i['Popularity']:
-        node_id = ams_nb[ams_nb['BU_NAAM'] == f_i['BU_NAAM']].iloc[0]['node_id']
-        facilities.append({'id': i,
-                           'node': node_id,
-                           'facility': f_i['Name'],
-                           'capacity': f_i['Capacity'],
-                           'popularity': f_i['Popularity'],
-                           'quality': f_i['quality']})
+# facilities = []
+# for i, f_i in ams_schools.iterrows():
+#     # Skip schools with unknown capacity
+#     if f_i['Popularity']:
+#         node_id = ams_nb[ams_nb['BU_NAAM'] == f_i['BU_NAAM']].iloc[0]['node_id']
+#         facilities.append({'id': i,
+#                            'node': node_id,
+#                            'facility': f_i['Name'],
+#                            'capacity': f_i['Capacity'],
+#                            'popularity': f_i['Popularity'],
+#                            'quality': f_i['quality']})
 # pd.DataFrame(facilities).to_csv('facilities.csv', index=False)
 
 ams_nodes = pd.DataFrame([(n['code'], n.index) for n in nb_nodes], columns=('BU_CODE', 'node_id'))
