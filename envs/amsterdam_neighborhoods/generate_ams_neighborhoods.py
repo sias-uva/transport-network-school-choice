@@ -23,6 +23,7 @@ ams_schools = gpd.sjoin(ams_schools, ams_nb, how="inner", predicate="within").dr
 # Reset the id after spatial join
 ams_schools = ams_schools.drop(['id'], axis=1).reset_index(drop=True).reset_index().rename(columns={'index': 'id'})
 # gpd.sjoin(ams_schools, ams_nb, how="inner", op="within")
+ams_schools['quality'] = 1
 # %% Create the network from the amsterdam neighborhoods.
 graph = ig.Graph()
 nb_nodes = []
@@ -82,11 +83,13 @@ for i, f_i in ams_schools.iterrows():
                            'node': node_id,
                            'facility': f_i['Name'],
                            'capacity': f_i['Capacity'],
-                           'popularity': f_i['Popularity']})
-pd.DataFrame(facilities).to_csv('facilities.csv', index=False)
+                           'popularity': f_i['Popularity'],
+                           'quality': f_i['quality']})
+# pd.DataFrame(facilities).to_csv('facilities.csv', index=False)
 
 ams_nodes = pd.DataFrame([(n['code'], n.index) for n in nb_nodes], columns=('BU_CODE', 'node_id'))
-ams_schools = ams_schools[['id', 'Name', 'BU_CODE', 'Capacity', 'Popularity']].merge(ams_nodes, on='BU_CODE').rename(columns={'node_id': 'node', 'Name': 'facility'})
+ams_schools = ams_schools[['id', 'Name', 'BU_CODE', 'Capacity', 'Popularity', 'quality']] \
+                        .merge(ams_nodes, on='BU_CODE').rename(columns={'node_id': 'node', 'Name': 'facility', 'Capacity': 'capacity', 'Popularity': 'popularity'})
 ams_schools.to_csv('schools.csv', index=False)
 #%% Plot the environment specifications.
 ams_nb['group_pop_diff'] = ams_nb['nr_dutch_w_migr_in_node'] - ams_nb['nr_nw_migr_in_node']
@@ -113,18 +116,18 @@ fig.savefig('./ams-env.png', dpi=300)
 
 print('Successfullly generated the environment.')
 # %% Create fully connected
-adj_mx = graph.get_adjacency()
+# adj_mx = graph.get_adjacency()
 
-for i in range(adj_mx.shape[0]):
-    print('added edges for node', i)
-    adj_mx = graph.get_adjacency()
+# for i in range(adj_mx.shape[0]):
+#     print('added edges for node', i)
+#     adj_mx = graph.get_adjacency()
 
-    edges_to_add = [(i, j) for j in range(adj_mx.shape[0]) if adj_mx[i, j] == 0]
+#     edges_to_add = [(i, j) for j in range(adj_mx.shape[0]) if adj_mx[i, j] == 0]
     
-    graph.add_edges(edges_to_add)
+#     graph.add_edges(edges_to_add)
 
-ig.plot(graph, layout=[(v['y'], v['x']) for v in graph.vs], 
-        vertex_size=10, target='./network_full.pdf')
+# ig.plot(graph, layout=[(v['y'], v['x']) for v in graph.vs], 
+#         vertex_size=10, target='./network_full.pdf')
 
-ig.write(graph, 'network_full.gml')
+# ig.write(graph, 'network_full.gml')
 # %%

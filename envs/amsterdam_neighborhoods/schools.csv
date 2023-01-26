@@ -1,75 +1,75 @@
-id,facility,BU_CODE,Capacity,Popularity,node
-0,ALASCA,BU03630607,,,45
-1,Amsterdams Beroepscollege Noorderlicht,BU03636900,140.0,0.65,323
-2,Clusius College Amsterdam,BU03636900,,,323
-3,Damstede Lyceum,BU03636900,,,323
-4,Barlaeus Gymnasium,BU03630703,135.0,1.59,53
-5,Berlage Lyceum,BU03632601,240.0,0.49,136
-6,Bindelmeer College,BU03639301,160.0,0.55,439
-7,Bredero Beroepscollege,BU03636103,60.0,0.38,296
-8,SvPO Amsterdam,BU03636103,62.0,0.65,296
-9,Bredero Mavo,BU03637401,173.0,0.46,354
-10,Calandlyceum,BU03638103,399.0,0.46,381
-11,Calvijn College,BU03638901,155.0,0.93,418
-12,Cartesius Lyceum,BU03631600,168.0,0.48,105
-13,Cburg College,BU03633405,100.0,0.62,172
-14,IJburg College 2,BU03633405,,,172
-15,Cheider (vo),BU03639002,,,422
-16,Kolom Praktijkcollege De Atlant,BU03639002,,,422
-17,College De Meer,BU03635602,150.0,0.62,271
-18,Yuverta vmbo-pro Amsterdam Oost,BU03635602,,,271
-19,Comenius Lyceum Amsterdam,BU03638601,206.0,0.86,396
-20,Cornelius Haga Lyceum,BU03631105,300.0,0.44,82
-21,CSB,BU03639003,,,423
-22,De Apollo,BU03639003,,,423
-23,Cygnus Gymnasium,BU03632702,,,140
-24,De Amsterdamse MAVO,BU03635600,71.0,1.01,269
-25,De nieuwe Havo,BU03636000,100.0,0.30,290
-26,Vox College,BU03636000,75.0,0.55,290
-27,DENISE - de nieuwe internationale school esprit,BU03634700,,,218
-28,Montessori Lyceum Amsterdam (MLA),BU03634700,,,218
-29,Sweelinck College,BU03634700,140.0,0.24,218
-30,Fons Vitae Lyceum,BU03634705,168.0,2.07,223
-31,Geert Groote College Amsterdam,BU03632300,,,121
-32,St. Nicolaaslyceum,BU03632300,224.0,2.05,121
-33,Gerrit van der Veen College,BU03634903,146.0,0.89,237
-34,Ignatiusgymnasium,BU03634903,145.0,1.09,237
-35,Havo De Hof,BU03632901,,,146
-36,Hervormd Lyceum West,BU03638501,233.0,0.44,393
-37,Hervormd Lyceum Zuid,BU03634901,168.0,0.32,235
-38,Het 4e Gymnasium,BU03631200,140.0,1.33,85
-39,Het Amsterdams Lyceum,BU03634601,172.0,1.06,215
-40,Het Reinaert,BU03633802,,,187
-41,Hogelant,BU03636802,,,319
-42,Hubertus & Berkhoff,BU03635206,150.0,0.95,252
-43,Huygens College,BU03632001,160.0,0.50,115
-44,Hyperion Lyceum,BU03637107,140.0,1.29,339
-45,Iedersland College,BU03631001,,,71
-46,IJburg College,BU03635102,,,247
-47,Ir. Lely Lyceum,BU03639603,375.0,0.55,469
-48,IVKO,BU03632500,112.0,1.43,131
-49,Joodse Scholengemeenschap Maimonides,BU03639102,26.0,0.50,429
-50,Kiem Montessori,BU03632803,75.0,0.61,144
-51,Metis Montessori Lyceum mavo/havo,BU03632803,,,144
-52,Kolom praktijkcollege De Dreef,BU03639300,,,438
-53,Kolom praktijkcollege Het Plein,BU03637702,,,364
-54,Kolom praktijkcollege Noord,BU03636606,,,314
-55,LUCA Praktijkschool,BU03633200,,,153
-56,Lumion,BU03638808,308.0,1.14,415
-57,Marcanti College,BU03631503,233.0,0.24,104
-58,Mediacollege Amsterdam,BU03635201,75.0,0.89,249
-59,Metis Montessori Lyceum,BU03632801,162.0,1.53,142
-60,Montessori Lyceum Oostpoort,BU03632902,195.0,0.69,147
-61,Mundus College,BU03637701,168.0,0.42,363
-62,Open Schoolgemeenschap Bijlmer,BU03639401,336.0,0.76,450
-63,Over-Y College,BU03636002,,,292
-64,Pieter Nieuwland College,BU03635501,203.0,0.55,261
-65,Spinoza Lyceum,BU03635900,230.0,1.86,288
-66,Spinoza20first,BU03635401,180.0,0.57,257
-67,Spring High,BU03637700,75.0,0.48,362
-68,Tobiasschool,BU03634402,,,208
-69,Vinse School,BU03630501,66.0,1.14,34
-70,Vossius Gymnasium,BU03634900,135.0,0.86,234
-71,Xplore - Agora Amsterdam,BU03637000,,,329
-72,Yuverta vmbo Amsterdam West,BU03638203,,,386
-73,Zuiderlicht College,BU03632602,144.0,0.81,137
+id,facility,BU_CODE,capacity,popularity,quality,node
+0,ALASCA,BU03630607,,,1,45
+1,Amsterdams Beroepscollege Noorderlicht,BU03636900,140.0,0.65,1,323
+2,Clusius College Amsterdam,BU03636900,,,1,323
+3,Damstede Lyceum,BU03636900,,,1,323
+4,Barlaeus Gymnasium,BU03630703,135.0,1.59,1,53
+5,Berlage Lyceum,BU03632601,240.0,0.49,1,136
+6,Bindelmeer College,BU03639301,160.0,0.55,1,439
+7,Bredero Beroepscollege,BU03636103,60.0,0.38,1,296
+8,SvPO Amsterdam,BU03636103,62.0,0.65,1,296
+9,Bredero Mavo,BU03637401,173.0,0.46,1,354
+10,Calandlyceum,BU03638103,399.0,0.46,1,381
+11,Calvijn College,BU03638901,155.0,0.93,1,418
+12,Cartesius Lyceum,BU03631600,168.0,0.48,1,105
+13,Cburg College,BU03633405,100.0,0.62,1,172
+14,IJburg College 2,BU03633405,,,1,172
+15,Cheider (vo),BU03639002,,,1,422
+16,Kolom Praktijkcollege De Atlant,BU03639002,,,1,422
+17,College De Meer,BU03635602,150.0,0.62,1,271
+18,Yuverta vmbo-pro Amsterdam Oost,BU03635602,,,1,271
+19,Comenius Lyceum Amsterdam,BU03638601,206.0,0.86,1,396
+20,Cornelius Haga Lyceum,BU03631105,300.0,0.44,1,82
+21,CSB,BU03639003,,,1,423
+22,De Apollo,BU03639003,,,1,423
+23,Cygnus Gymnasium,BU03632702,,,1,140
+24,De Amsterdamse MAVO,BU03635600,71.0,1.01,1,269
+25,De nieuwe Havo,BU03636000,100.0,0.30,1,290
+26,Vox College,BU03636000,75.0,0.55,1,290
+27,DENISE - de nieuwe internationale school esprit,BU03634700,,,1,218
+28,Montessori Lyceum Amsterdam (MLA),BU03634700,,,1,218
+29,Sweelinck College,BU03634700,140.0,0.24,1,218
+30,Fons Vitae Lyceum,BU03634705,168.0,2.07,1,223
+31,Geert Groote College Amsterdam,BU03632300,,,1,121
+32,St. Nicolaaslyceum,BU03632300,224.0,2.05,1,121
+33,Gerrit van der Veen College,BU03634903,146.0,0.89,1,237
+34,Ignatiusgymnasium,BU03634903,145.0,1.09,1,237
+35,Havo De Hof,BU03632901,,,1,146
+36,Hervormd Lyceum West,BU03638501,233.0,0.44,1,393
+37,Hervormd Lyceum Zuid,BU03634901,168.0,0.32,1,235
+38,Het 4e Gymnasium,BU03631200,140.0,1.33,1,85
+39,Het Amsterdams Lyceum,BU03634601,172.0,1.06,1,215
+40,Het Reinaert,BU03633802,,,1,187
+41,Hogelant,BU03636802,,,1,319
+42,Hubertus & Berkhoff,BU03635206,150.0,0.95,1,252
+43,Huygens College,BU03632001,160.0,0.50,1,115
+44,Hyperion Lyceum,BU03637107,140.0,1.29,1,339
+45,Iedersland College,BU03631001,,,1,71
+46,IJburg College,BU03635102,,,1,247
+47,Ir. Lely Lyceum,BU03639603,375.0,0.55,1,469
+48,IVKO,BU03632500,112.0,1.43,1,131
+49,Joodse Scholengemeenschap Maimonides,BU03639102,26.0,0.50,1,429
+50,Kiem Montessori,BU03632803,75.0,0.61,1,144
+51,Metis Montessori Lyceum mavo/havo,BU03632803,,,1,144
+52,Kolom praktijkcollege De Dreef,BU03639300,,,1,438
+53,Kolom praktijkcollege Het Plein,BU03637702,,,1,364
+54,Kolom praktijkcollege Noord,BU03636606,,,1,314
+55,LUCA Praktijkschool,BU03633200,,,1,153
+56,Lumion,BU03638808,308.0,1.14,1,415
+57,Marcanti College,BU03631503,233.0,0.24,1,104
+58,Mediacollege Amsterdam,BU03635201,75.0,0.89,1,249
+59,Metis Montessori Lyceum,BU03632801,162.0,1.53,1,142
+60,Montessori Lyceum Oostpoort,BU03632902,195.0,0.69,1,147
+61,Mundus College,BU03637701,168.0,0.42,1,363
+62,Open Schoolgemeenschap Bijlmer,BU03639401,336.0,0.76,1,450
+63,Over-Y College,BU03636002,,,1,292
+64,Pieter Nieuwland College,BU03635501,203.0,0.55,1,261
+65,Spinoza Lyceum,BU03635900,230.0,1.86,1,288
+66,Spinoza20first,BU03635401,180.0,0.57,1,257
+67,Spring High,BU03637700,75.0,0.48,1,362
+68,Tobiasschool,BU03634402,,,1,208
+69,Vinse School,BU03630501,66.0,1.14,1,34
+70,Vossius Gymnasium,BU03634900,135.0,0.86,1,234
+71,Xplore - Agora Amsterdam,BU03637000,,,1,329
+72,Yuverta vmbo Amsterdam West,BU03638203,,,1,386
+73,Zuiderlicht College,BU03632602,144.0,0.81,1,137
