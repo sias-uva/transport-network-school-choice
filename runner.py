@@ -11,7 +11,7 @@ from plot import get_figure, heatmap_from_numpy
 # Matplotlib stopped working on my machine, so I had to add this line to make it work again.
 matplotlib.use("TKAgg")
 from network import Network
-from preference import toy_model, nearest_k
+from preference import distance_popularity, toy_model, nearest_k
 
 class Runner(object):
     def __init__(self, network: Network, population: pd.DataFrame, facilities: pd.DataFrame, logger: Logger):
@@ -112,20 +112,22 @@ class Runner(object):
                 mean_agent_utility[i][j] = utility[range(self.population_size), allocation.flatten()]
 
             if self.logger:
-                alloc_heatmap = heatmap_from_numpy(grp_composition.mean(axis=1)[i], 
-                                        title=f"Allocation by facility and group (mean) - round {i}", 
-                                        subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                        figsize=(10, 10),
-                                        xlabel='Groups',
-                                        ylabel='Facilities')
-                self.logger.save_plot(alloc_heatmap, f"allocation_by_facility_and_group_{i}.png", round=i)
+                # Makes no sense to plot this for a lot of facilities
+                # alloc_heatmap = heatmap_from_numpy(grp_composition.mean(axis=1)[i], 
+                #                         title=f"Allocation by facility and group (mean) - round {i}", 
+                #                         subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                #                         figsize=(10, 10),
+                #                         xlabel='Groups',
+                #                         ylabel='Facilities')
+                # self.logger.save_plot(alloc_heatmap, f"allocation_by_facility_and_group_{i}.png", round=i)
 
-                rank_distribution_heatmap = heatmap_from_numpy(eval_metrics['facility_rank_distr'], 
-                                            title=f"Facility rank distribution - round {i}",
-                                            subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                            xlabel='Rank',
-                                            ylabel='Facilities')
-                self.logger.save_plot(rank_distribution_heatmap, f"rank_distribution_{i}.png", round=i)
+                # Makes no sense to plot this for a lot of facilities
+                # rank_distribution_heatmap = heatmap_from_numpy(eval_metrics['facility_rank_distr'], 
+                #                             title=f"Facility rank distribution - round {i}",
+                #                             subtitle=f"{preferences_model} - {allocation_model} - {intervention_model}",
+                #                             xlabel='Rank',
+                #                             ylabel='Facilities')
+                # self.logger.save_plot(rank_distribution_heatmap, f"rank_distribution_{i}.png", round=i)
 
                 # Create a matplotlib plot with the distribution of utility for each agent, based on the assigned facility.
                 # TODO NOTE: This doubles the running time of the simulation, -- I am thinking maybe we can store everything and then plot it all at the end?
@@ -292,9 +294,15 @@ class Runner(object):
             assert nearest_k_k, 'You need to specify nearest_k parameter in config.'
             pref_list, utility = nearest_k(travel_time, k=nearest_k_k)
         elif preferences_model == 'toy_model':
+            assert 'quality' in self.facilities.columns, 'To use the toy_model preference model, the facilities_file should contain a column named "quality".'
             # Select facility qualities
             qualities = self.facilities.quality.to_numpy()
             pref_list, utility = toy_model(travel_time, qualities)
+        elif preferences_model == 'distance_popularity':
+            assert 'popularity' in self.facilities.columns, 'To use the distance_popularity preference model, the facilities_file should contain a column named "popularity".'
+            # Select facility popularities
+            popularity = self.facilities.popularity.to_numpy()
+            pref_list, utility = distance_popularity(travel_time, popularity)
 
         assert pref_list is not None, 'No preference list was generated, specify a valid preferences_model parameter in config.'
         
@@ -332,7 +340,9 @@ class Runner(object):
         """
         x, y, w = None, None, None
         fac_nodes = self.facilities['node'].values
-        if intervention_model == 'random':
+        if intervention_model == 'none':
+            return
+        elif intervention_model == 'random':
             x, y, w = create_random_edge(self.network)
         elif intervention_model == 'closeness':
             # Find the facility with the lowest closeness centrality to augment, then find the edge that maximizes that node's centrality.
