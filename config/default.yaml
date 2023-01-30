@@ -2,16 +2,19 @@
 network_file: './envs/toy_segregated/network.gml'
 population_file: './envs/toy_segregated/population.csv'
 facilities_file: './envs/toy_segregated/facilities.csv'
-# Applicable values: ['nearest_k', 'toy_model']
+# Applicable values: ['nearest_k', 'toy_model', 'distance_popularity']
 preferences_model: 'toy_model'
 # Needed if preferences_model = 'nearest_k' OR 'toy_model'
 # nearest_k: 2
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
-# Applicable values: ['random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
+# Applicable values: ['none', 'random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
 intervention_model: 'random'
 # Note that on the first simulation round there are no interventions added to the network.
 simulation_rounds: 11
 # How many times to run the agent rounds (preference + allocation) on each simulation round.
 # Evaluation metrics will be calculated based on the average over these rounds. This is done because there's randomness in the preference/allocation modules.
 allocation_rounds: 30
+# If true, the parameters of the preference model will get updated at every simulation round, when applicable.
+# For example, it will update a facility popularity or the composition of each facility based on the previous round.
+update_preference_params: False
