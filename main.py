@@ -53,7 +53,8 @@ if __name__ == "__main__":
             config['preferences_model'], 
             config['allocation_model'], 
             config['intervention_model'], 
-            config.get('nearest_k', None))
+            nearest_k_k=config.get('nearest_k', None),
+            update_preference_params=config['update_preference_params'])
     
     sim_time = time.time() - sim_start
     print(f"All is said and done in {sim_time} seconds, which is {sim_time / 60} minutes.")

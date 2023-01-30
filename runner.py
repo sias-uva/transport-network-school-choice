@@ -51,7 +51,7 @@ class Runner(object):
         if self.logger:
             self.logger.save_igraph_plot(self.network, facilities_to_label=self.facilities['node'].values)
 
-    def run_simulation(self, simulation_rounds: int, allocation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None):
+    def run_simulation(self, simulation_rounds: int, allocation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None, update_preference_params=False):
         """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
 
         Args:
@@ -61,6 +61,7 @@ class Runner(object):
             allocation_model (str): allocation model to use.
             intervention_model (str): network intervention model to use.
             nearest_k_k (int, optional): k parameter in nearest_k preference model. Defaults to None.
+            update_preference_params (bool, optional): whether to update the preference model parameters after each simulation round. Defaults to False.
         """
 
         # TODO - maybe replace with scenario builder.
@@ -71,6 +72,7 @@ class Runner(object):
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
         alloc_by_facility = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size))
         capacity = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size))
+        popularity = np.zeros((simulation_rounds, self.facilities_size))
         grp_composition_pct = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size, self.total_groups))
         grp_composition = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size, self.total_groups))
         dissimilarity_index = np.zeros((simulation_rounds, allocation_rounds))
@@ -91,8 +93,12 @@ class Runner(object):
                 intervention = self.create_intervention(intervention_model)
                 interventions.append(intervention)
 
+            # Store all preference lists for each allocation round for each agent.
+            # This might break if preferences return less items than the total facility size.
+            pref_lists = np.zeros((allocation_rounds, self.population_size, self.facilities_size))
             for j in range(allocation_rounds):
                 pref_list, utility, allocation, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+                pref_lists[j] = pref_list
                 # Log pref_list to a file.
                 if self.logger:
                     agentpref = self.population.copy()
@@ -135,7 +141,7 @@ class Runner(object):
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
                                 xlabel='Utility',
                                 ylabel='Frequency')
-                ax.hist(mean_agent_utility[i].flatten())
+                ax.hist(mean_agent_utility[i].flatten(), bins=10, density=True)
                 ax.axvline(mean_agent_utility[i].flatten().mean(), linestyle='dashed', linewidth=1)
                 self.logger.save_plot(fig, f"agent_utility_distribution_{i}.png", round=i)
 
@@ -146,7 +152,11 @@ class Runner(object):
                 
                 group_memberships = self.population['group_id'].values
                 for g_id in self.group_names.index:
-                    ax.hist(mean_agent_utility[i, :, group_memberships == g_id].flatten(), label=f"Group {self.group_names[g_id]}", color=f"C{g_id}", alpha=0.5)
+                    ax.hist(
+                        mean_agent_utility[i, :, group_memberships == g_id].flatten(), 
+                        label=f"Group {self.group_names[g_id]}", 
+                        color=f"C{g_id}", alpha=0.5, 
+                        density=True, bins=10)
                     ax.axvline(mean_agent_utility[i, :, group_memberships == g_id].flatten().mean(), color=f"C{g_id}", linestyle='dashed', linewidth=1)
                 
                 ax.legend()
@@ -163,6 +173,11 @@ class Runner(object):
                 # Create a plot with the network intervention.
                 if i > 0 :
                     self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=intervention , round=i)
+            
+            if update_preference_params:
+                # Update the preference parameters for the next round.
+                popularity[i] = self.facilities['popularity'].values
+                self.update_preference_parameters(pref_lists)
 
         if self.logger:
             # Generate group composition plot for each facility (diffrent plots).
@@ -221,6 +236,16 @@ class Runner(object):
                 ax.fill_between(range(simulation_rounds), cap_ci[:, 1, fid], cap_ci[:, 2, fid], alpha=.1)
             ax.legend()
             self.logger.save_plot(fig, f'facility_capacity.png')
+
+            # Generate Popularity plot for all facilities.
+            fig, ax = get_figure(f"Facility Popularity",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='Popularity')
+            for fid in range(self.facilities_size):
+                ax.plot(range(simulation_rounds), popularity[:, fid], label=f'Facility {fid}')
+            ax.legend()
+            self.logger.save_plot(fig, f'facility_popularity.png')
 
             # Generate Mean Travel Time to Allocation plot.
             mttalloc_ci = np.apply_along_axis(calculate_ci, 1, mean_tt_to_alloc)
@@ -416,3 +441,15 @@ class Runner(object):
             'pref_of_alloc': pref_of_alloc,
             'pref_of_alloc_by_group': pref_of_alloc_by_group
         }
+
+    def update_preference_parameters(self, pref_lists):
+        # TODO: finish docstring
+        # Essentially this updates the parameters inputed to the preference model. Mayber we need to rename it to update_preference_parameters.
+        ###
+
+        # 1. Add +1 to positions to avoid division by zero.
+        # 2. Get the reciprical of the positions, so that the first choice has the highest weight.
+        # 3. Calculate a weighted avg of the preferences for each facility, set this as the new popularity.
+
+        popularity = [np.mean(1/(np.where(pref_lists == f)[2] + 1)) for f in self.facilities['id'].values]
+        self.facilities['popularity'] = popularity
