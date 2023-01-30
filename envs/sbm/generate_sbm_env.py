@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 #%% Generate Graph
 random.seed(42)
 np.random.seed(42)
+# Number of nodes in each group.
 g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
@@ -79,7 +80,7 @@ fac_nodes.append(nodes.loc[np.isin(nodes['id'], range(g1, g0+g1))].sort_values('
 
 facilities = []
 for i, f in enumerate(fac_nodes):
-    facilities.append({'id': i, 'node': f, 'facility': f'school_{i}', 'capacity': 400, 'quality': 0.5})
+    facilities.append({'id': i, 'node': f, 'facility': f'school_{i}', 'capacity': 400, 'quality': 0.5, 'populariy': 0.5})
     
 pd.DataFrame(facilities).to_csv(f'facilities_{network_name}.csv', index=False)
 
