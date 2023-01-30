@@ -6,6 +6,7 @@ from allocation import first_choice, random_serial_dictatorship
 from evaluation import calculate_ci, dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, preference_of_allocation, travel_time_to_allocation
 from intervention import create_random_edge, maximize_node_centrality
 import matplotlib
+import seaborn as sns
 
 from plot import get_figure, heatmap_from_numpy
 # Matplotlib stopped working on my machine, so I had to add this line to make it work again.
@@ -141,8 +142,8 @@ class Runner(object):
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
                                 xlabel='Utility',
                                 ylabel='Frequency')
-                ax.hist(mean_agent_utility[i].flatten(), bins=10, density=True)
-                ax.axvline(mean_agent_utility[i].flatten().mean(), linestyle='dashed', linewidth=1)
+                sns.histplot(mean_agent_utility[i].flatten(), stat='probability', bins=10)
+                ax.axvline(np.median(mean_agent_utility[i].flatten()), linestyle='dashed', linewidth=1)
                 self.logger.save_plot(fig, f"agent_utility_distribution_{i}.png", round=i)
 
                 fig, ax = get_figure(f"Utility distribution for groups on assigned facility - round {i}",
@@ -151,15 +152,15 @@ class Runner(object):
                                 ylabel='Frequency')
                 
                 group_memberships = self.population['group_id'].values
-                for g_id in self.group_names.index:
-                    ax.hist(
-                        mean_agent_utility[i, :, group_memberships == g_id].flatten(), 
-                        label=f"Group {self.group_names[g_id]}", 
-                        color=f"C{g_id}", alpha=0.5, 
-                        density=True, bins=10)
-                    ax.axvline(mean_agent_utility[i, :, group_memberships == g_id].flatten().mean(), color=f"C{g_id}", linestyle='dashed', linewidth=1)
+                sns.histplot([mean_agent_utility[i, :, group_memberships == g_id].flatten() for g_id in self.group_names.index], 
+                                stat='probability',
+                                bins=10, 
+                                ax=ax) 
                 
-                ax.legend()
+                for g_id in self.group_names.index:
+                    ax.axvline(np.median(mean_agent_utility[i, :, group_memberships == g_id].flatten()), color=f"C{g_id}", linestyle='dashed', linewidth=1)
+                
+                ax.legend(labels=[f"Group {self.group_names[g_id]}" for g_id in self.group_names.index])
                 self.logger.save_plot(fig, f"group_utility_distribution_{i}.png", round=i)
 
                 # Filtered out cause its useless when the network is large and increases runtime 10x.
