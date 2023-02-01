@@ -39,6 +39,7 @@ class Runner(object):
             self.nodes = self.nodes.merge(self.population[self.population['group_id'] == gid].groupby('node')['id'].agg(g_pop='count').rename({'g_pop': f'pop_{self.group_names[gid]}'}, axis=1), on='node', how='left').fillna(0)
             self.nodes[f'comp_{self.group_names[gid]}'] = (self.nodes[f'pop_{self.group_names[gid]}'] / self.nodes['population']).fillna(0)
         # Attach relevant node attributes to facilities / keep relevant columns using regex.
+        # Group composition of a facility in the beginning is the same as the group composition of the node it is located on.
         self.facilities = self.facilities.merge(self.nodes[self.nodes.filter(regex='node|comp').columns], on='node')
         # Log stuff
         if self.logger:
@@ -336,12 +337,10 @@ class Runner(object):
             # Select facility popularities
             popularity = self.facilities['popularity'].to_numpy()
             pref_list, utility = distance_popularity(travel_time, popularity)
-        # elif preferences_model == 'distance_composition':
-        #     # Select facility compositions
-        #     pref_list, utility = distance_composition(travel_time, 
-        #                             self.population, 
-        #                             self.facilities,
-        #                             homogeneity_penalty=0.5)
+        elif preferences_model == 'distance_composition':
+            assert 'tolerance' in self.population.columns, 'To use the distance_composition preference model, the population of agents should contain a column named "tolerance".'
+            # Select facility compositions
+            pref_list, utility = distance_composition(travel_time, self.population, self.facilities, M=0.5, C_weight=0.5)
 
         assert pref_list is not None, 'No preference list was generated, specify a valid preferences_model parameter in config.'
         
