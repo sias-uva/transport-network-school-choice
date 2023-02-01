@@ -70,7 +70,8 @@ for i in range(generated_pop):
     node_ses = ams_nb[ams_nb['node_id'] == node]
     group = np.random.choice(ses_groups, p=[node_ses.iloc[0][ses_groups[0]]/node_ses.iloc[0]['real_pop'],
                                             node_ses.iloc[0][ses_groups[1]]/node_ses.iloc[0]['real_pop']])
-    agents.append({'id': i, 'node': node, 'group': group})
+
+    agents.append({'id': i, 'node': node, 'group': group, 'tolerance': node_ses.iloc[0][group]/node_ses.iloc[0]['real_pop']})
 
 ams_agents = pd.DataFrame(agents)
 ams_agents.to_csv(f'population_{generated_pop}.csv', index=False)
