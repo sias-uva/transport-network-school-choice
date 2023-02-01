@@ -12,7 +12,7 @@ from plot import get_figure, heatmap_from_numpy
 # Matplotlib stopped working on my machine, so I had to add this line to make it work again.
 matplotlib.use("TKAgg")
 from network import Network
-from preference import distance_popularity, toy_model, nearest_k
+from preference import distance_composition, distance_popularity, toy_model, nearest_k
 
 class Runner(object):
     def __init__(self, network: Network, population: pd.DataFrame, facilities: pd.DataFrame, logger: Logger):
@@ -30,9 +30,16 @@ class Runner(object):
         # For each group, we want to know how its population is distributed over the network nodes. This helps us to calculate metrics weighted by group.
         # We reindex with the node indices to make sure that we have a value for each node, even if the group is not present in that node.
         self.group_node_distr = [(self.population[self.population['group_id'] == gid].groupby('node')['id'].count() / self.group_sizes[gid]).reindex(network.network.vs.indices, fill_value=0) for gid in self.group_names.index]
-
         self.total_groups = self.population['group_id'].nunique()
-
+        #  Dataframe with node attributes, such as population size and group composition.
+        self.nodes = pd.DataFrame(self.network.network.vs.indices, columns=['node'])
+        self.nodes = self.nodes.merge(self.population.groupby(['node'])['id'].aggregate(population = 'count'), on='node', how='left')
+        # Attach group population and composition to nodes.
+        for gid in range(self.total_groups):
+            self.nodes = self.nodes.merge(self.population[self.population['group_id'] == gid].groupby('node')['id'].agg(g_pop='count').rename({'g_pop': f'pop_{self.group_names[gid]}'}, axis=1), on='node', how='left').fillna(0)
+            self.nodes[f'comp_{self.group_names[gid]}'] = (self.nodes[f'pop_{self.group_names[gid]}'] / self.nodes['population']).fillna(0)
+        # Attach relevant node attributes to facilities / keep relevant columns using regex.
+        self.facilities = self.facilities.merge(self.nodes[self.nodes.filter(regex='node|comp').columns], on='node')
         # Log stuff
         if self.logger:
             logger.append_to_output_file(f'facilities_size: {self.facilities_size}\npopulation_size: {self.population_size}\ntotal_groups: {self.total_groups}')
@@ -322,13 +329,19 @@ class Runner(object):
         elif preferences_model == 'toy_model':
             assert 'quality' in self.facilities.columns, 'To use the toy_model preference model, the facilities_file should contain a column named "quality".'
             # Select facility qualities
-            qualities = self.facilities.quality.to_numpy()
+            qualities = self.facilities['quality'].to_numpy()
             pref_list, utility = toy_model(travel_time, qualities)
         elif preferences_model == 'distance_popularity':
             assert 'popularity' in self.facilities.columns, 'To use the distance_popularity preference model, the facilities_file should contain a column named "popularity".'
             # Select facility popularities
-            popularity = self.facilities.popularity.to_numpy()
+            popularity = self.facilities['popularity'].to_numpy()
             pref_list, utility = distance_popularity(travel_time, popularity)
+        # elif preferences_model == 'distance_composition':
+        #     # Select facility compositions
+        #     pref_list, utility = distance_composition(travel_time, 
+        #                             self.population, 
+        #                             self.facilities,
+        #                             homogeneity_penalty=0.5)
 
         assert pref_list is not None, 'No preference list was generated, specify a valid preferences_model parameter in config.'
         
