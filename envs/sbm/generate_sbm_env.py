@@ -64,7 +64,8 @@ for i in range(total_pop):
     node = np.random.choice(nodes['id'])
     group = np.random.choice(['g0', 'g1'], p=[nodes.loc[nodes['id'] == node, 'g0_pct'].values[0], 
                                               nodes.loc[nodes['id'] == node, 'g1_pct'].values[0]])
-    agents.append({'id': i, 'node': node, 'group': group})
+    # Set tolerance equal to that of the node the agent is in.
+    agents.append({'id': i, 'node': node, 'group': group, 'tolerance': nodes.loc[nodes['id'] == node, f'{group}_pct'].values[0]})
 
 agents = pd.DataFrame(agents)
 agents.to_csv(f'./population_{network_name}.csv', index=False)
