@@ -55,21 +55,31 @@ class Logger(object):
 
         np.savetxt(path, array, delimiter=',')
 
-    def save_plot(self, fig, filename, round=None):
+    def save_plot(self, fig, filename, round=None, subdir=None):
         """Saves the given figure to the results folder.
 
         Args:
             fig (matplotlib.figure.Figure): the figure to save.
             filename (str): the name of the file to save.
-            round(str): if given, the file will be saved in the child rounds folder.
+            round(str): if given, the file will be saved in the child rounds folder. 
         """
-        if round is None:
-            fig.savefig(self.results_path / filename)
-        else:
+        path = self.results_path
+        if round is not None:
             path = self.rounds_path / str(round)
-            path.mkdir(parents=True, exist_ok=True)
+        if subdir is not None:
+            path = path / subdir
+        
+        path.mkdir(parents=True, exist_ok=True)
+
+        fig.savefig(path / filename)
+
+        # if round is None:
+        #     fig.savefig(self.results_path / filename)
+        # else:
+        #     path = self.rounds_path / str(round)
+        #     path.mkdir(parents=True, exist_ok=True)
             
-            fig.savefig(path / filename)
+        #     fig.savefig(path / filename)
         plt.close(fig)
 
     def save_igraph_plot(self, network, filename='network.pdf', edges_to_color=None, facilities_to_label=None, round=None, vertex_size=10, vertex_label_size=7):
