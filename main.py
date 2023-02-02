@@ -6,6 +6,7 @@ from logger import Logger
 from network import Network
 import pandas as pd
 from runner import Runner
+from mlflow import log_params
 
 CONFIG_PATH = Path("./config/")
 
@@ -63,3 +64,5 @@ if __name__ == "__main__":
     
     if logger:
         logger.append_to_output_file(f"sim_time: {sim_time}")
+        
+        log_params(config)

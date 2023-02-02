@@ -7,6 +7,7 @@ from evaluation import calculate_ci, dissimilarity_index, facility_capacity, fac
 from intervention import create_random_edge, maximize_node_centrality
 import matplotlib
 import seaborn as sns
+from mlflow import log_metric
 
 from plot import get_figure, heatmap_from_numpy
 # Matplotlib stopped working on my machine, so I had to add this line to make it work again.
