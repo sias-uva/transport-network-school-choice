@@ -2,14 +2,14 @@
 network_file: './envs/amsterdam_neighborhoods/network.gml'
 population_file: './envs/amsterdam_neighborhoods/population_1000.csv'
 facilities_file: './envs/amsterdam_neighborhoods/schools.csv'
-# Applicable values: ['nearest_k', 'toy_model', 'distance_popularity']
-preferences_model: 'distance_popularity'
+# Applicable values: ['nearest_k', 'toy_model', 'distance_popularity', 'distance_composition']
+preferences_model: 'distance_composition'
 # Needed if preferences_model = 'nearest_k' OR 'toy_model'
 # nearest_k: 2
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['none', 'random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
-intervention_model: 'group_betweenness'
+intervention_model: 'none'
 # Note that on the first simulation round there are no interventions added to the network.
 simulation_rounds: 10
 # How many times to run the agent rounds (preference + allocation) on each simulation round.
