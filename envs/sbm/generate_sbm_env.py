@@ -13,7 +13,8 @@ np.random.seed(42)
 g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
-maj_pop_pct = [0.5]
+maj_pop_pct = [0.6, 0.8, 0.9]
+# maj_pop_pct = [0.5]
 # maj_pop_pct = [1]
 p_in = 0.7
 p_out = 0.01
@@ -36,7 +37,7 @@ for i in graph.vs.indices:
         graph.vs[i]['color'] = 'red'
 
 # ig.plot(graph, vertex_size=20)
-ig.plot(graph, vertex_size=20, target=f'./{network_name}.pdf')
+ig.plot(graph, vertex_size=20, target=f'./{network_name}/network.pdf')
 ig.write(graph, f'./{network_name}/network.gml')
 
 # fig, ax = plt.subplots(figsize=(5, 5))
