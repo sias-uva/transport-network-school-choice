@@ -4,6 +4,7 @@ import random
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 #%% Generate Graph
 random.seed(42)
@@ -12,11 +13,17 @@ np.random.seed(42)
 g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
-maj_pop_pct = [0.6, 0.8, 0.9]
+maj_pop_pct = [0.5]
 # maj_pop_pct = [1]
 p_in = 0.7
 p_out = 0.01
-network_name = f"SBM_{g0}_{g1}_{p_in}_{p_out}"
+# Total population of agents to generate.
+total_pop = 100
+
+network_name = f"SBM_{g0}_{g1}_{p_in}_{p_out}_pop_{total_pop}_maj_pop_pct_{'_'.join(str(v) for v in maj_pop_pct)}"
+
+if not os.path.exists(network_name):
+        os.makedirs(network_name)
 
 graph = ig.Graph.SBM(g0+g1, [(p_in, p_out), (p_out, p_in)], [g0, g1])
 graph.vs['label'] = graph.vs.indices
@@ -30,21 +37,21 @@ for i in graph.vs.indices:
 
 # ig.plot(graph, vertex_size=20)
 ig.plot(graph, vertex_size=20, target=f'./{network_name}.pdf')
-ig.write(graph, f'{network_name}.gml')
+ig.write(graph, f'./{network_name}/network.gml')
 
-fig, ax = plt.subplots(figsize=(5, 5))
-ax.hist(graph.degree())
-fig.suptitle('Degree distrubtion')
+# fig, ax = plt.subplots(figsize=(5, 5))
+# ax.hist(graph.degree())
+# fig.suptitle('Degree distrubtion')
 # fig.savefig(f'./{network_name}_degree_distribution.png')
 
-fig, ax = plt.subplots(figsize=(5, 5))
-ax.hist(graph.closeness())
-fig.suptitle('Closeness distrubtion')
+# fig, ax = plt.subplots(figsize=(5, 5))
+# ax.hist(graph.closeness())
+# fig.suptitle('Closeness distrubtion')
 # fig.savefig(f'./{network_name}_closeness_distribution.png')
 # %% Generate Population of agents for each node in the network.
 np.random.seed(42)
-total_pop = 100
-graph = ig.Graph.Read(f'{network_name}.gml')
+
+graph = ig.Graph.Read(f'./{network_name}/network.gml')
 
 nodes = pd.DataFrame({attr: graph.vs[attr] for attr in graph.vertex_attributes()})
 nodes['id'] = nodes['id'].astype(int)
@@ -68,7 +75,7 @@ for i in range(total_pop):
     agents.append({'id': i, 'node': node, 'group': group, 'tolerance': nodes.loc[nodes['id'] == node, f'{group}_pct'].values[0]})
 
 agents = pd.DataFrame(agents)
-agents.to_csv(f'./population_{network_name}.csv', index=False)
+agents.to_csv(f'./{network_name}/population.csv', index=False)
 
 #%% Generate facilities
 fac_nodes = []
@@ -83,4 +90,7 @@ facilities = []
 for i, f in enumerate(fac_nodes):
     facilities.append({'id': i, 'node': f, 'facility': f'school_{i}', 'capacity': 400, 'quality': 0.5, 'popularity': 0.5})
     
-pd.DataFrame(facilities).to_csv(f'facilities_{network_name}.csv', index=False)
+facilities = pd.DataFrame(facilities)
+
+facilities.to_csv(f'./{network_name}/facilities.csv', index=False)
+# %%
