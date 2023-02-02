@@ -59,7 +59,7 @@ def distance_popularity(tt_mx, popularity):
     # (-util) is used as a trick to sort in descending order
     return (-util).argsort(), util
 
-def distance_composition(tt_mx, population, facilities, M, C_weight=0.5):
+def distance_composition(tt_mx, population, facilities, M, C_weight):
     """Distance composition preference model, based on the paper "Mechanisms for increased school segregation relative to residential segregation: a model-based analysis" by Dignum et al.
     Utility is a weighed combination of an agent's distance to each facility and its composition (pct of agent's group, which is controlled by a tolerance parameter). 
     The composition weight is controlled by C_weight, and the distance weight is 1-C_weight.
@@ -69,7 +69,7 @@ def distance_composition(tt_mx, population, facilities, M, C_weight=0.5):
         population (pd.DataFrame): population dataframe, containing the tolerance parameter for each agent.
         facilities (pd.DataFrame): facilities dataframe, containing the composition of each facility.
         M (float): penalty for exceeding the tolerance, as defined in the paper.
-        C_weight (float, optional): weight of the composition utility. Defaults to 0.5.
+        C_weight (float): weight of the composition utility.
     Returns:
         tuple(np.array, np.array): indices of facilities ordered by preference (indices=ids) and the preference matrix (utility of each facility for each agent)
     """

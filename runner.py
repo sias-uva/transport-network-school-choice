@@ -60,7 +60,7 @@ class Runner(object):
         if self.logger:
             self.logger.save_igraph_plot(self.network, facilities_to_label=self.facilities['node'].values)
 
-    def run_simulation(self, simulation_rounds: int, allocation_rounds: int, intervention_rounds: int, intervention_budget: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None, update_preference_params=False):
+    def run_simulation(self, simulation_rounds: int, allocation_rounds: int, intervention_rounds: int, intervention_budget: int, preferences_model: str, allocation_model: str, intervention_model: str, preference_model_params=None, update_preference_params=False):
         """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
 
         Args:
@@ -71,7 +71,7 @@ class Runner(object):
             preferences_model (str): preference model to use.
             allocation_model (str): allocation model to use.
             intervention_model (str): network intervention model to use.
-            nearest_k_k (int, optional): k parameter in nearest_k preference model. Defaults to None.
+            preference_model_params (dict, optional): controls hyperparameters of the preference model. Defaults to None.
             update_preference_params (bool, optional): whether to update the preference model parameters after each simulation round. Defaults to False.
         """
 
@@ -79,7 +79,6 @@ class Runner(object):
         # Note: this currently only runs properly for 2 groups.
 
         # Note: first round is vanilla - no interventions are added.
-        # _, _, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
         alloc_by_facility = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size))
         capacity = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size))
@@ -115,7 +114,7 @@ class Runner(object):
             # Store all allocation lists for each allocation round for each agent.
             alloc_lists = np.zeros((allocation_rounds, self.population_size, self.facilities_size))
             for j in range(allocation_rounds):
-                pref_list, utility, allocation, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
+                pref_list, utility, allocation, eval_metrics = self.run_agent_round(preferences_model, allocation_model, preference_model_params)
                 pref_lists[j] = pref_list
                 alloc_lists[j] = allocation
                 # Log pref_list to a file.
@@ -307,29 +306,29 @@ class Runner(object):
             self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions if i is not None]}")
             self.logger.append_to_output_file(f"rounds_with_intervention: {rounds_with_intervention}")
         
-    def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
+    def run_agent_round(self, preferences_model, allocation_model, preference_model_params=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
 
         Args:
             preferences_model (str): model to use to generate preferences
             allocation_model (str): model to use to generate allocations
-            nearest_k_k (int, optional): k parameter in nearest_k preference model. Defaults to None.
+            preference_model_params (dict, optional): controls hyperparameters of the preference model. Defaults to None.
 
         Returns:
             list: preference_list, allocation, capacity_eval, diversity_eval
         """
-        pref_list, utility = self.generate_preferences(preferences_model, nearest_k_k=nearest_k_k, return_utility=True)
+        pref_list, utility = self.generate_preferences(preferences_model, preference_model_params=preference_model_params, return_utility=True)
         allocation = self.generate_allocation(pref_list, allocation_model)
         eval_metrics = self.evaluate(pref_list, allocation)
 
         return pref_list, utility, allocation, eval_metrics
 
-    def generate_preferences(self, preferences_model: str, nearest_k_k=None, return_utility=False):
+    def generate_preferences(self, preferences_model: str, preference_model_params=None, return_utility=False):
         """Generates preferences for each agent in the population, according to preferences_model.
 
         Args:
             preferences_model (str): preference model to use.
-            nearest_k_k (int, optional): k parameter in nearest_k preference model. Defaults to None.
+            preference_model_params (dict, optional): controls hyperparameters of the preference model. Defaults to None.
             return_utility (bool, optional): whether to return the utility of each agent (the score assigned to each facility). Defaults to False.
         Returns:
             - np.array: array of size (nr of agents, nr of facilities) where each facility is sorted by preference.
@@ -339,8 +338,8 @@ class Runner(object):
         utility = None
         travel_time = self.network.tt_mx[self.population['node'].values][:, [self.facilities['node'].values]].squeeze()
         if preferences_model == 'nearest_k':
-            assert nearest_k_k, 'You need to specify nearest_k parameter in config.'
-            pref_list, utility = nearest_k(travel_time, k=nearest_k_k)
+            assert 'nearest_k' in preference_model_params.keys(), 'You need to specify nearest_k parameter in config.'
+            pref_list, utility = nearest_k(travel_time, k=preference_model_params['nearest_k'])
         elif preferences_model == 'toy_model':
             assert 'quality' in self.facilities.columns, 'To use the toy_model preference model, the facilities_file should contain a column named "quality".'
             # Select facility qualities
@@ -354,7 +353,7 @@ class Runner(object):
         elif preferences_model == 'distance_composition':
             assert 'tolerance' in self.population.columns, 'To use the distance_composition preference model, the population of agents should contain a column named "tolerance".'
             # Select facility compositions
-            pref_list, utility = distance_composition(travel_time, self.population, self.facilities, M=0.5, C_weight=0.5)
+            pref_list, utility = distance_composition(travel_time, self.population, self.facilities, M=preference_model_params['M'], C_weight=preference_model_params['c_weight'])
 
         assert pref_list is not None, 'No preference list was generated, specify a valid preferences_model parameter in config.'
         

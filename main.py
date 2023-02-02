@@ -55,7 +55,7 @@ if __name__ == "__main__":
             config['preferences_model'],
             config['allocation_model'], 
             config['intervention_model'], 
-            nearest_k_k=config.get('nearest_k', None),
+            preference_model_params=config.get('preference_model_params', None),
             update_preference_params=config['update_preference_params'])
     
     sim_time = time.time() - sim_start
