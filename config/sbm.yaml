@@ -1,7 +1,7 @@
 # General
-network_file: './envs/sbm/SBM_6_6_0.7_0.01.gml'
-population_file: './envs/sbm/population_SBM_6_6_0.7_0.01.csv'
-facilities_file: './envs/sbm/facilities_SBM_6_6_0.7_0.01.csv'
+network_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.6_0.8_0.9/network.gml'
+population_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.6_0.8_0.9/population.csv'
+facilities_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.6_0.8_0.9/facilities.csv'
 # Applicable values: ['nearest_k', 'toy_model', 'distance_popularity', 'distance_composition']
 preferences_model: 'distance_composition'
 preference_model_params:
@@ -15,7 +15,7 @@ allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['none', 'random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
 intervention_model: 'none'
 # Total number of rounds in the simulation. At each round a preference+allocation takes place and (possibly) an intervention.
-simulation_rounds: 50
+simulation_rounds: 30
 # Total number of simulation rounds in which interventions happen. Interventions will happen every $ simulation_rounds // intervention_rounds $ round.
 # Note that on the first simulation round there are no interventions -- they always start at the second round.
 intervention_rounds: 0
