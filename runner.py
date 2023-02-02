@@ -104,8 +104,8 @@ class Runner(object):
             # After that, we want to have a total of intervention_rounds evenly spread in the simulations.
             intervention_round = intervention_rounds > 0 and i > 0 and ((i == 1) or i % (simulation_rounds // intervention_rounds) == 0)
             if intervention_round:
-                intervention = self.create_intervention(intervention_model)
-                interventions.append(intervention)
+                created_interventions = self.create_interventions(intervention_model, intervention_budget)
+                interventions.extend(created_interventions)
                 rounds_with_intervention.append(i)
 
             # Store all preference lists for each allocation round for each agent.
@@ -190,7 +190,7 @@ class Runner(object):
 
                 # Create a plot with the network intervention.
                 if intervention_round:
-                    self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=intervention , round=i)
+                    self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=created_interventions , round=i)
             
             if update_preference_params:
                 # Keep a record of the popularity of each facility for each round.
@@ -383,60 +383,65 @@ class Runner(object):
         assert allocation is not None, 'No allocation list was generated, specify a valid allocation_model parameter in config.'
         return allocation
     
-    def create_intervention(self, intervention_model: str):
+    def create_interventions(self, intervention_model: str, intervention_budget: int):
         """Creates and adds an intervention (new edge) to the network, according to the intervention_model
 
         Args:
             intervention_model (str): network intervention model to use.
         """
-        x, y, w = None, None, None
-        fac_nodes = self.facilities['node'].values
-        if intervention_model == 'none':
-            return
-        elif intervention_model == 'random':
-            x, y, w = create_random_edge(self.network)
-        elif intervention_model == 'closeness':
-            # Find the facility with the lowest closeness centrality to augment, then find the edge that maximizes that node's centrality.
-            node_to_augment = fac_nodes[np.argmin(self.network.network.closeness(fac_nodes))].item()
-            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'closeness')
-        elif intervention_model == 'betweenness':
-            # Find the facility with the lowest betweenness centrality to augment, then find the edge that maximizes that node's centrality.
-            node_to_augment = fac_nodes[np.argmin(self.network.network.betweenness(fac_nodes))].item()
-            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'betweenness')
-        elif intervention_model == 'degree':
-            # Find the facility with the lowest degree centrality to augment, then find the edge that maximizes that node's centrality.
-            node_to_augment = fac_nodes[np.argmin(self.network.network.degree(fac_nodes))].item()
-            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'degree')
-        elif intervention_model == 'group_closeness':
-            group_closenesses = np.array([self.network.weighted_closeness(fac_nodes, weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
-            # Returns a tuple of (group_id, node_id) where node_id is the node with the lowest closeness with respect to group_id.
-            grp_to_augment, node_idx_to_augment = np.unravel_index(group_closenesses.argmin(), group_closenesses.shape)
-            # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
-            node_to_augment = fac_nodes[node_idx_to_augment].item()
-            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_closeness', group_weights=self.group_node_distr[grp_to_augment].values)
-        elif intervention_model == 'group_betweenness':
-            group_betweenness = np.array([self.network.weighted_betweeness(fac_nodes, weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
-            # Returns a tuple of (group_id, node_id) where node_id is the node with the lowest betweenness with respect to group_id.
-            grp_to_augment, node_idx_to_augment = np.unravel_index(group_betweenness.argmin(), group_betweenness.shape)
-            # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
-            node_to_augment = fac_nodes[node_idx_to_augment].item()
-            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_betweenness', group_weights=self.group_node_distr[grp_to_augment].values)
-        elif intervention_model == 'group_degree':
-            group_degree = np.array([self.network.weighted_degree(fac_nodes, weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
-            # Returns a tuple of (group_id, node_id) where node_id is the node with the lowest degree with respect to group_id.
-            grp_to_augment, node_idx_to_augment = np.unravel_index(group_degree.argmin(), group_degree.shape)
-            # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
-            node_to_augment = fac_nodes[node_idx_to_augment].item()
-            x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_degree', group_weights=self.group_node_distr[grp_to_augment].values)
-        else:
-            assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
+        created_interventions = []
 
-        if x is None:
-            print('No intervention was created.')
-            return None
-        else:
-            print(f'adding ({x}, {y}) edge')
-            return self.network.add_edge(x, y, w)
+        for _ in range(intervention_budget):
+            x, y, w = None, None, None
+            fac_nodes = self.facilities['node'].values
+            if intervention_model == 'none':
+                return
+            elif intervention_model == 'random':
+                x, y, w = create_random_edge(self.network)
+            elif intervention_model == 'closeness':
+                # Find the facility with the lowest closeness centrality to augment, then find the edge that maximizes that node's centrality.
+                node_to_augment = fac_nodes[np.argmin(self.network.network.closeness(fac_nodes))].item()
+                x, y, w = maximize_node_centrality(self.network, node_to_augment, 'closeness')
+            elif intervention_model == 'betweenness':
+                # Find the facility with the lowest betweenness centrality to augment, then find the edge that maximizes that node's centrality.
+                node_to_augment = fac_nodes[np.argmin(self.network.network.betweenness(fac_nodes))].item()
+                x, y, w = maximize_node_centrality(self.network, node_to_augment, 'betweenness')
+            elif intervention_model == 'degree':
+                # Find the facility with the lowest degree centrality to augment, then find the edge that maximizes that node's centrality.
+                node_to_augment = fac_nodes[np.argmin(self.network.network.degree(fac_nodes))].item()
+                x, y, w = maximize_node_centrality(self.network, node_to_augment, 'degree')
+            elif intervention_model == 'group_closeness':
+                group_closenesses = np.array([self.network.weighted_closeness(fac_nodes, weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
+                # Returns a tuple of (group_id, node_id) where node_id is the node with the lowest closeness with respect to group_id.
+                grp_to_augment, node_idx_to_augment = np.unravel_index(group_closenesses.argmin(), group_closenesses.shape)
+                # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
+                node_to_augment = fac_nodes[node_idx_to_augment].item()
+                x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_closeness', group_weights=self.group_node_distr[grp_to_augment].values)
+            elif intervention_model == 'group_betweenness':
+                group_betweenness = np.array([self.network.weighted_betweeness(fac_nodes, weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
+                # Returns a tuple of (group_id, node_id) where node_id is the node with the lowest betweenness with respect to group_id.
+                grp_to_augment, node_idx_to_augment = np.unravel_index(group_betweenness.argmin(), group_betweenness.shape)
+                # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
+                node_to_augment = fac_nodes[node_idx_to_augment].item()
+                x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_betweenness', group_weights=self.group_node_distr[grp_to_augment].values)
+            elif intervention_model == 'group_degree':
+                group_degree = np.array([self.network.weighted_degree(fac_nodes, weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
+                # Returns a tuple of (group_id, node_id) where node_id is the node with the lowest degree with respect to group_id.
+                grp_to_augment, node_idx_to_augment = np.unravel_index(group_degree.argmin(), group_degree.shape)
+                # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
+                node_to_augment = fac_nodes[node_idx_to_augment].item()
+                x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_degree', group_weights=self.group_node_distr[grp_to_augment].values)
+            else:
+                assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
+
+            if x is None:
+                print('No intervention was created.')
+                continue
+            else:
+                print(f'adding ({x}, {y}) edge')
+                created_interventions.append(self.network.add_edge(x, y, w))
+        
+        return created_interventions
 
     def evaluate(self, pref_list, allocation):
         """Evaluates allocation according to evaluation metrics.
