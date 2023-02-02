@@ -227,6 +227,8 @@ class Runner(object):
                                 ylim=(0, 1))
             ax.plot(range(simulation_rounds), diss_ci[:, 0], label=f'Dissimilarity Index')
             ax.fill_between(range(simulation_rounds), diss_ci[:, 1], diss_ci[:, 2], color='b', alpha=.1)
+            for r in rounds_with_intervention:
+                ax.axvline(r, linestyle='dashed', linewidth=1, color='gray')
             
             self.logger.save_plot(fig, f'dissimilarity_index.png')
 
