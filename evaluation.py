@@ -94,8 +94,10 @@ def facility_group_composition(population, facilities, allocation, return_pct=Tr
 
     if return_pct:
         # In this particular division, we don't want to get a warning for division by 0, it just means that the facility is empty and nan is fine.
-        with np.errstate(divide='ignore'):
-            return alloc_by_facility, np.divide(alloc_by_facility, alloc_by_facility.sum(axis=1, keepdims=True))
+        with np.errstate(divide='ignore', invalid='ignore'):
+            grp_composition = np.divide(alloc_by_facility, alloc_by_facility.sum(axis=1, keepdims=True))
+        
+        return alloc_by_facility, grp_composition
     else:
         return alloc_by_facility
 
