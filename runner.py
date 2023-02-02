@@ -488,4 +488,4 @@ class Runner(object):
 
         # Average over all the allocation rounds to get the average group composition per facility.
         # Assign the new group composition to the facilities.
-        self.facilities[[f'comp_g{g}' for g in range(grp_composition_pct.shape[1])]] = grp_composition_pct.mean(axis=0)
+        self.facilities[[f'comp_g{g}' for g in range(grp_composition_pct.shape[2])]] = grp_composition_pct.mean(axis=0)
