@@ -8,7 +8,7 @@ preference_model_params:
   # Nearest k facilities to select. Required if preferences_model = 'nearest_k' OR 'toy_model'
   # nearest_k: 2
   # Required if preferences_model=distance_composition.
-  # c_weight: 0.99 # The weight to give to the composition component of the distance_composition preference. 
+  # c_weight: 0.5 # The weight to give to the composition component of the distance_composition preference. 
   # M: 0.5 # the penalty for exceeding the tolerance, as defined in the Dignum et al. paper
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
