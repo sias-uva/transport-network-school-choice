@@ -105,9 +105,12 @@ class Runner(object):
             # Store all preference lists for each allocation round for each agent.
             # This might break if preferences return less items than the total facility size.
             pref_lists = np.zeros((allocation_rounds, self.population_size, self.facilities_size))
+            # Store all allocation lists for each allocation round for each agent.
+            alloc_lists = np.zeros((allocation_rounds, self.population_size, self.facilities_size))
             for j in range(allocation_rounds):
                 pref_list, utility, allocation, eval_metrics = self.run_agent_round(preferences_model, allocation_model, nearest_k_k)
                 pref_lists[j] = pref_list
+                alloc_lists[j] = allocation
                 # Log pref_list to a file.
                 if self.logger:
                     agentpref = self.population.copy()
@@ -184,9 +187,10 @@ class Runner(object):
                     self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=intervention , round=i)
             
             if update_preference_params:
-                # Update the preference parameters for the next round.
+                # Keep a record of the popularity of each facility for each round.
                 popularity[i] = self.facilities['popularity'].values
-                self.update_preference_parameters(pref_lists)
+                # Update the preference parameters for the next round.
+                self.update_preference_parameters(pref_lists, grp_composition_pct[i])
 
         if self.logger:
             # Generate group composition plot for each facility (diffrent plots).
@@ -455,14 +459,24 @@ class Runner(object):
             'pref_of_alloc_by_group': pref_of_alloc_by_group
         }
 
-    def update_preference_parameters(self, pref_lists):
-        # TODO: finish docstring
-        # Essentially this updates the parameters inputed to the preference model. Mayber we need to rename it to update_preference_parameters.
-        ###
+    def update_preference_parameters(self, pref_lists, grp_composition_pct):
+        """
+        Updates parameters related to the preference models, such as popularity, group composition, etc. It should only run if dynamic_preference_model is set to True.
+
+        Args:
+            pref_lists (np.array): array of size (allocation_rounds, nr_agents, nr_facilities) where each agent has a list of preferences.
+            grp_composition_pct (np.array): array of size (allocation_rounds, nr_facilities, nr_groups) where each facility has a group composition.
+
+        Returns:
+            None
+        """
 
         # 1. Add +1 to positions to avoid division by zero.
         # 2. Get the reciprical of the positions, so that the first choice has the highest weight.
         # 3. Calculate a weighted avg of the preferences for each facility, set this as the new popularity.
-
         popularity = [np.mean(1/(np.where(pref_lists == f)[2] + 1)) for f in self.facilities['id'].values]
         self.facilities['popularity'] = popularity
+
+        # Average over all the allocation rounds to get the average group composition per facility.
+        # Assign the new group composition to the facilities.
+        self.facilities[[f'comp_g{g}' for g in range(grp_composition_pct.shape[1])]] = grp_composition_pct.mean(axis=0)
