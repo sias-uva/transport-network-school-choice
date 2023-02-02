@@ -10,8 +10,13 @@ preferences_model: 'distance_composition'
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['none', 'random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
 intervention_model: 'none'
-# Note that on the first simulation round there are no interventions added to the network.
+# Total number of rounds in the simulation. At each round a preference+allocation takes place and (possibly) an intervention.
 simulation_rounds: 10
+# Total number of simulation rounds in which interventions happen. Interventions will happen every $ simulation_rounds // intervention_rounds $ round.
+# Note that on the first simulation round there are no interventions -- they always start at the second round.
+intervention_rounds: 2
+# Total number of interventions to do in a single intervention round.
+intervention_budget: 1
 # How many times to run the agent rounds (preference + allocation) on each simulation round.
 # Evaluation metrics will be calculated based on the average over these rounds. This is done because there's randomness in the preference/allocation modules.
 allocation_rounds: 30

@@ -50,7 +50,9 @@ if __name__ == "__main__":
     runner.run_simulation(
             config['simulation_rounds'],
             config['allocation_rounds'],
-            config['preferences_model'], 
+            config['intervention_rounds'],
+            config['intervention_budget'],
+            config['preferences_model'],
             config['allocation_model'], 
             config['intervention_model'], 
             nearest_k_k=config.get('nearest_k', None),

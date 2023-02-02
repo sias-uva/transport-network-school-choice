@@ -60,12 +60,14 @@ class Runner(object):
         if self.logger:
             self.logger.save_igraph_plot(self.network, facilities_to_label=self.facilities['node'].values)
 
-    def run_simulation(self, simulation_rounds: int, allocation_rounds: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None, update_preference_params=False):
+    def run_simulation(self, simulation_rounds: int, allocation_rounds: int, intervention_rounds: int, intervention_budget: int, preferences_model: str, allocation_model: str, intervention_model: str, nearest_k_k=None, update_preference_params=False):
         """Runs a simulation of specified simulation_rounds using specified preferences, allocation and intervention models.
 
         Args:
             simulation_rounds (int): total nr of simulation rounds to run.
             allocation_rounds (int): nr of preference-allocation rounds to run per simulation round.
+            intervention_rounds (int): nr of intervention rounds to run per simulation round.
+            intervention_budget (int): nr of interventions to do in the network during a single intervention round.
             preferences_model (str): preference model to use.
             allocation_model (str): allocation model to use.
             intervention_model (str): network intervention model to use.
@@ -95,12 +97,17 @@ class Runner(object):
         mean_pos_of_alloc = np.zeros((simulation_rounds, allocation_rounds))
         mean_pos_of_alloc_by_grp = np.zeros((simulation_rounds, allocation_rounds, self.total_groups))
         interventions = []
+        # All the rounds where an intervention happened.
+        rounds_with_intervention = []
 
         for i in range(simulation_rounds):
             # On the first round, we don't want to add any interventions, just run an agent round.
-            if i > 0:
+            # After that, we want to have a total of intervention_rounds evenly spread in the simulations.
+            intervention_round = intervention_rounds > 0 and i > 0 and ((i == 1) or i % (simulation_rounds // intervention_rounds) == 0)
+            if intervention_round:
                 intervention = self.create_intervention(intervention_model)
                 interventions.append(intervention)
+                rounds_with_intervention.append(i)
 
             # Store all preference lists for each allocation round for each agent.
             # This might break if preferences return less items than the total facility size.
@@ -183,7 +190,7 @@ class Runner(object):
                 # self.logger.save_plot(travel_time_heatmap, f"travel_time_matrix{i}.png", round=i)
 
                 # Create a plot with the network intervention.
-                if i > 0 :
+                if intervention_round:
                     self.logger.save_igraph_plot(self.network, f"intervention_{i}.pdf", edges_to_color=intervention , round=i)
             
             if update_preference_params:
@@ -294,8 +301,9 @@ class Runner(object):
 
             # Generate plot of all network interventions
             self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
-            # Save all network interventions to the output file.
+            # Save all network interventions and their rounds to the output file.
             self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions if i is not None]}")
+            self.logger.append_to_output_file(f"rounds_with_intervention: {rounds_with_intervention}")
         
     def run_agent_round(self, preferences_model, allocation_model, nearest_k_k=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
