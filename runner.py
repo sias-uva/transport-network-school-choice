@@ -34,13 +34,15 @@ class Runner(object):
         #  Dataframe with node attributes, such as population size and group composition.
         self.nodes = pd.DataFrame(self.network.network.vs.indices, columns=['node'])
         self.nodes = self.nodes.merge(self.population.groupby(['node'])['id'].aggregate(population = 'count'), on='node', how='left')
+        # Names of the dataframe columns for composition of each facilitiy, e.g. comp_0, comp_1, etc. (easier to reference later on)
+        self.comp_columns = [f'comp_{self.group_names[gid]}' for gid in range(self.total_groups)]
         # Attach group population and composition to nodes.
         for gid in range(self.total_groups):
             self.nodes = self.nodes.merge(self.population[self.population['group_id'] == gid].groupby('node')['id'].agg(g_pop='count').rename({'g_pop': f'pop_{self.group_names[gid]}'}, axis=1), on='node', how='left').fillna(0)
-            self.nodes[f'comp_{self.group_names[gid]}'] = (self.nodes[f'pop_{self.group_names[gid]}'] / self.nodes['population']).fillna(0)
+            self.nodes[self.comp_columns[gid]] = (self.nodes[f'pop_{self.group_names[gid]}'] / self.nodes['population']).fillna(0)
         # Attach relevant node attributes to facilities / keep relevant columns using regex.
         # Group composition of a facility in the beginning is the same as the group composition of the node it is located on.
-        self.facilities = self.facilities.merge(self.nodes[self.nodes.filter(regex='node|comp').columns], on='node')
+        self.facilities = self.facilities.merge(self.nodes[['node'] + self.comp_columns], on='node')
         # Log stuff
         if self.logger:
             logger.append_to_output_file(f'facilities_size: {self.facilities_size}\npopulation_size: {self.population_size}\ntotal_groups: {self.total_groups}')
@@ -75,8 +77,11 @@ class Runner(object):
             update_preference_params (bool, optional): whether to update the preference model parameters after each simulation round. Defaults to False.
         """
 
-        # TODO - maybe replace with scenario builder.
         # Note: this currently only runs properly for 2 groups.
+
+        # If init_facility_composition is set to parity, then change the initial facility composition to be equal for all groups.
+        if preference_model_params['init_facility_composition'] == 'parity':
+            self.facilities[self.comp_columns] = 1 / self.total_groups
 
         # Note: first round is vanilla - no interventions are added.
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
