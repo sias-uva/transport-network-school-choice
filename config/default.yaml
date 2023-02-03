@@ -10,6 +10,7 @@ preference_model_params:
   # Required if preferences_model=distance_composition.
   # c_weight: 0.5 # The weight to give to the composition component of the distance_composition preference. 
   # M: 0.5 # the penalty for exceeding the tolerance, as defined in the Dignum et al. paper
+  # init_facility_composition: 'node' # The starting group composition of the facilities (round 0), applicable values: 'node': the composition of the node the facility is in, 'parity': all groups have the same starting composition.
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['none', 'random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
