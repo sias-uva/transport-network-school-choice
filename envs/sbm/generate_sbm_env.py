@@ -13,8 +13,8 @@ np.random.seed(42)
 g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
-# maj_pop_pct = [0.6, 0.8, 0.9]
-maj_pop_pct = [0.5]
+maj_pop_pct = [0.8, 0.9]
+# maj_pop_pct = [0.5]
 # maj_pop_pct = [1]
 p_in = 0.7
 p_out = 0.01
