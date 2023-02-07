@@ -13,8 +13,8 @@ np.random.seed(42)
 g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
-maj_pop_pct = [0.8, 0.9]
-# maj_pop_pct = [0.5]
+# maj_pop_pct = [0.6, 0.8, 0.9]
+maj_pop_pct = [0.5]
 # maj_pop_pct = [1]
 p_in = 0.7
 p_out = 0.01
@@ -74,8 +74,8 @@ for i in range(total_pop):
     node = np.random.choice(nodes['id'])
     group = np.random.choice(['g0', 'g1'], p=[nodes.loc[nodes['id'] == node, 'g0_pct'].values[0], 
                                               nodes.loc[nodes['id'] == node, 'g1_pct'].values[0]])
-    # Set tolerance equal to that of the node the agent is in.
-    agents.append({'id': i, 'node': node, 'group': group, 'tolerance': nodes.loc[nodes['id'] == node, f'{group}_pct'].values[0]})
+    # Set tolerance similar to that of the majority population of the node.
+    agents.append({'id': i, 'node': node, 'group': group, 'tolerance': np.random.choice(maj_pop_pct)})
 
 agents = pd.DataFrame(agents)
 agents.to_csv(f'./{network_name}/population.csv', index=False)
