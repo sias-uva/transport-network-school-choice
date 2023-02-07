@@ -1,10 +1,4 @@
 # General
-# network_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.6_0.8_0.9/network.gml'
-# population_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.6_0.8_0.9/population.csv'
-# facilities_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.6_0.8_0.9/facilities.csv'
-# network_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.5/network.gml'
-# population_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.5/population.csv'
-# facilities_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_100_maj_pop_pct_0.5/facilities.csv'
 network_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.8_0.9/network.gml'
 population_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.8_0.9/population.csv'
 facilities_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.8_0.9/facilities.csv'
