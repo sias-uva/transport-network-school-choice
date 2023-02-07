@@ -13,13 +13,15 @@ np.random.seed(42)
 g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
-maj_pop_pct = [0.6, 0.8, 0.9]
-# maj_pop_pct = [0.5]
+# maj_pop_pct = [0.6, 0.8, 0.9]
+maj_pop_pct = [0.5]
 # maj_pop_pct = [1]
 p_in = 0.7
 p_out = 0.01
 # Total population of agents to generate.
-total_pop = 100
+total_pop = 1000
+# Capacity of facilities - constant for each facility.
+facility_cap = 2*total_pop
 
 network_name = f"SBM_{g0}_{g1}_{p_in}_{p_out}_pop_{total_pop}_maj_pop_pct_{'_'.join(str(v) for v in maj_pop_pct)}"
 
@@ -89,7 +91,7 @@ fac_nodes.append(nodes.loc[np.isin(nodes['id'], range(g1, g0+g1))].sort_values('
 
 facilities = []
 for i, f in enumerate(fac_nodes):
-    facilities.append({'id': i, 'node': f, 'facility': f'school_{i}', 'capacity': 400, 'quality': 0.5, 'popularity': 0.5})
+    facilities.append({'id': i, 'node': f, 'facility': f'school_{i}', 'capacity': facility_cap, 'quality': 0.5, 'popularity': 0.5})
     
 facilities = pd.DataFrame(facilities)
 
