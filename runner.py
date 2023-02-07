@@ -80,8 +80,12 @@ class Runner(object):
         # Note: this currently only runs properly for 2 groups.
 
         # If init_facility_composition is set to parity, then change the initial facility composition to be equal for all groups.
-        if preference_model_params['init_facility_composition'] == 'parity':
-            self.facilities[self.comp_columns] = 1 / self.total_groups
+        # if preference_model_params['init_facility_composition'] == 'parity':
+        #     self.facilities[self.comp_columns] = 1 / self.total_groups
+
+        # ## TODO DELETE
+        # self.facilities[self.comp_columns] = np.array([[0.9, 0.1], [0.1, 0.9]])
+        ##
 
         # Note: first round is vanilla - no interventions are added.
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
@@ -273,6 +277,19 @@ class Runner(object):
             ax.legend()
             self.logger.save_plot(fig, f'facility_popularity.png')
 
+
+            # Generate Allocation bar plot for all facilities.
+            fig, ax = get_figure(f"Allocated agents to each Facility",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='# allocated agents')
+            mean_alloc = alloc_by_facility.mean(axis=1)
+            for fid in range(self.facilities_size):
+                ax.bar(range(simulation_rounds), mean_alloc[:, fid], label=f'Facility {fid}', bottom=mean_alloc[:, :fid].sum(axis=1))
+                # ax.bar(range(simulation_rounds), mean_alloc[:, 1], label=f'Facility 1', bottom=mean_alloc[:, 0])
+            ax.legend()
+            self.logger.save_plot(fig, f'allocated_agents_by_facility.png')
+
             # Generate Mean Travel Time to Allocation plot.
             mttalloc_ci = np.apply_along_axis(calculate_ci, 1, mean_tt_to_alloc)
             mttallocgrp_ci = np.apply_along_axis(calculate_ci, 1, mean_tt_to_alloc_by_grp)
@@ -285,7 +302,6 @@ class Runner(object):
             [ax.plot(range(simulation_rounds), mttallocgrp_ci[:, 0, g], label=f'Group {self.group_names[g]}') for g in range(self.total_groups)]
             [ax.fill_between(range(simulation_rounds), mttallocgrp_ci[:, 1, g], mttallocgrp_ci[:, 2, g], alpha=.1, color=f'C{g}') for g in range(self.total_groups)]
             fig.legend()
-            
             # Save the mean travel time plot.
             self.logger.save_plot(fig, f'mean_tt_to_allocation.png')
 
@@ -301,9 +317,36 @@ class Runner(object):
             [ax.plot(range(simulation_rounds), mposallocgrp_ci[:, 0, g], label=f'Group {self.group_names[g]}', color=f'C{g}') for g in range(self.total_groups)]
             [ax.fill_between(range(simulation_rounds), mposallocgrp_ci[:, 1, g], mposallocgrp_ci[:, 2, g], alpha=.1, color=f'C{g}') for g in range(self.total_groups)]
             fig.legend()
-
             # Save the mean position in pref list plot.
             self.logger.save_plot(fig, f'mean_pref_position_of_allocation.png')
+
+            # Generate mean utility by group plot.
+            mean_group_utility = mean_agent_utility.mean(axis=1)
+            fig, ax = get_figure(f"Mean Utility by Group",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='Mean Utility')
+
+            for g in range(self.total_groups):
+                ax.plot(range(simulation_rounds), mean_group_utility[:, self.population['group_id'] == g].mean(axis=1), label=f'Group {self.group_names[g]}')
+            ax.legend()
+            ax.set_ylim(0, None)
+            # Save the mean utility by group plot.
+            self.logger.save_plot(fig, f'mean_utility_by_group.png')
+
+            # Generate median utility by group plot.
+            median_group_utility = mean_agent_utility.mean(axis=1) ## still need to calculate the mean over all allocations
+            fig, ax = get_figure(f"Median Utility by Group",
+                                f"{preferences_model} - {allocation_model} - {intervention_model}",
+                                xlabel='Simulation round',
+                                ylabel='Median Utility')
+
+            for g in range(self.total_groups):
+                ax.plot(range(simulation_rounds), np.median(median_group_utility[:, self.population['group_id'] == g], axis=1), label=f'Group {self.group_names[g]}')
+            ax.legend()
+            ax.set_ylim(0, None)
+            # Save the mean utility by group plot.
+            self.logger.save_plot(fig, f'median_utility_by_group.png')
 
             # Generate plot of all network interventions
             self.logger.save_igraph_plot(self.network, f"network_interventions.pdf", edges_to_color=self.network.added_edges)
