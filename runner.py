@@ -87,6 +87,16 @@ class Runner(object):
         # self.facilities[self.comp_columns] = np.array([[0.9, 0.1], [0.1, 0.9]])
         ##
 
+
+        # 
+        pop_optimal_grp_frac = preference_model_params['pop_optimal_grp_frac']
+        if type(pop_optimal_grp_frac) == float:
+            assert pop_optimal_grp_frac >= 0 and pop_optimal_grp_frac <= 1, "pop_optimal_grp_frac must be a float between 0 and 1."
+
+            self.population['tolerance'] = pop_optimal_grp_frac
+        elif type(pop_optimal_grp_frac) == list:
+            self.population['tolerance'] = np.random.choice(pop_optimal_grp_frac, self.population_size)
+
         # Note: first round is vanilla - no interventions are added.
         # initialize empty numpy arrays meant to store values of evaluation metrics per simulation round.
         alloc_by_facility = np.zeros((simulation_rounds, allocation_rounds, self.facilities_size))

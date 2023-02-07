@@ -8,9 +8,18 @@ preference_model_params:
   # Nearest k facilities to select. Required if preferences_model = 'nearest_k' OR 'toy_model'
   # nearest_k: 2
   # Required if preferences_model=distance_composition.
-  # c_weight: 0.5 # The weight to give to the composition component of the distance_composition preference. 
-  # M: 0.5 # the penalty for exceeding the tolerance, as defined in the Dignum et al. paper
-  # init_facility_composition: 'node' # The starting group composition of the facilities (round 0), applicable values: 'node': the composition of the node the facility is in, 'parity': all groups have the same starting composition.
+  c_weight: 0.2 # The weight to give to the composition component of the distance_composition preference. 
+  M: 0.6 # the penalty for exceeding the tolerance, as defined in the Dignum et al. paper
+
+  # The starting group composition of the facilities (round 0), applicable values: 
+    # 'node': the composition of the node the facility is in, 
+    # 'parity': all groups have the same starting composition.
+  init_facility_composition: 'node'
+  # The optimal percentage point of homophily (fraction of agents of the same group) of the agents at any facility. Applicable values
+    # null: it uses the 'tolerance' field of the population.csv file 
+    # float: constant fraction for all agents (should be between 0 and 1)
+    # list[]: fractions to sample from for each agent (random sample)
+  pop_optimal_grp_frac: null
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['none', 'random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
