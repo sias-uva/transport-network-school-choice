@@ -114,7 +114,8 @@ class Runner(object):
             intervention_round = intervention_rounds > 0 and i > 0 and ((i == 1) or i % (simulation_rounds // intervention_rounds) == 0)
             if intervention_round:
                 created_interventions = self.create_interventions(intervention_model, intervention_budget)
-                interventions.extend(created_interventions)
+                if created_interventions:
+                    interventions.extend(created_interventions)
                 rounds_with_intervention.append(i)
 
             # Store all preference lists for each allocation round for each agent.
