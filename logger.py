@@ -10,7 +10,7 @@ class Logger(object):
     def __init__(self, config):
         now = datetime.datetime.today().strftime('%Y%m%d_%H_%M_%S.%f')
         environment = config['network_file'].split('/')[2]
-        self.results_path = Path('./results') / f"{now}_{environment}_{config['preferences_model']}_{config['allocation_model']}_{config['intervention_model']}"
+        self.results_path = Path('./results') / f"{now}_{environment}_{config['simulation_rounds']}_{config['allocation_rounds']}_{config['intervention_rounds']}_{config['intervention_budget']}_{config['preferences_model']}_{config['allocation_model']}_{config['intervention_model']}"
         self.results_path.mkdir(parents=True, exist_ok=True)
         self.rounds_path = self.results_path / 'rounds'
         self.rounds_path.mkdir(parents=True, exist_ok=True)
