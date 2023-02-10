@@ -17,7 +17,7 @@ def get_figure(title, subtitle='', figsize=FIG_SIZE, xlabel=None, ylabel=None, y
     """
     fig, ax = plt.subplots(figsize=figsize)
     fig.suptitle(title)
-    ax.set_title(subtitle)
+    ax.set_title(subtitle, color='gray')
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     fig.tight_layout()
