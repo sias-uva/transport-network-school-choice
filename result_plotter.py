@@ -17,7 +17,7 @@ def plot_results(results, ax):
     names = ['none', 'random', 'closeness', 'group_closeness', 'betweenness', 'degree', 'group_degree']
     colors = ['gray', 'gray', '#e60049', '#e60049', '#0bb4ff', '#50e991', '#50e991']
     # line_styles = ['--', '--', '--', '--', '--', '-', '-', '-']
-    line_styles = ['--', '--', '--', '-', '--', '--', '-']
+    line_styles = ['-.', '--', '--', '-', '--', '--', '-']
     result_path = Path('./results')
 
     # Confidence intervals of dissimilarity index
@@ -42,7 +42,7 @@ def plot_results(results, ax):
         sim_rounds = diss_ci[i].shape[0]
 
         ax.plot(range(sim_rounds), diss_ci[i][:, 0], line_styles[i], label=f'{names[i]}', color=colors[i], linewidth=3)
-        ax.fill_between(range(sim_rounds), diss_ci[i][:, 1], diss_ci[i][:, 2], color=f'C{i}', alpha=.1)
+        ax.fill_between(range(sim_rounds), diss_ci[i][:, 1], diss_ci[i][:, 2], color=colors[i], alpha=.1)
         
         for r in output_files[i]['rounds_with_intervention']:
                 ax.axvline(r, linestyle='dashed', linewidth=1, color='#C2C2C2', alpha=0.1)
@@ -52,13 +52,13 @@ def plot_results(results, ax):
 
 # # results to plot
 results_ams = [
-        '20230210_15_50_12.812654_amsterdam_neighborhoods_50_1_0_1_distance_composition_random_serial_dictatorship_none',
-        '20230210_16_28_36.035226_amsterdam_neighborhoods_50_1_25_1_distance_composition_random_serial_dictatorship_random',
-        '20230210_15_17_39.244818_amsterdam_neighborhoods_50_1_25_1_distance_composition_random_serial_dictatorship_closeness',
-        '20230210_15_06_13.716754_amsterdam_neighborhoods_50_1_25_1_distance_composition_random_serial_dictatorship_group_closeness',
-        '20230210_15_38_28.715298_amsterdam_neighborhoods_50_1_25_1_distance_composition_random_serial_dictatorship_betweenness',
-        '20230210_15_50_49.947094_amsterdam_neighborhoods_50_1_25_1_distance_composition_random_serial_dictatorship_degree',
-        '20230210_15_53_38.854255_amsterdam_neighborhoods_50_1_25_1_distance_composition_random_serial_dictatorship_group_degree'
+        '20230213_11_22_58.311840_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_none',
+        '20230213_11_23_05.508838_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_random',
+        '20230213_11_23_16.596338_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_closeness',
+        '20230213_11_28_21.533442_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_closeness',
+        '20230213_11_23_27.183322_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_betweenness',
+        '20230213_11_24_02.853325_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_degree',
+        '20230213_11_28_34.792581_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_degree'
         ]
 
 # results to plot
