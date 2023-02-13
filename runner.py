@@ -234,7 +234,7 @@ class Runner(object):
                 ax.hlines(y=0.5, xmin=0, xmax=simulation_rounds-1, color='gray', linestyle='--')
                 ax.legend()
 
-                self.logger.save_plot(fig, f'facility_{fid}_group_composition.png', subdir='facilities_group_composition')
+                self.logger.save_plot(fig, f'{fid}_composition.png', subdir='facilities_group_composition')
 
             # Generate Dissimilarity Index plot for all facilities.
             diss_ci = np.apply_along_axis(calculate_ci, 1, dissimilarity_index)
