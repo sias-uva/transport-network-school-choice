@@ -46,7 +46,7 @@ for i in graph.vs.indices:
 # ig.plot(graph, vertex_size=20)
 ig.plot(graph, vertex_size=20, target=f'./{network_name}/network.pdf')
 ig.write(graph, f'./{network_name}/network.gml')
-ig.write(graph, f'./{network_name}/network_raw.gml')
+ig.write(graph_raw, f'./{network_name}/network_raw.gml')
 
 # fig, ax = plt.subplots(figsize=(5, 5))
 # ax.hist(graph.degree())

@@ -1,4 +1,4 @@
-Creator "igraph version 0.10.2 Wed Feb 15 16:59:00 2023"
+Creator "igraph version 0.10.2 Wed Feb 15 17:33:20 2023"
 Version 1
 graph
 [
@@ -10,8 +10,6 @@ graph
     x 4.90026136872713
     y 52.375929747642
     name "Kop Zeedijk"
-    label 0
-    labelsize 5
   ]
   node
   [
@@ -20,8 +18,6 @@ graph
     x 4.89614070083475
     y 52.3737911272355
     name "Oude Kerk e.o."
-    label 1
-    labelsize 5
   ]
   node
   [
@@ -30,8 +26,6 @@ graph
     x 4.89873585044153
     y 52.3728183444138
     name "Burgwallen Oost"
-    label 2
-    labelsize 5
   ]
   node
   [
@@ -40,8 +34,6 @@ graph
     x 4.8937096981801
     y 52.3708601386064
     name "Nes e.o."
-    label 3
-    labelsize 5
   ]
   node
   [
@@ -50,8 +42,6 @@ graph
     x 4.89557853122687
     y 52.3695402392162
     name "BG-terrein e.o."
-    label 4
-    labelsize 5
   ]
   node
   [
@@ -60,8 +50,6 @@ graph
     x 4.90071815424133
     y 52.379650483881
     name "Stationsplein e.o."
-    label 5
-    labelsize 5
   ]
   node
   [
@@ -70,8 +58,6 @@ graph
     x 4.89491296330356
     y 52.3781447900819
     name "Hemelrijk"
-    label 6
-    labelsize 5
   ]
   node
   [
@@ -80,8 +66,6 @@ graph
     x 4.89695632855098
     y 52.377000812641
     name "Nieuwendijk Noord"
-    label 7
-    labelsize 5
   ]
   node
   [
@@ -90,8 +74,6 @@ graph
     x 4.89118621483679
     y 52.3751401924933
     name "Spuistraat Noord"
-    label 8
-    labelsize 5
   ]
   node
   [
@@ -100,8 +82,6 @@ graph
     x 4.89321325340251
     y 52.3745119283534
     name "Nieuwe Kerk e.o."
-    label 9
-    labelsize 5
   ]
   node
   [
@@ -110,8 +90,6 @@ graph
     x 4.88921545712391
     y 52.3709959607195
     name "Spuistraat Zuid"
-    label 10
-    labelsize 5
   ]
   node
   [
@@ -120,8 +98,6 @@ graph
     x 4.89127748662266
     y 52.370705194562
     name "Begijnhofbuurt"
-    label 11
-    labelsize 5
   ]
   node
   [
@@ -130,8 +106,6 @@ graph
     x 4.89130272721039
     y 52.367918662048
     name "Kalverdriehoek"
-    label 12
-    labelsize 5
   ]
   node
   [
@@ -140,8 +114,6 @@ graph
     x 4.88999035832923
     y 52.3783680377118
     name "Langestraat e.o."
-    label 13
-    labelsize 5
   ]
   node
   [
@@ -150,8 +122,6 @@ graph
     x 4.887077349341
     y 52.3755192543161
     name "Leliegracht e.o."
-    label 14
-    labelsize 5
   ]
   node
   [
@@ -160,8 +130,6 @@ graph
     x 4.88548885158608
     y 52.3713249368111
     name "Felix Meritisbuurt"
-    label 15
-    labelsize 5
   ]
   node
   [
@@ -170,8 +138,6 @@ graph
     x 4.8845448373065
     y 52.3678421150289
     name "Leidsegracht Noord"
-    label 16
-    labelsize 5
   ]
   node
   [
@@ -180,8 +146,6 @@ graph
     x 4.88769047634208
     y 52.3648923268331
     name "Spiegelbuurt"
-    label 17
-    labelsize 5
   ]
   node
   [
@@ -190,8 +154,6 @@ graph
     x 4.89111774362762
     y 52.3653471342775
     name "Gouden Bocht"
-    label 18
-    labelsize 5
   ]
   node
   [
@@ -200,8 +162,6 @@ graph
     x 4.89306668058748
     y 52.3635762046431
     name "Van Loonbuurt"
-    label 19
-    labelsize 5
   ]
   node
   [
@@ -210,8 +170,6 @@ graph
     x 4.89901228300793
     y 52.363680895709
     name "Amstelveldbuurt"
-    label 20
-    labelsize 5
   ]
   node
   [
@@ -220,8 +178,6 @@ graph
     x 4.89797923276177
     y 52.3662228083039
     name "Rembrandtpleinbuurt"
-    label 21
-    labelsize 5
   ]
   node
   [
@@ -230,8 +186,6 @@ graph
     x 4.8932102151814
     y 52.3666117608352
     name "Reguliersbuurt"
-    label 22
-    labelsize 5
   ]
   node
   [
@@ -240,8 +194,6 @@ graph
     x 4.88628837743943
     y 52.3667480184963
     name "Leidsegracht Zuid"
-    label 23
-    labelsize 5
   ]
   node
   [
@@ -250,8 +202,6 @@ graph
     x 4.90791454947662
     y 52.3772282672718
     name "Oosterdokseiland"
-    label 24
-    labelsize 5
   ]
   node
   [
@@ -260,8 +210,6 @@ graph
     x 4.90594112962543
     y 52.3740773144943
     name "Scheepvaarthuisbuurt"
-    label 25
-    labelsize 5
   ]
   node
   [
@@ -270,8 +218,6 @@ graph
     x 4.91071097142728
     y 52.3724722090472
     name "Rapenburg"
-    label 26
-    labelsize 5
   ]
   node
   [
@@ -280,8 +226,6 @@ graph
     x 4.90322239725159
     y 52.3738563612646
     name "Lastage"
-    label 27
-    labelsize 5
   ]
   node
   [
@@ -290,8 +234,6 @@ graph
     x 4.90190105484907
     y 52.3716296579442
     name "Nieuwmarkt"
-    label 28
-    labelsize 5
   ]
   node
   [
@@ -300,8 +242,6 @@ graph
     x 4.90512245295182
     y 52.3701990677083
     name "Uilenburg"
-    label 29
-    labelsize 5
   ]
   node
   [
@@ -310,8 +250,6 @@ graph
     x 4.90767427891977
     y 52.3689687457524
     name "Valkenburg"
-    label 30
-    labelsize 5
   ]
   node
   [
@@ -320,8 +258,6 @@ graph
     x 4.89863271992644
     y 52.3693883266587
     name "Zuiderkerkbuurt"
-    label 31
-    labelsize 5
   ]
   node
   [
@@ -330,8 +266,6 @@ graph
     x 4.90237863016587
     y 52.3675779882384
     name "Waterloopleinbuurt"
-    label 32
-    labelsize 5
   ]
   node
   [
@@ -340,8 +274,6 @@ graph
     x 4.8940251817521
     y 52.384371273826
     name "Westerdokseiland"
-    label 33
-    labelsize 5
   ]
   node
   [
@@ -350,8 +282,6 @@ graph
     x 4.89191404073531
     y 52.3804272957646
     name "Haarlemmerbuurt Oost"
-    label 34
-    labelsize 5
   ]
   node
   [
@@ -360,8 +290,6 @@ graph
     x 4.88630612983842
     y 52.3830238451776
     name "Haarlemmerbuurt West"
-    label 35
-    labelsize 5
   ]
   node
   [
@@ -370,8 +298,6 @@ graph
     x 4.88819362661784
     y 52.3858391511144
     name "Westelijke eilanden"
-    label 36
-    labelsize 5
   ]
   node
   [
@@ -380,8 +306,6 @@ graph
     x 4.88441342784138
     y 52.3870627171019
     name "Planciusbuurt Noord"
-    label 37
-    labelsize 5
   ]
   node
   [
@@ -390,8 +314,6 @@ graph
     x 4.88284011828402
     y 52.3849556316701
     name "Planciusbuurt Zuid"
-    label 38
-    labelsize 5
   ]
   node
   [
@@ -400,8 +322,6 @@ graph
     x 4.88378352706641
     y 52.3813017495243
     name "Driehoekbuurt"
-    label 39
-    labelsize 5
   ]
   node
   [
@@ -410,8 +330,6 @@ graph
     x 4.88025785671985
     y 52.3745272450052
     name "Bloemgrachtbuurt"
-    label 40
-    labelsize 5
   ]
   node
   [
@@ -420,8 +338,6 @@ graph
     x 4.88052936978015
     y 52.3811308418743
     name "Marnixbuurt Noord"
-    label 41
-    labelsize 5
   ]
   node
   [
@@ -430,8 +346,6 @@ graph
     x 4.87752279858076
     y 52.3760852769813
     name "Zaagpoortbuurt"
-    label 42
-    labelsize 5
   ]
   node
   [
@@ -440,8 +354,6 @@ graph
     x 4.87574735403722
     y 52.3729764468841
     name "Marnixbuurt Midden"
-    label 43
-    labelsize 5
   ]
   node
   [
@@ -450,8 +362,6 @@ graph
     x 4.88007616238981
     y 52.3709588099163
     name "Elandsgrachtbuurt"
-    label 44
-    labelsize 5
   ]
   node
   [
@@ -460,8 +370,6 @@ graph
     x 4.88119009517526
     y 52.3671899909079
     name "Passeerdersgrachtbuurt"
-    label 45
-    labelsize 5
   ]
   node
   [
@@ -470,8 +378,6 @@ graph
     x 4.87629297040251
     y 52.3703460047172
     name "Groenmarktkadebuurt"
-    label 46
-    labelsize 5
   ]
   node
   [
@@ -480,8 +386,6 @@ graph
     x 4.87874591477538
     y 52.3669181733812
     name "Marnixbuurt Zuid"
-    label 47
-    labelsize 5
   ]
   node
   [
@@ -490,8 +394,6 @@ graph
     x 4.88369241782217
     y 52.3792641742345
     name "Anjeliersbuurt Noord"
-    label 48
-    labelsize 5
   ]
   node
   [
@@ -500,8 +402,6 @@ graph
     x 4.88214270054108
     y 52.3771589117433
     name "Anjeliersbuurt Zuid"
-    label 49
-    labelsize 5
   ]
   node
   [
@@ -510,8 +410,6 @@ graph
     x 4.88261056251033
     y 52.3652047343741
     name "Leidsebuurt Noordwest"
-    label 50
-    labelsize 5
   ]
   node
   [
@@ -520,8 +418,6 @@ graph
     x 4.88090954353989
     y 52.3643481970887
     name "Leidsebuurt Zuidwest"
-    label 51
-    labelsize 5
   ]
   node
   [
@@ -530,8 +426,6 @@ graph
     x 4.8852792137545
     y 52.3633609924283
     name "Leidsebuurt Noordoost"
-    label 52
-    labelsize 5
   ]
   node
   [
@@ -540,8 +434,6 @@ graph
     x 4.88385983557037
     y 52.362371266495
     name "Leidsebuurt Zuidoost"
-    label 53
-    labelsize 5
   ]
   node
   [
@@ -550,8 +442,6 @@ graph
     x 4.89178263297291
     y 52.3611307622635
     name "Weteringbuurt"
-    label 54
-    labelsize 5
   ]
   node
   [
@@ -560,8 +450,6 @@ graph
     x 4.89172531704545
     y 52.3593826187764
     name "Den Texbuurt"
-    label 55
-    labelsize 5
   ]
   node
   [
@@ -570,8 +458,6 @@ graph
     x 4.89955337160809
     y 52.3615571915011
     name "Utrechtsebuurt Zuid"
-    label 56
-    labelsize 5
   ]
   node
   [
@@ -580,8 +466,6 @@ graph
     x 4.90020468053348
     y 52.3596599622866
     name "Frederikspleinbuurt"
-    label 57
-    labelsize 5
   ]
   node
   [
@@ -590,8 +474,6 @@ graph
     x 4.90667263888258
     y 52.3642500801454
     name "Weesperbuurt"
-    label 58
-    labelsize 5
   ]
   node
   [
@@ -600,8 +482,6 @@ graph
     x 4.910031747983
     y 52.3617771067815
     name "Sarphatistrook"
-    label 59
-    labelsize 5
   ]
   node
   [
@@ -610,8 +490,6 @@ graph
     x 4.91395579673019
     y 52.3663600977366
     name "de Plantage"
-    label 60
-    labelsize 5
   ]
   node
   [
@@ -620,8 +498,6 @@ graph
     x 4.91929507179272
     y 52.3634730771443
     name "Alexanderplein e.o."
-    label 61
-    labelsize 5
   ]
   node
   [
@@ -630,8 +506,6 @@ graph
     x 4.91591022174977
     y 52.3744117877153
     name "Marine-Etablissement"
-    label 62
-    labelsize 5
   ]
   node
   [
@@ -640,8 +514,6 @@ graph
     x 4.91993182526821
     y 52.3727962309866
     name "Kattenburg"
-    label 63
-    labelsize 5
   ]
   node
   [
@@ -650,8 +522,6 @@ graph
     x 4.92237277324534
     y 52.3717735411253
     name "Wittenburg"
-    label 64
-    labelsize 5
   ]
   node
   [
@@ -660,8 +530,6 @@ graph
     x 4.92618764936259
     y 52.3706396963284
     name "Oostenburg"
-    label 65
-    labelsize 5
   ]
   node
   [
@@ -670,8 +538,6 @@ graph
     x 4.92894129681875
     y 52.3693174351134
     name "Czaar Peterbuurt"
-    label 66
-    labelsize 5
   ]
   node
   [
@@ -680,8 +546,6 @@ graph
     x 4.93049698545842
     y 52.3680418744906
     name "Het Funen"
-    label 67
-    labelsize 5
   ]
   node
   [
@@ -690,8 +554,6 @@ graph
     x 4.9238425874932
     y 52.3655694604177
     name "Kazernebuurt"
-    label 68
-    labelsize 5
   ]
   node
   [
@@ -700,8 +562,6 @@ graph
     x 4.91786156733402
     y 52.3684255658147
     name "Kadijken"
-    label 69
-    labelsize 5
   ]
   node
   [
@@ -710,8 +570,6 @@ graph
     x 4.86724161515859
     y 52.4022922490065
     name "Coenhaven/Mercuriushaven"
-    label 70
-    labelsize 5
   ]
   node
   [
@@ -720,8 +578,6 @@ graph
     x 4.85211864334926
     y 52.3971660273715
     name "Alfa-driehoek"
-    label 71
-    labelsize 5
   ]
   node
   [
@@ -730,8 +586,6 @@ graph
     x 4.8436049041261
     y 52.4120722240796
     name "Petroleumhaven"
-    label 72
-    labelsize 5
   ]
   node
   [
@@ -740,8 +594,6 @@ graph
     x 4.81855731142202
     y 52.4066007436918
     name "Westhaven Noord"
-    label 73
-    labelsize 5
   ]
   node
   [
@@ -750,8 +602,6 @@ graph
     x 4.84136459705062
     y 52.4001111627096
     name "Vervoerscentrum"
-    label 74
-    labelsize 5
   ]
   node
   [
@@ -760,8 +610,6 @@ graph
     x 4.7797059742621
     y 52.4136101031731
     name "Amerikahaven"
-    label 75
-    labelsize 5
   ]
   node
   [
@@ -770,8 +618,6 @@ graph
     x 4.74507432771734
     y 52.4123095844776
     name "Afrikahaven"
-    label 76
-    labelsize 5
   ]
   node
   [
@@ -780,8 +626,6 @@ graph
     x 4.82281613951573
     y 52.3933433820467
     name "Westhaven Zuid"
-    label 77
-    labelsize 5
   ]
   node
   [
@@ -790,8 +634,6 @@ graph
     x 4.82978704706944
     y 52.3915105134584
     name "Sloterdijk II"
-    label 78
-    labelsize 5
   ]
   node
   [
@@ -800,8 +642,6 @@ graph
     x 4.80602942115269
     y 52.3913961664375
     name "Sloterdijk III Oost"
-    label 79
-    labelsize 5
   ]
   node
   [
@@ -810,8 +650,6 @@ graph
     x 4.78666382822977
     y 52.3944589531323
     name "Sloterdijk III West"
-    label 80
-    labelsize 5
   ]
   node
   [
@@ -820,8 +658,6 @@ graph
     x 4.76442904392175
     y 52.3939146876442
     name "De Heining"
-    label 81
-    labelsize 5
   ]
   node
   [
@@ -830,8 +666,6 @@ graph
     x 4.83664178994765
     y 52.3887730450354
     name "Teleport"
-    label 82
-    labelsize 5
   ]
   node
   [
@@ -840,8 +674,6 @@ graph
     x 4.8148884067577
     y 52.386664166007
     name "Bretten Oost"
-    label 83
-    labelsize 5
   ]
   node
   [
@@ -850,8 +682,6 @@ graph
     x 4.78090237865803
     y 52.3866266852263
     name "Bretten West"
-    label 84
-    labelsize 5
   ]
   node
   [
@@ -860,8 +690,6 @@ graph
     x 4.88176143712552
     y 52.3944867568296
     name "Houthavens West"
-    label 85
-    labelsize 5
   ]
   node
   [
@@ -870,8 +698,6 @@ graph
     x 4.89090638705162
     y 52.3916826603316
     name "Houthavens Oost"
-    label 86
-    labelsize 5
   ]
   node
   [
@@ -880,8 +706,6 @@ graph
     x 4.8879698032601
     y 52.3893322626959
     name "Zeeheldenbuurt"
-    label 87
-    labelsize 5
   ]
   node
   [
@@ -890,8 +714,6 @@ graph
     x 4.88189629730082
     y 52.3900587557735
     name "Spaarndammerbuurt Noordoost"
-    label 88
-    labelsize 5
   ]
   node
   [
@@ -900,8 +722,6 @@ graph
     x 4.88220975452415
     y 52.3878418012596
     name "Spaarndammerbuurt Zuidoost"
-    label 89
-    labelsize 5
   ]
   node
   [
@@ -910,8 +730,6 @@ graph
     x 4.87815636945348
     y 52.3889445943088
     name "Spaarndammerbuurt Zuidwest"
-    label 90
-    labelsize 5
   ]
   node
   [
@@ -920,8 +738,6 @@ graph
     x 4.87576761850719
     y 52.3907953411539
     name "Spaarndammerbuurt Midden"
-    label 91
-    labelsize 5
   ]
   node
   [
@@ -930,8 +746,6 @@ graph
     x 4.87222746374906
     y 52.3921179441991
     name "Spaarndammerbuurt Noordwest"
-    label 92
-    labelsize 5
   ]
   node
   [
@@ -940,8 +754,6 @@ graph
     x 4.87358089042699
     y 52.3866052952982
     name "Westergasfabriek"
-    label 93
-    labelsize 5
   ]
   node
   [
@@ -950,8 +762,6 @@ graph
     x 4.86537944221864
     y 52.3905866866907
     name "Overbraker Binnenpolder"
-    label 94
-    labelsize 5
   ]
   node
   [
@@ -960,8 +770,6 @@ graph
     x 4.87991859685595
     y 52.3837475808625
     name "De Wittenbuurt Noord"
-    label 95
-    labelsize 5
   ]
   node
   [
@@ -970,8 +778,6 @@ graph
     x 4.87641393696701
     y 52.3818109827522
     name "De Wittenbuurt Zuid"
-    label 96
-    labelsize 5
   ]
   node
   [
@@ -980,8 +786,6 @@ graph
     x 4.87747179927877
     y 52.3847931223312
     name "Staatsliedenbuurt Noordoost"
-    label 97
-    labelsize 5
   ]
   node
   [
@@ -990,8 +794,6 @@ graph
     x 4.87390090307829
     y 52.3836060866032
     name "Fannius Scholtenbuurt"
-    label 98
-    labelsize 5
   ]
   node
   [
@@ -1000,8 +802,6 @@ graph
     x 4.87063801560897
     y 52.3826700503621
     name "Westerstaatsman"
-    label 99
-    labelsize 5
   ]
   node
   [
@@ -1010,8 +810,6 @@ graph
     x 4.87088092522945
     y 52.3791080513256
     name "Buyskade e.o."
-    label 100
-    labelsize 5
   ]
   node
   [
@@ -1020,8 +818,6 @@ graph
     x 4.86871775625344
     y 52.3838819200923
     name "Ecowijk"
-    label 101
-    labelsize 5
   ]
   node
   [
@@ -1030,8 +826,6 @@ graph
     x 4.86590812039521
     y 52.3790034180845
     name "Markthallen"
-    label 102
-    labelsize 5
   ]
   node
   [
@@ -1040,8 +834,6 @@ graph
     x 4.86429869534812
     y 52.3838130703148
     name "Bedrijvencentrum Westerkwartier"
-    label 103
-    labelsize 5
   ]
   node
   [
@@ -1050,8 +842,6 @@ graph
     x 4.86707055179778
     y 52.3745626428573
     name "Marcanti"
-    label 104
-    labelsize 5
   ]
   node
   [
@@ -1060,8 +850,6 @@ graph
     x 4.87592351604612
     y 52.3786921285392
     name "Frederik Hendrikbuurt Noord"
-    label 105
-    labelsize 5
   ]
   node
   [
@@ -1070,8 +858,6 @@ graph
     x 4.87306178893487
     y 52.3744011608428
     name "Frederik Hendrikbuurt Zuidoost"
-    label 106
-    labelsize 5
   ]
   node
   [
@@ -1080,8 +866,6 @@ graph
     x 4.86993384670527
     y 52.3745616242425
     name "Frederik Hendrikbuurt Zuidwest"
-    label 107
-    labelsize 5
   ]
   node
   [
@@ -1090,8 +874,6 @@ graph
     x 4.87211929377966
     y 52.3701287902226
     name "Da Costabuurt Noord"
-    label 108
-    labelsize 5
   ]
   node
   [
@@ -1100,8 +882,6 @@ graph
     x 4.86631068171443
     y 52.3693658676763
     name "Bellamybuurt Noord"
-    label 109
-    labelsize 5
   ]
   node
   [
@@ -1110,8 +890,6 @@ graph
     x 4.8654618701595
     y 52.3665987768168
     name "Bellamybuurt Zuid"
-    label 110
-    labelsize 5
   ]
   node
   [
@@ -1120,8 +898,6 @@ graph
     x 4.87426477630757
     y 52.3668381232873
     name "Da Costabuurt Zuid"
-    label 111
-    labelsize 5
   ]
   node
   [
@@ -1130,8 +906,6 @@ graph
     x 4.86733304136469
     y 52.3649384658348
     name "Borgerbuurt"
-    label 112
-    labelsize 5
   ]
   node
   [
@@ -1140,8 +914,6 @@ graph
     x 4.86079399450855
     y 52.3632682829299
     name "Lootsbuurt"
-    label 113
-    labelsize 5
   ]
   node
   [
@@ -1150,8 +922,6 @@ graph
     x 4.87651056079497
     y 52.364816795822
     name "Helmersbuurt Oost"
-    label 114
-    labelsize 5
   ]
   node
   [
@@ -1160,8 +930,6 @@ graph
     x 4.87093509035778
     y 52.3632039831757
     name "WG-terrein"
-    label 115
-    labelsize 5
   ]
   node
   [
@@ -1170,8 +938,6 @@ graph
     x 4.86606581097501
     y 52.3620738717677
     name "Cremerbuurt Oost"
-    label 116
-    labelsize 5
   ]
   node
   [
@@ -1180,8 +946,6 @@ graph
     x 4.86038618891693
     y 52.3604904745822
     name "Cremerbuurt West"
-    label 117
-    labelsize 5
   ]
   node
   [
@@ -1190,8 +954,6 @@ graph
     x 4.85971039266894
     y 52.3582217314498
     name "Vondelparkbuurt West"
-    label 118
-    labelsize 5
   ]
   node
   [
@@ -1200,8 +962,6 @@ graph
     x 4.87786621536664
     y 52.362251301338
     name "Vondelparkbuurt Oost"
-    label 119
-    labelsize 5
   ]
   node
   [
@@ -1210,8 +970,6 @@ graph
     x 4.86963296015159
     y 52.3606121307222
     name "Vondelparkbuurt Midden"
-    label 120
-    labelsize 5
   ]
   node
   [
@@ -1220,8 +978,6 @@ graph
     x 4.86997411138827
     y 52.339983079536
     name "Zuidas Noord"
-    label 121
-    labelsize 5
   ]
   node
   [
@@ -1230,8 +986,6 @@ graph
     x 4.88865869947235
     y 52.3405916428452
     name "RAI"
-    label 122
-    labelsize 5
   ]
   node
   [
@@ -1240,8 +994,6 @@ graph
     x 4.86345826946621
     y 52.3348772635609
     name "VU-kwartier"
-    label 123
-    labelsize 5
   ]
   node
   [
@@ -1250,8 +1002,6 @@ graph
     x 4.87317524811798
     y 52.3365769961871
     name "Zuidas Zuid"
-    label 124
-    labelsize 5
   ]
   node
   [
@@ -1260,8 +1010,6 @@ graph
     x 4.88327358964576
     y 52.3364943459868
     name "Vivaldi"
-    label 125
-    labelsize 5
   ]
   node
   [
@@ -1270,8 +1018,6 @@ graph
     x 4.90263450687706
     y 52.3570925514959
     name "Hemonybuurt"
-    label 126
-    labelsize 5
   ]
   node
   [
@@ -1280,8 +1026,6 @@ graph
     x 4.8937276467356
     y 52.357142042383
     name "Gerard Doubuurt"
-    label 127
-    labelsize 5
   ]
   node
   [
@@ -1290,8 +1034,6 @@ graph
     x 4.88848571583255
     y 52.3573198293595
     name "Frans Halsbuurt"
-    label 128
-    labelsize 5
   ]
   node
   [
@@ -1300,8 +1042,6 @@ graph
     x 4.88862584941159
     y 52.3537903323474
     name "Hercules Seghersbuurt"
-    label 129
-    labelsize 5
   ]
   node
   [
@@ -1310,8 +1050,6 @@ graph
     x 4.89567530505167
     y 52.3550704528497
     name "Sarphatiparkbuurt"
-    label 130
-    labelsize 5
   ]
   node
   [
@@ -1320,8 +1058,6 @@ graph
     x 4.9047281198826
     y 52.3541487007231
     name "Willibrordusbuurt"
-    label 131
-    labelsize 5
   ]
   node
   [
@@ -1330,8 +1066,6 @@ graph
     x 4.89884171930938
     y 52.352875727569
     name "Van der Helstpleinbuurt"
-    label 132
-    labelsize 5
   ]
   node
   [
@@ -1340,8 +1074,6 @@ graph
     x 4.89315581163828
     y 52.3505431440515
     name "Lizzy Ansinghbuurt"
-    label 133
-    labelsize 5
   ]
   node
   [
@@ -1350,8 +1082,6 @@ graph
     x 4.88901266842778
     y 52.3504034466715
     name "Cornelis Troostbuurt"
-    label 134
-    labelsize 5
   ]
   node
   [
@@ -1360,8 +1090,6 @@ graph
     x 4.90684361130413
     y 52.3511177375322
     name "Diamantbuurt"
-    label 135
-    labelsize 5
   ]
   node
   [
@@ -1370,8 +1098,6 @@ graph
     x 4.90109044997937
     y 52.3503808374396
     name "Burgemeester Tellegenbuurt Oost"
-    label 136
-    labelsize 5
   ]
   node
   [
@@ -1380,8 +1106,6 @@ graph
     x 4.89686388078343
     y 52.3497026842211
     name "Burgemeester Tellegenbuurt West"
-    label 137
-    labelsize 5
   ]
   node
   [
@@ -1390,8 +1114,6 @@ graph
     x 4.9076713377559
     y 52.3578191649905
     name "Swammerdambuurt"
-    label 138
-    labelsize 5
   ]
   node
   [
@@ -1400,8 +1122,6 @@ graph
     x 4.91138977754498
     y 52.3523940748982
     name "Weesperzijde Midden/Zuid"
-    label 139
-    labelsize 5
   ]
   node
   [
@@ -1410,8 +1130,6 @@ graph
     x 4.9136304271662
     y 52.3538488965165
     name "Parooldriehoek"
-    label 140
-    labelsize 5
   ]
   node
   [
@@ -1420,8 +1138,6 @@ graph
     x 4.91288809563355
     y 52.3591428857208
     name "Oosterparkbuurt Noordwest"
-    label 141
-    labelsize 5
   ]
   node
   [
@@ -1430,8 +1146,6 @@ graph
     x 4.92016552090148
     y 52.3608827452912
     name "Oosterpark"
-    label 142
-    labelsize 5
   ]
   node
   [
@@ -1440,8 +1154,6 @@ graph
     x 4.92206307956444
     y 52.3578819401217
     name "Oosterparkbuurt Zuidoost"
-    label 143
-    labelsize 5
   ]
   node
   [
@@ -1450,8 +1162,6 @@ graph
     x 4.91544605180163
     y 52.3562017144956
     name "Oosterparkbuurt Zuidwest"
-    label 144
-    labelsize 5
   ]
   node
   [
@@ -1460,8 +1170,6 @@ graph
     x 4.92744328789244
     y 52.3644204835604
     name "Dapperbuurt Noord"
-    label 145
-    labelsize 5
   ]
   node
   [
@@ -1470,8 +1178,6 @@ graph
     x 4.92785827638178
     y 52.3609057330656
     name "Dapperbuurt Zuid"
-    label 146
-    labelsize 5
   ]
   node
   [
@@ -1480,8 +1186,6 @@ graph
     x 4.9314031058564
     y 52.3583194201769
     name "Oostpoort"
-    label 147
-    labelsize 5
   ]
   node
   [
@@ -1490,8 +1194,6 @@ graph
     x 4.91769356397195
     y 52.352791610915
     name "Transvaalbuurt West"
-    label 148
-    labelsize 5
   ]
   node
   [
@@ -1500,8 +1202,6 @@ graph
     x 4.92369145194849
     y 52.3551977109367
     name "Transvaalbuurt Oost"
-    label 149
-    labelsize 5
   ]
   node
   [
@@ -1510,8 +1210,6 @@ graph
     x 4.93544660330015
     y 52.3651111908804
     name "Noordwestkwadrant Indische buurt Noord"
-    label 150
-    labelsize 5
   ]
   node
   [
@@ -1520,8 +1218,6 @@ graph
     x 4.9355963890283
     y 52.3624989089169
     name "Noordwestkwadrant Indische buurt Zuid"
-    label 151
-    labelsize 5
   ]
   node
   [
@@ -1530,8 +1226,6 @@ graph
     x 4.93712411381468
     y 52.3598133542206
     name "Zuidwestkwadrant Indische buurt"
-    label 152
-    labelsize 5
   ]
   node
   [
@@ -1540,8 +1234,6 @@ graph
     x 4.94331982533618
     y 52.3644195665925
     name "Noordoostkwadrant Indische buurt"
-    label 153
-    labelsize 5
   ]
   node
   [
@@ -1550,8 +1242,6 @@ graph
     x 4.94291439761544
     y 52.3603695876844
     name "Zuidoostkwadrant Indische buurt"
-    label 154
-    labelsize 5
   ]
   node
   [
@@ -1560,8 +1250,6 @@ graph
     x 4.95262497532205
     y 52.366440617706
     name "Zeeburgerdijk Oost"
-    label 155
-    labelsize 5
   ]
   node
   [
@@ -1570,8 +1258,6 @@ graph
     x 4.95288463046704
     y 52.3614031389548
     name "Flevopark"
-    label 156
-    labelsize 5
   ]
   node
   [
@@ -1580,8 +1266,6 @@ graph
     x 4.91996564503923
     y 52.3770715610367
     name "Oostelijke Handelskade"
-    label 157
-    labelsize 5
   ]
   node
   [
@@ -1590,8 +1274,6 @@ graph
     x 4.93387564193472
     y 52.3739034288606
     name "Rietlanden"
-    label 158
-    labelsize 5
   ]
   node
   [
@@ -1600,8 +1282,6 @@ graph
     x 4.92845109978019
     y 52.379341349244
     name "Java-eiland"
-    label 159
-    labelsize 5
   ]
   node
   [
@@ -1610,8 +1290,6 @@ graph
     x 4.94713393359034
     y 52.379279201823
     name "KNSM-eiland"
-    label 160
-    labelsize 5
   ]
   node
   [
@@ -1620,8 +1298,6 @@ graph
     x 4.94711079329477
     y 52.3742192077845
     name "Sporenburg"
-    label 161
-    labelsize 5
   ]
   node
   [
@@ -1630,8 +1306,6 @@ graph
     x 4.94619963772895
     y 52.3715366236283
     name "Borneo"
-    label 162
-    labelsize 5
   ]
   node
   [
@@ -1640,8 +1314,6 @@ graph
     x 4.9353630514954
     y 52.369512335032
     name "Entrepot-Noordwest"
-    label 163
-    labelsize 5
   ]
   node
   [
@@ -1650,8 +1322,6 @@ graph
     x 4.94245499835664
     y 52.3686968429326
     name "Architectenbuurt"
-    label 164
-    labelsize 5
   ]
   node
   [
@@ -1660,8 +1330,6 @@ graph
     x 4.93681700507589
     y 52.3679033541423
     name "Bedrijvengebied Veelaan"
-    label 165
-    labelsize 5
   ]
   node
   [
@@ -1670,8 +1338,6 @@ graph
     x 4.9518776591502
     y 52.3695641753131
     name "Bedrijvengebied Cruquiusweg"
-    label 166
-    labelsize 5
   ]
   node
   [
@@ -1680,8 +1346,6 @@ graph
     x 4.94172990735707
     y 52.3669830553605
     name "Bedrijvengebied Zeeburgerkade"
-    label 167
-    labelsize 5
   ]
   node
   [
@@ -1690,8 +1354,6 @@ graph
     x 4.95941421991757
     y 52.3761790866374
     name "Zeeburgereiland Noordwest"
-    label 168
-    labelsize 5
   ]
   node
   [
@@ -1700,8 +1362,6 @@ graph
     x 4.96808972237588
     y 52.3681767976224
     name "Zeeburgereiland Zuidoost"
-    label 169
-    labelsize 5
   ]
   node
   [
@@ -1710,8 +1370,6 @@ graph
     x 4.95902190055126
     y 52.3701750693759
     name "Zeeburgereiland Zuidwest"
-    label 170
-    labelsize 5
   ]
   node
   [
@@ -1720,8 +1378,6 @@ graph
     x 4.98230452590926
     y 52.3531604188571
     name "Nieuwe Diep/Diemerpark"
-    label 171
-    labelsize 5
   ]
   node
   [
@@ -1730,8 +1386,6 @@ graph
     x 4.96659228770375
     y 52.3732441724857
     name "RI Oost terrein"
-    label 172
-    labelsize 5
   ]
   node
   [
@@ -1740,8 +1394,6 @@ graph
     x 4.97331406227938
     y 52.3697885726565
     name "Zeeburgereiland Noordoost"
-    label 173
-    labelsize 5
   ]
   node
   [
@@ -1750,8 +1402,6 @@ graph
     x 4.98559889812147
     y 52.363357666572
     name "Steigereiland Noord"
-    label 174
-    labelsize 5
   ]
   node
   [
@@ -1760,8 +1410,6 @@ graph
     x 4.97964778821833
     y 52.3614947440092
     name "Steigereiland Zuid"
-    label 175
-    labelsize 5
   ]
   node
   [
@@ -1770,8 +1418,6 @@ graph
     x 4.99327024828208
     y 52.3545352789222
     name "Haveneiland Zuidwest/Rieteiland West"
-    label 176
-    labelsize 5
   ]
   node
   [
@@ -1780,8 +1426,6 @@ graph
     x 4.99230315559716
     y 52.3597026812684
     name "Haveneiland Noordwest"
-    label 177
-    labelsize 5
   ]
   node
   [
@@ -1790,8 +1434,6 @@ graph
     x 4.99875948738005
     y 52.3559548364441
     name "Haveneiland Noordoost"
-    label 178
-    labelsize 5
   ]
   node
   [
@@ -1800,8 +1442,6 @@ graph
     x 4.85429941228906
     y 52.3871078406751
     name "Woon- en Groengebied Sloterdijk"
-    label 179
-    labelsize 5
   ]
   node
   [
@@ -1810,8 +1450,6 @@ graph
     x 4.85109298035804
     y 52.3920774973488
     name "Bedrijventerrein Sloterdijk I"
-    label 180
-    labelsize 5
   ]
   node
   [
@@ -1820,8 +1458,6 @@ graph
     x 4.85953076312585
     y 52.3830732936138
     name "Bedrijventerrein Landlust"
-    label 181
-    labelsize 5
   ]
   node
   [
@@ -1830,8 +1466,6 @@ graph
     x 4.84822928425135
     y 52.3811926987139
     name "Bosleeuw"
-    label 182
-    labelsize 5
   ]
   node
   [
@@ -1840,8 +1474,6 @@ graph
     x 4.86072033674912
     y 52.3774009729326
     name "Landlust Zuid"
-    label 183
-    labelsize 5
   ]
   node
   [
@@ -1850,8 +1482,6 @@ graph
     x 4.8564261441754
     y 52.3768480860509
     name "Erasmusparkbuurt Oost"
-    label 184
-    labelsize 5
   ]
   node
   [
@@ -1860,8 +1490,6 @@ graph
     x 4.85295317483295
     y 52.3836442411698
     name "Gibraltarbuurt"
-    label 185
-    labelsize 5
   ]
   node
   [
@@ -1870,8 +1498,6 @@ graph
     x 4.85767686874074
     y 52.380779893542
     name "Landlust Noord"
-    label 186
-    labelsize 5
   ]
   node
   [
@@ -1880,8 +1506,6 @@ graph
     x 4.85174078372042
     y 52.3765898721716
     name "Erasmusparkbuurt West"
-    label 187
-    labelsize 5
   ]
   node
   [
@@ -1890,8 +1514,6 @@ graph
     x 4.84766626708411
     y 52.3740015502039
     name "Robert Scottbuurt Oost"
-    label 188
-    labelsize 5
   ]
   node
   [
@@ -1900,8 +1522,6 @@ graph
     x 4.84466311495866
     y 52.3748096798342
     name "Robert Scottbuurt West"
-    label 189
-    labelsize 5
   ]
   node
   [
@@ -1910,8 +1530,6 @@ graph
     x 4.83922770764441
     y 52.3742345233286
     name "Laan van Spartaan"
-    label 190
-    labelsize 5
   ]
   node
   [
@@ -1920,8 +1538,6 @@ graph
     x 4.84038095534621
     y 52.3771130830976
     name "Kolenkitbuurt Zuid"
-    label 191
-    labelsize 5
   ]
   node
   [
@@ -1930,8 +1546,6 @@ graph
     x 4.84178136333923
     y 52.381527958892
     name "Kolenkitbuurt Noord"
-    label 192
-    labelsize 5
   ]
   node
   [
@@ -1940,8 +1554,6 @@ graph
     x 4.86478094413928
     y 52.3727353554029
     name "Geuzenhofbuurt"
-    label 193
-    labelsize 5
   ]
   node
   [
@@ -1950,8 +1562,6 @@ graph
     x 4.86134563517139
     y 52.3730840140155
     name "Trompbuurt"
-    label 194
-    labelsize 5
   ]
   node
   [
@@ -1960,8 +1570,6 @@ graph
     x 4.85754716080242
     y 52.3729219798597
     name "Pieter van der Doesbuurt"
-    label 195
-    labelsize 5
   ]
   node
   [
@@ -1970,8 +1578,6 @@ graph
     x 4.85458006743329
     y 52.3724327680166
     name "John Franklinbuurt"
-    label 196
-    labelsize 5
   ]
   node
   [
@@ -1980,8 +1586,6 @@ graph
     x 4.85131318057847
     y 52.3717145432081
     name "Jan Maijenbuurt"
-    label 197
-    labelsize 5
   ]
   node
   [
@@ -1990,8 +1594,6 @@ graph
     x 4.84861119133156
     y 52.3712389312939
     name "Orteliusbuurt Noord"
-    label 198
-    labelsize 5
   ]
   node
   [
@@ -2000,8 +1602,6 @@ graph
     x 4.84521874455883
     y 52.3708712780675
     name "Mercatorpark"
-    label 199
-    labelsize 5
   ]
   node
   [
@@ -2010,8 +1610,6 @@ graph
     x 4.85407070187889
     y 52.3693422531609
     name "Balboaplein e.o."
-    label 200
-    labelsize 5
   ]
   node
   [
@@ -2020,8 +1618,6 @@ graph
     x 4.85542233539948
     y 52.3659964994887
     name "Columbusplein e.o."
-    label 201
-    labelsize 5
   ]
   node
   [
@@ -2030,8 +1626,6 @@ graph
     x 4.85034466072068
     y 52.3683055895276
     name "Orteliusbuurt Midden"
-    label 202
-    labelsize 5
   ]
   node
   [
@@ -2040,8 +1634,6 @@ graph
     x 4.85147698838134
     y 52.3650874479145
     name "Orteliusbuurt Zuid"
-    label 203
-    labelsize 5
   ]
   node
   [
@@ -2050,8 +1642,6 @@ graph
     x 4.85553726699277
     y 52.3615637785369
     name "Paramariboplein e.o."
-    label 204
-    labelsize 5
   ]
   node
   [
@@ -2060,8 +1650,6 @@ graph
     x 4.85127148485155
     y 52.3605240525648
     name "Postjeskade e.o."
-    label 205
-    labelsize 5
   ]
   node
   [
@@ -2070,8 +1658,6 @@ graph
     x 4.85224154526342
     y 52.3564737775008
     name "Surinamepleinbuurt"
-    label 206
-    labelsize 5
   ]
   node
   [
@@ -2080,8 +1666,6 @@ graph
     x 4.84787687142931
     y 52.354000525417
     name "Westlandgrachtbuurt"
-    label 207
-    labelsize 5
   ]
   node
   [
@@ -2090,8 +1674,6 @@ graph
     x 4.84722520670733
     y 52.3496686568537
     name "Aalsmeerwegbuurt West"
-    label 208
-    labelsize 5
   ]
   node
   [
@@ -2100,8 +1682,6 @@ graph
     x 4.84934197274135
     y 52.3484962366764
     name "Aalsmeerwegbuurt Oost"
-    label 209
-    labelsize 5
   ]
   node
   [
@@ -2110,8 +1690,6 @@ graph
     x 4.85168856309007
     y 52.3530810534494
     name "Legmeerpleinbuurt"
-    label 210
-    labelsize 5
   ]
   node
   [
@@ -2120,8 +1698,6 @@ graph
     x 4.84533513835868
     y 52.3428514554744
     name "Bedrijventerrein Schinkel"
-    label 211
-    labelsize 5
   ]
   node
   [
@@ -2130,8 +1706,6 @@ graph
     x 4.85447524843077
     y 52.3531780558883
     name "Schinkelbuurt Noord"
-    label 212
-    labelsize 5
   ]
   node
   [
@@ -2140,8 +1714,6 @@ graph
     x 4.85343601756582
     y 52.347790734521
     name "Schinkelbuurt Zuid"
-    label 213
-    labelsize 5
   ]
   node
   [
@@ -2150,8 +1722,6 @@ graph
     x 4.86715033159028
     y 52.3528323217186
     name "Valeriusbuurt Oost"
-    label 214
-    labelsize 5
   ]
   node
   [
@@ -2160,8 +1730,6 @@ graph
     x 4.86137605144764
     y 52.3513657970592
     name "Valeriusbuurt West"
-    label 215
-    labelsize 5
   ]
   node
   [
@@ -2170,8 +1738,6 @@ graph
     x 4.86119118940836
     y 52.3539623100561
     name "Willemsparkbuurt Noord"
-    label 216
-    labelsize 5
   ]
   node
   [
@@ -2180,8 +1746,6 @@ graph
     x 4.86138194746264
     y 52.3563572602984
     name "Vondelpark West"
-    label 217
-    labelsize 5
   ]
   node
   [
@@ -2190,8 +1754,6 @@ graph
     x 4.88403030287255
     y 52.3560804819227
     name "Johannnes Vermeerbuurt"
-    label 218
-    labelsize 5
   ]
   node
   [
@@ -2200,8 +1762,6 @@ graph
     x 4.88112351532053
     y 52.3601026605971
     name "P.C. Hooftbuurt"
-    label 219
-    labelsize 5
   ]
   node
   [
@@ -2210,8 +1770,6 @@ graph
     x 4.87689819653114
     y 52.3573120727941
     name "Concertgebouwbuurt"
-    label 220
-    labelsize 5
   ]
   node
   [
@@ -2220,8 +1778,6 @@ graph
     x 4.87180827376837
     y 52.3556125960721
     name "Cornelis Schuytbuurt"
-    label 221
-    labelsize 5
   ]
   node
   [
@@ -2230,8 +1786,6 @@ graph
     x 4.87445951129636
     y 52.3530157087767
     name "Banpleinbuurt"
-    label 222
-    labelsize 5
   ]
   node
   [
@@ -2240,8 +1794,6 @@ graph
     x 4.87928721274623
     y 52.3536275291209
     name "Hondecoeterbuurt"
-    label 223
-    labelsize 5
   ]
   node
   [
@@ -2250,8 +1802,6 @@ graph
     x 4.88372477678165
     y 52.3511563095365
     name "Harmoniehofbuurt"
-    label 224
-    labelsize 5
   ]
   node
   [
@@ -2260,8 +1810,6 @@ graph
     x 4.88293028879588
     y 52.3585645314994
     name "Museumplein"
-    label 225
-    labelsize 5
   ]
   node
   [
@@ -2270,8 +1818,6 @@ graph
     x 4.87190397196703
     y 52.3590761045603
     name "Vondelpark Oost"
-    label 226
-    labelsize 5
   ]
   node
   [
@@ -2280,8 +1826,6 @@ graph
     x 4.88470470490502
     y 52.3533719403634
     name "Duivelseiland"
-    label 227
-    labelsize 5
   ]
   node
   [
@@ -2290,8 +1834,6 @@ graph
     x 4.85915478251588
     y 52.3491918632431
     name "Bertelmanpleinbuurt"
-    label 228
-    labelsize 5
   ]
   node
   [
@@ -2300,8 +1842,6 @@ graph
     x 4.86470812830976
     y 52.3485642162352
     name "Marathonbuurt Oost"
-    label 229
-    labelsize 5
   ]
   node
   [
@@ -2310,8 +1850,6 @@ graph
     x 4.86086638415752
     y 52.3467743247857
     name "Marathonbuurt West"
-    label 230
-    labelsize 5
   ]
   node
   [
@@ -2320,8 +1858,6 @@ graph
     x 4.85498055066581
     y 52.3444897886364
     name "Olympisch Stadion e.o."
-    label 231
-    labelsize 5
   ]
   node
   [
@@ -2330,8 +1866,6 @@ graph
     x 4.85175107134557
     y 52.3405705127271
     name "IJsbaanpad e.o."
-    label 232
-    labelsize 5
   ]
   node
   [
@@ -2340,8 +1874,6 @@ graph
     x 4.86280898252654
     y 52.3443482962925
     name "Van Tuyllbuurt"
-    label 233
-    labelsize 5
   ]
   node
   [
@@ -2350,8 +1882,6 @@ graph
     x 4.88225985535845
     y 52.3465283937809
     name "Diepenbrockbuurt"
-    label 234
-    labelsize 5
   ]
   node
   [
@@ -2360,8 +1890,6 @@ graph
     x 4.88025232913568
     y 52.3490378503801
     name "Beethovenbuurt"
-    label 235
-    labelsize 5
   ]
   node
   [
@@ -2370,8 +1898,6 @@ graph
     x 4.87228011225091
     y 52.3512134476316
     name "Hiltonbuurt"
-    label 236
-    labelsize 5
   ]
   node
   [
@@ -2380,8 +1906,6 @@ graph
     x 4.87255446617331
     y 52.349762617225
     name "Minervabuurt Noord"
-    label 237
-    labelsize 5
   ]
   node
   [
@@ -2390,8 +1914,6 @@ graph
     x 4.87240355281764
     y 52.3478151284522
     name "Minervabuurt Midden"
-    label 238
-    labelsize 5
   ]
   node
   [
@@ -2400,8 +1922,6 @@ graph
     x 4.87201571695142
     y 52.3455669264004
     name "Minervabuurt Zuid"
-    label 239
-    labelsize 5
   ]
   node
   [
@@ -2410,8 +1930,6 @@ graph
     x 5.02054365293773
     y 52.3548825454522
     name "Strandeiland"
-    label 240
-    labelsize 5
   ]
   node
   [
@@ -2420,8 +1938,6 @@ graph
     x 5.02013324585864
     y 52.3561091051444
     name "Middeneiland Zuidoost"
-    label 241
-    labelsize 5
   ]
   node
   [
@@ -2430,8 +1946,6 @@ graph
     x 5.01803737363308
     y 52.3548895798253
     name "Middeneiland Zuidwest"
-    label 242
-    labelsize 5
   ]
   node
   [
@@ -2440,8 +1954,6 @@ graph
     x 5.00808945889646
     y 52.3671505570455
     name "Buiteneiland"
-    label 243
-    labelsize 5
   ]
   node
   [
@@ -2450,8 +1962,6 @@ graph
     x 5.01450422770279
     y 52.3516019218098
     name "Centrumeiland"
-    label 244
-    labelsize 5
   ]
   node
   [
@@ -2460,8 +1970,6 @@ graph
     x 5.00266745440769
     y 52.346053056077
     name "Rieteiland Oost"
-    label 245
-    labelsize 5
   ]
   node
   [
@@ -2470,8 +1978,6 @@ graph
     x 5.00750288294912
     y 52.3490627676481
     name "Haveneiland Oost"
-    label 246
-    labelsize 5
   ]
   node
   [
@@ -2480,8 +1986,6 @@ graph
     x 5.00504886221758
     y 52.3527222159744
     name "Haveneiland Noord"
-    label 247
-    labelsize 5
   ]
   node
   [
@@ -2490,8 +1994,6 @@ graph
     x 4.88849732966059
     y 52.3463663662333
     name "Wielingenbuurt"
-    label 248
-    labelsize 5
   ]
   node
   [
@@ -2500,8 +2002,6 @@ graph
     x 4.89374754640324
     y 52.3442176639421
     name "Scheldebuurt West"
-    label 249
-    labelsize 5
   ]
   node
   [
@@ -2510,8 +2010,6 @@ graph
     x 4.89807081525035
     y 52.3447462814275
     name "Scheldebuurt Midden"
-    label 250
-    labelsize 5
   ]
   node
   [
@@ -2520,8 +2018,6 @@ graph
     x 4.90322264635747
     y 52.3447085338223
     name "Scheldebuurt Oost"
-    label 251
-    labelsize 5
   ]
   node
   [
@@ -2530,8 +2026,6 @@ graph
     x 4.89794277341522
     y 52.339400860826
     name "Veluwebuurt"
-    label 252
-    labelsize 5
   ]
   node
   [
@@ -2540,8 +2034,6 @@ graph
     x 4.89385594999149
     y 52.3375383771326
     name "Kop Zuidas"
-    label 253
-    labelsize 5
   ]
   node
   [
@@ -2550,8 +2042,6 @@ graph
     x 4.90081224361732
     y 52.3475520067209
     name "IJselbuurt West"
-    label 254
-    labelsize 5
   ]
   node
   [
@@ -2560,8 +2050,6 @@ graph
     x 4.90830578481355
     y 52.3481614425936
     name "IJselbuurt Oost"
-    label 255
-    labelsize 5
   ]
   node
   [
@@ -2570,8 +2058,6 @@ graph
     x 4.90952237360004
     y 52.3452065527466
     name "Kromme Mijdrechtbuurt"
-    label 256
-    labelsize 5
   ]
   node
   [
@@ -2580,8 +2066,6 @@ graph
     x 4.91079561411974
     y 52.341702898972
     name "Rijnbuurt Oost"
-    label 257
-    labelsize 5
   ]
   node
   [
@@ -2590,8 +2074,6 @@ graph
     x 4.90466680943601
     y 52.339490232111
     name "Rijnbuurt Midden"
-    label 258
-    labelsize 5
   ]
   node
   [
@@ -2600,8 +2082,6 @@ graph
     x 4.89976654880118
     y 52.3416922843341
     name "Rijnbuurt West"
-    label 259
-    labelsize 5
   ]
   node
   [
@@ -2610,8 +2090,6 @@ graph
     x 4.89987872292564
     y 52.3352352604037
     name "Zorgvlied"
-    label 260
-    labelsize 5
   ]
   node
   [
@@ -2620,8 +2098,6 @@ graph
     x 4.92030491623953
     y 52.3498537825339
     name "De Eenhoorn"
-    label 261
-    labelsize 5
   ]
   node
   [
@@ -2630,8 +2106,6 @@ graph
     x 4.92162826091238
     y 52.3469503099892
     name "Julianapark"
-    label 262
-    labelsize 5
   ]
   node
   [
@@ -2640,8 +2114,6 @@ graph
     x 4.92616332888281
     y 52.3527456448959
     name "Don Bosco"
-    label 263
-    labelsize 5
   ]
   node
   [
@@ -2650,8 +2122,6 @@ graph
     x 4.92933949827835
     y 52.350121917987
     name "Frankendael"
-    label 264
-    labelsize 5
   ]
   node
   [
@@ -2660,8 +2130,6 @@ graph
     x 4.92209695996937
     y 52.3446092911812
     name "Tuindorp Amstelstation"
-    label 265
-    labelsize 5
   ]
   node
   [
@@ -2670,8 +2138,6 @@ graph
     x 4.92711972974376
     y 52.3430554335388
     name "De Wetbuurt"
-    label 266
-    labelsize 5
   ]
   node
   [
@@ -2680,8 +2146,6 @@ graph
     x 4.93382059635395
     y 52.3470493279891
     name "Tuindorp Frankendael"
-    label 267
-    labelsize 5
   ]
   node
   [
@@ -2690,8 +2154,6 @@ graph
     x 4.91472802530045
     y 52.3474451249003
     name "Van der Kunbuurt"
-    label 268
-    labelsize 5
   ]
   node
   [
@@ -2700,8 +2162,6 @@ graph
     x 4.93300741398554
     y 52.3543545748643
     name "Linnaeusparkbuurt"
-    label 269
-    labelsize 5
   ]
   node
   [
@@ -2710,8 +2170,6 @@ graph
     x 4.93725603783827
     y 52.3550547311957
     name "Middenmeer Noord"
-    label 270
-    labelsize 5
   ]
   node
   [
@@ -2720,8 +2178,6 @@ graph
     x 4.94166399148708
     y 52.351842879208
     name "Middenmeer Zuid"
-    label 271
-    labelsize 5
   ]
   node
   [
@@ -2730,8 +2186,6 @@ graph
     x 4.94500615628761
     y 52.3472913918655
     name "Sportpark Middenmeer Zuid"
-    label 272
-    labelsize 5
   ]
   node
   [
@@ -2740,8 +2194,6 @@ graph
     x 4.94967117692235
     y 52.3499535385471
     name "Sportpark Middenmeer Noord"
-    label 273
-    labelsize 5
   ]
   node
   [
@@ -2750,8 +2202,6 @@ graph
     x 4.9510782356308
     y 52.3436271692358
     name "Park de Meer"
-    label 274
-    labelsize 5
   ]
   node
   [
@@ -2760,8 +2210,6 @@ graph
     x 4.95544353740861
     y 52.3469365372266
     name "Sportpark Voorland"
-    label 275
-    labelsize 5
   ]
   node
   [
@@ -2770,8 +2218,6 @@ graph
     x 4.94729417514821
     y 52.3563352154788
     name "Science Park Noord"
-    label 276
-    labelsize 5
   ]
   node
   [
@@ -2780,8 +2226,6 @@ graph
     x 4.95923127936166
     y 52.3538413355629
     name "Science Park Zuid"
-    label 277
-    labelsize 5
   ]
   node
   [
@@ -2790,8 +2234,6 @@ graph
     x 4.94511280480267
     y 52.3401891624618
     name "Betondorp"
-    label 278
-    labelsize 5
   ]
   node
   [
@@ -2800,8 +2242,6 @@ graph
     x 4.9390087226138
     y 52.3436764533481
     name "Nieuwe Oosterbegraafplaats"
-    label 279
-    labelsize 5
   ]
   node
   [
@@ -2810,8 +2250,6 @@ graph
     x 4.93400304602192
     y 52.3396680170539
     name "Drieburg"
-    label 280
-    labelsize 5
   ]
   node
   [
@@ -2820,8 +2258,6 @@ graph
     x 4.92919159497107
     y 52.3379383165268
     name "Weespertrekvaart"
-    label 281
-    labelsize 5
   ]
   node
   [
@@ -2830,8 +2266,6 @@ graph
     x 4.90766454809668
     y 52.332491234
     name "Amstelglorie"
-    label 282
-    labelsize 5
   ]
   node
   [
@@ -2840,8 +2274,6 @@ graph
     x 4.90485351057306
     y 52.3250332948718
     name "Overamstel"
-    label 283
-    labelsize 5
   ]
   node
   [
@@ -2850,8 +2282,6 @@ graph
     x 4.91701657920027
     y 52.338741796822
     name "Amstelkwartier Noord"
-    label 284
-    labelsize 5
   ]
   node
   [
@@ -2860,8 +2290,6 @@ graph
     x 4.91646257166988
     y 52.3441058920714
     name "De Omval"
-    label 285
-    labelsize 5
   ]
   node
   [
@@ -2870,8 +2298,6 @@ graph
     x 4.92021076935636
     y 52.3347034701503
     name "Amstelkwartier Zuid"
-    label 286
-    labelsize 5
   ]
   node
   [
@@ -2880,8 +2306,6 @@ graph
     x 4.91290257338359
     y 52.3348215426309
     name "Amstelkwartier West"
-    label 287
-    labelsize 5
   ]
   node
   [
@@ -2890,8 +2314,6 @@ graph
     x 4.87193031515756
     y 52.3429740603093
     name "Prinses Irenebuurt"
-    label 288
-    labelsize 5
   ]
   node
   [
@@ -2900,8 +2322,6 @@ graph
     x 4.88166600440681
     y 52.3434363512557
     name "Beatrixpark"
-    label 289
-    labelsize 5
   ]
   node
   [
@@ -2910,8 +2330,6 @@ graph
     x 4.90981631305921
     y 52.3880465847452
     name "Van der Pekbuurt"
-    label 290
-    labelsize 5
   ]
   node
   [
@@ -2920,8 +2338,6 @@ graph
     x 4.91529038404229
     y 52.3942662171676
     name "Bloemenbuurt Zuid"
-    label 291
-    labelsize 5
   ]
   node
   [
@@ -2930,8 +2346,6 @@ graph
     x 4.91668307643779
     y 52.3981495614039
     name "Bloemenbuurt Noord"
-    label 292
-    labelsize 5
   ]
   node
   [
@@ -2940,8 +2354,6 @@ graph
     x 4.91197003335874
     y 52.3818903977362
     name "IJplein e.o."
-    label 293
-    labelsize 5
   ]
   node
   [
@@ -2950,8 +2362,6 @@ graph
     x 4.91628146286646
     y 52.3860406425659
     name "Vogelbuurt Zuid"
-    label 294
-    labelsize 5
   ]
   node
   [
@@ -2960,8 +2370,6 @@ graph
     x 4.92300453126204
     y 52.3912916073742
     name "Vogelbuurt Noord"
-    label 295
-    labelsize 5
   ]
   node
   [
@@ -2970,8 +2378,6 @@ graph
     x 4.93249791281986
     y 52.3892449927846
     name "Vliegenbos"
-    label 296
-    labelsize 5
   ]
   node
   [
@@ -2980,8 +2386,6 @@ graph
     x 4.93967182886864
     y 52.3930130459533
     name "Tuindorp Nieuwendam West"
-    label 297
-    labelsize 5
   ]
   node
   [
@@ -2990,8 +2394,6 @@ graph
     x 4.94757668036729
     y 52.3900687058934
     name "Tuindorp Nieuwendam Oost"
-    label 298
-    labelsize 5
   ]
   node
   [
@@ -3000,8 +2402,6 @@ graph
     x 4.92821855387657
     y 52.3929875075668
     name "Blauwe Zand"
-    label 299
-    labelsize 5
   ]
   node
   [
@@ -3010,8 +2410,6 @@ graph
     x 4.91851632679173
     y 52.4004172010272
     name "Buiksloterdijk West"
-    label 300
-    labelsize 5
   ]
   node
   [
@@ -3020,8 +2418,6 @@ graph
     x 4.92337137925598
     y 52.3969005441758
     name "Buiksloterdijk Oost"
-    label 301
-    labelsize 5
   ]
   node
   [
@@ -3030,8 +2426,6 @@ graph
     x 4.93374778339935
     y 52.391642976296
     name "Nieuwendammerdijk West"
-    label 302
-    labelsize 5
   ]
   node
   [
@@ -3040,8 +2434,6 @@ graph
     x 4.94443405337168
     y 52.3886085210426
     name "Nieuwendammerdijk Oost"
-    label 303
-    labelsize 5
   ]
   node
   [
@@ -3050,8 +2442,6 @@ graph
     x 4.94314162683194
     y 52.3874481860207
     name "Nieuwendammerdijk Zuid"
-    label 304
-    labelsize 5
   ]
   node
   [
@@ -3060,8 +2450,6 @@ graph
     x 4.87885686570575
     y 52.4165707603746
     name "Tuindorp Oostzaan West"
-    label 305
-    labelsize 5
   ]
   node
   [
@@ -3070,8 +2458,6 @@ graph
     x 4.88780079168192
     y 52.4127722636769
     name "Tuindorp Oostzaan Oost"
-    label 306
-    labelsize 5
   ]
   node
   [
@@ -3080,8 +2466,6 @@ graph
     x 4.89695992028274
     y 52.408892409371
     name "Terrasdorp"
-    label 307
-    labelsize 5
   ]
   node
   [
@@ -3090,8 +2474,6 @@ graph
     x 4.90303790868564
     y 52.4076570336574
     name "De Bongerd"
-    label 308
-    labelsize 5
   ]
   node
   [
@@ -3100,8 +2482,6 @@ graph
     x 4.87741009897857
     y 52.4189174812305
     name "Oostzanerdijk"
-    label 309
-    labelsize 5
   ]
   node
   [
@@ -3110,8 +2490,6 @@ graph
     x 4.88377820832431
     y 52.4229290558482
     name "Walvisbuurt"
-    label 310
-    labelsize 5
   ]
   node
   [
@@ -3120,8 +2498,6 @@ graph
     x 4.89469943410138
     y 52.4219512010233
     name "Twiske West"
-    label 311
-    labelsize 5
   ]
   node
   [
@@ -3130,8 +2506,6 @@ graph
     x 4.86586928928407
     y 52.4231658210761
     name "Noorder IJplas"
-    label 312
-    labelsize 5
   ]
   node
   [
@@ -3140,8 +2514,6 @@ graph
     x 4.8893256893778
     y 52.4186740476391
     name "Molenwijk"
-    label 313
-    labelsize 5
   ]
   node
   [
@@ -3150,8 +2522,6 @@ graph
     x 4.8842538473241
     y 52.4181196390094
     name "Circus/Kermisbuurt"
-    label 314
-    labelsize 5
   ]
   node
   [
@@ -3160,8 +2530,6 @@ graph
     x 4.90806812246897
     y 52.4152251310412
     name "Kadoelen"
-    label 315
-    labelsize 5
   ]
   node
   [
@@ -3170,8 +2538,6 @@ graph
     x 4.90243734611229
     y 52.4218187516217
     name "Twiske Oost"
-    label 316
-    labelsize 5
   ]
   node
   [
@@ -3180,8 +2546,6 @@ graph
     x 4.95084292263279
     y 52.4000830361491
     name "Baanakkerspark Noord"
-    label 317
-    labelsize 5
   ]
   node
   [
@@ -3190,8 +2554,6 @@ graph
     x 4.9457467351772
     y 52.3962614621969
     name "Baanakkerspark Zuid"
-    label 318
-    labelsize 5
   ]
   node
   [
@@ -3200,8 +2562,6 @@ graph
     x 4.9510732255361
     y 52.3940195825971
     name "Werengouw Midden"
-    label 319
-    labelsize 5
   ]
   node
   [
@@ -3210,8 +2570,6 @@ graph
     x 4.95703095536784
     y 52.3966393596269
     name "Markengouw Midden"
-    label 320
-    labelsize 5
   ]
   node
   [
@@ -3220,8 +2578,6 @@ graph
     x 4.96199636411008
     y 52.3911183569262
     name "Markengouw Zuid"
-    label 321
-    labelsize 5
   ]
   node
   [
@@ -3230,8 +2586,6 @@ graph
     x 4.9556359544548
     y 52.3892716616043
     name "Werengouw Zuid"
-    label 322
-    labelsize 5
   ]
   node
   [
@@ -3240,8 +2594,6 @@ graph
     x 4.9299061012179
     y 52.3949793896949
     name "Rode Kruisbuurt"
-    label 323
-    labelsize 5
   ]
   node
   [
@@ -3250,8 +2602,6 @@ graph
     x 4.93121899963449
     y 52.3992713467428
     name "Loenermark"
-    label 324
-    labelsize 5
   ]
   node
   [
@@ -3260,8 +2610,6 @@ graph
     x 4.94025076563686
     y 52.3985212977073
     name "Buikslotermeerplein"
-    label 325
-    labelsize 5
   ]
   node
   [
@@ -3270,8 +2618,6 @@ graph
     x 4.93576089781451
     y 52.3961978387364
     name "Plan van Gool"
-    label 326
-    labelsize 5
   ]
   node
   [
@@ -3280,8 +2626,6 @@ graph
     x 4.94147688238853
     y 52.4013116286164
     name "De Kleine Wereld"
-    label 327
-    labelsize 5
   ]
   node
   [
@@ -3290,8 +2634,6 @@ graph
     x 4.94281727271487
     y 52.4035174232857
     name "Buikslotermeer Noord"
-    label 328
-    labelsize 5
   ]
   node
   [
@@ -3300,8 +2642,6 @@ graph
     x 4.91034639463914
     y 52.4059434145237
     name "Banne Zuidwest"
-    label 329
-    labelsize 5
   ]
   node
   [
@@ -3310,8 +2650,6 @@ graph
     x 4.91850711296967
     y 52.4040006339501
     name "Banne Zuidoost"
-    label 330
-    labelsize 5
   ]
   node
   [
@@ -3320,8 +2658,6 @@ graph
     x 4.91846946785555
     y 52.4115428729871
     name "Banne Noordwest"
-    label 331
-    labelsize 5
   ]
   node
   [
@@ -3330,8 +2666,6 @@ graph
     x 4.92440583518116
     y 52.4104326417669
     name "Banne Noordoost"
-    label 332
-    labelsize 5
   ]
   node
   [
@@ -3340,8 +2674,6 @@ graph
     x 4.90692734620317
     y 52.4028596970468
     name "Buiksloterbreek"
-    label 333
-    labelsize 5
   ]
   node
   [
@@ -3350,8 +2682,6 @@ graph
     x 4.91255099832854
     y 52.4014037732672
     name "Marjoleinterrein"
-    label 334
-    labelsize 5
   ]
   node
   [
@@ -3360,8 +2690,6 @@ graph
     x 4.90495641326341
     y 52.3980588272059
     name "Papaverweg e.o."
-    label 335
-    labelsize 5
   ]
   node
   [
@@ -3370,8 +2698,6 @@ graph
     x 4.87776783937587
     y 52.4102036722154
     name "Cornelis Douwesterrein"
-    label 336
-    labelsize 5
   ]
   node
   [
@@ -3380,8 +2706,6 @@ graph
     x 4.89120548339607
     y 52.4011481444005
     name "NDSM terrein"
-    label 337
-    labelsize 5
   ]
   node
   [
@@ -3390,8 +2714,6 @@ graph
     x 4.89976237348753
     y 52.3932414488739
     name "Buiksloterham"
-    label 338
-    labelsize 5
   ]
   node
   [
@@ -3400,8 +2722,6 @@ graph
     x 4.90075401653779
     y 52.3867635710103
     name "Overhoeks"
-    label 339
-    labelsize 5
   ]
   node
   [
@@ -3410,8 +2730,6 @@ graph
     x 4.92582981340238
     y 52.3838393037551
     name "Bedrijventerrein Hamerstraat"
-    label 340
-    labelsize 5
   ]
   node
   [
@@ -3420,8 +2738,6 @@ graph
     x 4.93704307785665
     y 52.3849750421686
     name "Zamenhofstraat e.o."
-    label 341
-    labelsize 5
   ]
   node
   [
@@ -3430,8 +2746,6 @@ graph
     x 4.94816979602871
     y 52.384169306193
     name "Bedrijventerrein Nieuwendammerdijk"
-    label 342
-    labelsize 5
   ]
   node
   [
@@ -3440,8 +2754,6 @@ graph
     x 4.95705148331697
     y 52.3841392563808
     name "Schellingwoude West"
-    label 343
-    labelsize 5
   ]
   node
   [
@@ -3450,8 +2762,6 @@ graph
     x 4.96571974170955
     y 52.3848893966916
     name "Schellingwoude Oost"
-    label 344
-    labelsize 5
   ]
   node
   [
@@ -3460,8 +2770,6 @@ graph
     x 4.97239608663975
     y 52.3861396883037
     name "Schellingwoude Noord"
-    label 345
-    labelsize 5
   ]
   node
   [
@@ -3470,8 +2778,6 @@ graph
     x 4.99988125637548
     y 52.3810140515377
     name "Durgerdam"
-    label 346
-    labelsize 5
   ]
   node
   [
@@ -3480,8 +2786,6 @@ graph
     x 4.97862299184019
     y 52.3896388865659
     name "Zwarte Gouw"
-    label 347
-    labelsize 5
   ]
   node
   [
@@ -3490,8 +2794,6 @@ graph
     x 5.00163868135893
     y 52.3911938139559
     name "Ransdorp"
-    label 348
-    labelsize 5
   ]
   node
   [
@@ -3500,8 +2802,6 @@ graph
     x 5.01781201083083
     y 52.4071256904031
     name "Holysloot"
-    label 349
-    labelsize 5
   ]
   node
   [
@@ -3510,8 +2810,6 @@ graph
     x 4.97506980714412
     y 52.4129615467816
     name "Zunderdorp"
-    label 350
-    labelsize 5
   ]
   node
   [
@@ -3520,8 +2818,6 @@ graph
     x 4.94564583821355
     y 52.4076975665864
     name "Noorderstrook West"
-    label 351
-    labelsize 5
   ]
   node
   [
@@ -3530,8 +2826,6 @@ graph
     x 4.96360853221226
     y 52.3964496582344
     name "Noorderstrook Oost"
-    label 352
-    labelsize 5
   ]
   node
   [
@@ -3540,8 +2834,6 @@ graph
     x 4.92463664461424
     y 52.3973036689698
     name "Nintemanterrein"
-    label 353
-    labelsize 5
   ]
   node
   [
@@ -3550,8 +2842,6 @@ graph
     x 4.92686290812361
     y 52.401122878272
     name "Elzenhagen Zuid"
-    label 354
-    labelsize 5
   ]
   node
   [
@@ -3560,8 +2850,6 @@ graph
     x 4.93134315299856
     y 52.4064655169137
     name "Elzenhagen Noord"
-    label 355
-    labelsize 5
   ]
   node
   [
@@ -3570,8 +2858,6 @@ graph
     x 4.86159667763107
     y 52.3699251885542
     name "Kortenaerkwartier"
-    label 356
-    labelsize 5
   ]
   node
   [
@@ -3580,8 +2866,6 @@ graph
     x 4.8580100944195
     y 52.3699997057738
     name "Filips van Almondekwartier"
-    label 357
-    labelsize 5
   ]
   node
   [
@@ -3590,8 +2874,6 @@ graph
     x 4.86067914305136
     y 52.3671820708124
     name "De Wester Quartier"
-    label 358
-    labelsize 5
   ]
   node
   [
@@ -3600,8 +2882,6 @@ graph
     x 4.85860803908632
     y 52.3662502976835
     name "Van Brakelkwartier"
-    label 359
-    labelsize 5
   ]
   node
   [
@@ -3610,8 +2890,6 @@ graph
     x 4.83007085079111
     y 52.3825244472929
     name "Buurt 3"
-    label 360
-    labelsize 5
   ]
   node
   [
@@ -3620,8 +2898,6 @@ graph
     x 4.82936316868946
     y 52.3788639559014
     name "Buurt 2"
-    label 361
-    labelsize 5
   ]
   node
   [
@@ -3630,8 +2906,6 @@ graph
     x 4.82769137523617
     y 52.3761129228615
     name "Slotermeer Zuid"
-    label 362
-    labelsize 5
   ]
   node
   [
@@ -3640,8 +2914,6 @@ graph
     x 4.8266094541815
     y 52.3728708812049
     name "Noordoever Sloterplas"
-    label 363
-    labelsize 5
   ]
   node
   [
@@ -3650,8 +2922,6 @@ graph
     x 4.81584287520551
     y 52.381523977402
     name "Buurt 4 Oost"
-    label 364
-    labelsize 5
   ]
   node
   [
@@ -3660,8 +2930,6 @@ graph
     x 4.81429929203499
     y 52.3776799452879
     name "Buurt 5 Noord"
-    label 365
-    labelsize 5
   ]
   node
   [
@@ -3670,8 +2938,6 @@ graph
     x 4.81441499526383
     y 52.3680128615049
     name "Sloterpark"
-    label 366
-    labelsize 5
   ]
   node
   [
@@ -3680,8 +2946,6 @@ graph
     x 4.81305013544096
     y 52.3742415376737
     name "Buurt 5 Zuid"
-    label 367
-    labelsize 5
   ]
   node
   [
@@ -3690,8 +2954,6 @@ graph
     x 4.8038719849085
     y 52.3752079014296
     name "Buurt 6"
-    label 368
-    labelsize 5
   ]
   node
   [
@@ -3700,8 +2962,6 @@ graph
     x 4.79628069795674
     y 52.3761294385606
     name "Buurt 7"
-    label 369
-    labelsize 5
   ]
   node
   [
@@ -3710,8 +2970,6 @@ graph
     x 4.80377058117587
     y 52.3786966158857
     name "Buurt 8"
-    label 370
-    labelsize 5
   ]
   node
   [
@@ -3720,8 +2978,6 @@ graph
     x 4.80098020752843
     y 52.3823351078372
     name "Buurt 9"
-    label 371
-    labelsize 5
   ]
   node
   [
@@ -3730,8 +2986,6 @@ graph
     x 4.80981897788791
     y 52.3826521135473
     name "Eendrachtspark"
-    label 372
-    labelsize 5
   ]
   node
   [
@@ -3740,8 +2994,6 @@ graph
     x 4.77692385173394
     y 52.3788295061763
     name "Osdorper Binnenpolder"
-    label 373
-    labelsize 5
   ]
   node
   [
@@ -3750,8 +3002,6 @@ graph
     x 4.79084900633307
     y 52.381338183634
     name "Buurt 10"
-    label 374
-    labelsize 5
   ]
   node
   [
@@ -3760,8 +3010,6 @@ graph
     x 4.7994880408104
     y 52.3693237078188
     name "Ookmeer"
-    label 375
-    labelsize 5
   ]
   node
   [
@@ -3770,8 +3018,6 @@ graph
     x 4.776116358111
     y 52.3704859654455
     name "Osdorper Bovenpolder"
-    label 376
-    labelsize 5
   ]
   node
   [
@@ -3780,8 +3026,6 @@ graph
     x 4.76674792234072
     y 52.360835777849
     name "Bedrijvenpark Lutkemeer"
-    label 377
-    labelsize 5
   ]
   node
   [
@@ -3790,8 +3034,6 @@ graph
     x 4.80060939059139
     y 52.3624175930782
     name "Wildeman"
-    label 378
-    labelsize 5
   ]
   node
   [
@@ -3800,8 +3042,6 @@ graph
     x 4.8066786796187
     y 52.3639253507452
     name "Meer en Oever"
-    label 379
-    labelsize 5
   ]
   node
   [
@@ -3810,8 +3050,6 @@ graph
     x 4.80567279305901
     y 52.3584708445809
     name "Osdorpplein e.o."
-    label 380
-    labelsize 5
   ]
   node
   [
@@ -3820,8 +3058,6 @@ graph
     x 4.8084429482907
     y 52.3556810738525
     name "Calandlaan/Lelylaan"
-    label 381
-    labelsize 5
   ]
   node
   [
@@ -3830,8 +3066,6 @@ graph
     x 4.81225525440248
     y 52.3535189588773
     name "Osdorp Zuidoost"
-    label 382
-    labelsize 5
   ]
   node
   [
@@ -3840,8 +3074,6 @@ graph
     x 4.79178364168905
     y 52.3620953476831
     name "Osdorp Midden Noord"
-    label 383
-    labelsize 5
   ]
   node
   [
@@ -3850,8 +3082,6 @@ graph
     x 4.79360157195523
     y 52.35884308226
     name "Osdorp Midden Zuid"
-    label 384
-    labelsize 5
   ]
   node
   [
@@ -3860,8 +3090,6 @@ graph
     x 4.79557919711319
     y 52.3555389727816
     name "Zuidwestkwadrant Osdorp Noord"
-    label 385
-    labelsize 5
   ]
   node
   [
@@ -3870,8 +3098,6 @@ graph
     x 4.797640111001
     y 52.3512453052551
     name "Zuidwestkwadrant Osdorp Zuid"
-    label 386
-    labelsize 5
   ]
   node
   [
@@ -3880,8 +3106,6 @@ graph
     x 4.78516205723238
     y 52.356360072797
     name "De Punt"
-    label 387
-    labelsize 5
   ]
   node
   [
@@ -3890,8 +3114,6 @@ graph
     x 4.78468221020326
     y 52.3606791809575
     name "Bedrijvencentrum Osdorp"
-    label 388
-    labelsize 5
   ]
   node
   [
@@ -3900,8 +3122,6 @@ graph
     x 4.78040518938977
     y 52.3535324597863
     name "Middelveldsche Akerpolder"
-    label 389
-    labelsize 5
   ]
   node
   [
@@ -3910,8 +3130,6 @@ graph
     x 4.77631356316862
     y 52.3504802454502
     name "De Aker West"
-    label 390
-    labelsize 5
   ]
   node
   [
@@ -3920,8 +3138,6 @@ graph
     x 4.78911164547573
     y 52.3472743277324
     name "De Aker Oost"
-    label 391
-    labelsize 5
   ]
   node
   [
@@ -3930,8 +3146,6 @@ graph
     x 4.82731735946515
     y 52.3670373833601
     name "Oostoever Sloterplas"
-    label 392
-    labelsize 5
   ]
   node
   [
@@ -3940,8 +3154,6 @@ graph
     x 4.82075386811893
     y 52.360763127381
     name "Emanuel van Meterenbuurt"
-    label 393
-    labelsize 5
   ]
   node
   [
@@ -3950,8 +3162,6 @@ graph
     x 4.83054964253848
     y 52.3609125502825
     name "Jacob Geelbuurt"
-    label 394
-    labelsize 5
   ]
   node
   [
@@ -3960,8 +3170,6 @@ graph
     x 4.83797493415097
     y 52.3668216738047
     name "Overtoomse Veld Noord"
-    label 395
-    labelsize 5
   ]
   node
   [
@@ -3970,8 +3178,6 @@ graph
     x 4.83815984936651
     y 52.3617061147132
     name "Overtoomse Veld Zuid"
-    label 396
-    labelsize 5
   ]
   node
   [
@@ -3980,8 +3186,6 @@ graph
     x 4.84593598382771
     y 52.3667858110467
     name "Rembrandtpark Noord"
-    label 397
-    labelsize 5
   ]
   node
   [
@@ -3990,8 +3194,6 @@ graph
     x 4.84579125490523
     y 52.3611633995662
     name "Rembrandtpark Zuid"
-    label 398
-    labelsize 5
   ]
   node
   [
@@ -4000,8 +3202,6 @@ graph
     x 4.83829752329973
     y 52.3586247087256
     name "Johan Jongkindbuurt"
-    label 399
-    labelsize 5
   ]
   node
   [
@@ -4010,8 +3210,6 @@ graph
     x 4.83866058913673
     y 52.3710851862584
     name "Lucas/Andreasziekenhuis e.o."
-    label 400
-    labelsize 5
   ]
   node
   [
@@ -4020,8 +3218,6 @@ graph
     x 4.8383489193067
     y 52.3540377149871
     name "Koningin Wilhelminaplein"
-    label 401
-    labelsize 5
   ]
   node
   [
@@ -4030,8 +3226,6 @@ graph
     x 4.84508749551682
     y 52.3558256463668
     name "Andreasterrein"
-    label 402
-    labelsize 5
   ]
   node
   [
@@ -4040,8 +3234,6 @@ graph
     x 4.84360528576024
     y 52.3487444915868
     name "Delflandpleinbuurt Oost"
-    label 403
-    labelsize 5
   ]
   node
   [
@@ -4050,8 +3242,6 @@ graph
     x 4.83799087352148
     y 52.3491071663953
     name "Delflandpleinbuurt West"
-    label 404
-    labelsize 5
   ]
   node
   [
@@ -4060,8 +3250,6 @@ graph
     x 4.83894073158182
     y 52.3419376547558
     name "Riekerhaven"
-    label 405
-    labelsize 5
   ]
   node
   [
@@ -4070,8 +3258,6 @@ graph
     x 4.83835104651925
     y 52.3570118690055
     name "Schipluidenbuurt"
-    label 406
-    labelsize 5
   ]
   node
   [
@@ -4080,8 +3266,6 @@ graph
     x 4.82902249772046
     y 52.3412535618281
     name "Riekerpolder"
-    label 407
-    labelsize 5
   ]
   node
   [
@@ -4090,8 +3274,6 @@ graph
     x 4.82449539767639
     y 52.3435170272608
     name "Park Haagseweg"
-    label 408
-    labelsize 5
   ]
   node
   [
@@ -4100,8 +3282,6 @@ graph
     x 4.82457026315544
     y 52.3341742315483
     name "Nieuwe Meer"
-    label 409
-    labelsize 5
   ]
   node
   [
@@ -4110,8 +3290,6 @@ graph
     x 4.80887547109644
     y 52.3390506348162
     name "Sloterweg e.o."
-    label 410
-    labelsize 5
   ]
   node
   [
@@ -4120,8 +3298,6 @@ graph
     x 4.80457124240036
     y 52.3476348989657
     name "Nieuw Sloten Noordwest"
-    label 411
-    labelsize 5
   ]
   node
   [
@@ -4130,8 +3306,6 @@ graph
     x 4.81543848704696
     y 52.3490478711691
     name "Nieuw Sloten Noordoost"
-    label 412
-    labelsize 5
   ]
   node
   [
@@ -4140,8 +3314,6 @@ graph
     x 4.81186762732023
     y 52.345609011682
     name "Belgiëplein e.o."
-    label 413
-    labelsize 5
   ]
   node
   [
@@ -4150,8 +3322,6 @@ graph
     x 4.80594770055209
     y 52.3436159666492
     name "Nieuw Sloten Zuidwest"
-    label 414
-    labelsize 5
   ]
   node
   [
@@ -4160,8 +3330,6 @@ graph
     x 4.81718699486813
     y 52.3443564554043
     name "Nieuw Sloten Zuidoost"
-    label 415
-    labelsize 5
   ]
   node
   [
@@ -4170,8 +3338,6 @@ graph
     x 4.797243694865
     y 52.3414810288175
     name "Dorp Sloten"
-    label 416
-    labelsize 5
   ]
   node
   [
@@ -4180,8 +3346,6 @@ graph
     x 4.82315802344699
     y 52.3548640212521
     name "Louis Chrispijnbuurt"
-    label 417
-    labelsize 5
   ]
   node
   [
@@ -4190,8 +3354,6 @@ graph
     x 4.83075270523685
     y 52.3548528707903
     name "Jacques Veltmanbuurt"
-    label 418
-    labelsize 5
   ]
   node
   [
@@ -4200,8 +3362,6 @@ graph
     x 4.83088222842713
     y 52.3487217328638
     name "Staalmanbuurt"
-    label 419
-    labelsize 5
   ]
   node
   [
@@ -4210,8 +3370,6 @@ graph
     x 4.82454310073256
     y 52.3485020630127
     name "Medisch Centrum Slotervaart"
-    label 420
-    labelsize 5
   ]
   node
   [
@@ -4220,8 +3378,6 @@ graph
     x 4.87408521638309
     y 52.3320855733634
     name "Gelderlandpleinbuurt"
-    label 421
-    labelsize 5
   ]
   node
   [
@@ -4230,8 +3386,6 @@ graph
     x 4.87399969427248
     y 52.3257478164929
     name "Buitenveldert Midden Zuid"
-    label 422
-    labelsize 5
   ]
   node
   [
@@ -4240,8 +3394,6 @@ graph
     x 4.86239299512419
     y 52.32573050959
     name "Buitenveldert Zuidwest"
-    label 423
-    labelsize 5
   ]
   node
   [
@@ -4250,8 +3402,6 @@ graph
     x 4.83770136794053
     y 52.3305845365095
     name "Amsterdamse Bos"
-    label 424
-    labelsize 5
   ]
   node
   [
@@ -4260,8 +3410,6 @@ graph
     x 4.86242648032463
     y 52.3310373499172
     name "Buitenveldert West Midden"
-    label 425
-    labelsize 5
   ]
   node
   [
@@ -4270,8 +3418,6 @@ graph
     x 4.85477326596114
     y 52.3365622489477
     name "Zuiderhof"
-    label 426
-    labelsize 5
   ]
   node
   [
@@ -4280,8 +3426,6 @@ graph
     x 4.88428944142349
     y 52.3340066865851
     name "De Klenckebuurt"
-    label 427
-    labelsize 5
   ]
   node
   [
@@ -4290,8 +3434,6 @@ graph
     x 4.88471580851024
     y 52.3312608604332
     name "Buitenveldert Oost Midden"
-    label 428
-    labelsize 5
   ]
   node
   [
@@ -4300,8 +3442,6 @@ graph
     x 4.88487169595556
     y 52.3255432547004
     name "Buitenveldert Zuidoost"
-    label 429
-    labelsize 5
   ]
   node
   [
@@ -4310,8 +3450,6 @@ graph
     x 4.89373786791566
     y 52.3292894951772
     name "Amstelpark"
-    label 430
-    labelsize 5
   ]
   node
   [
@@ -4320,8 +3458,6 @@ graph
     x 4.94071895519747
     y 52.3138481348575
     name "Hoofdcentrum Zuidoost"
-    label 431
-    labelsize 5
   ]
   node
   [
@@ -4330,8 +3466,6 @@ graph
     x 4.9467056558952
     y 52.3060255450382
     name "Amstel III deel A/B Noord"
-    label 432
-    labelsize 5
   ]
   node
   [
@@ -4340,8 +3474,6 @@ graph
     x 4.93776059552895
     y 52.3046186993222
     name "Amstel III deel C/D Noord"
-    label 433
-    labelsize 5
   ]
   node
   [
@@ -4350,8 +3482,6 @@ graph
     x 4.95334870305033
     y 52.298801435326
     name "Amstel III deel A/B Zuid"
-    label 434
-    labelsize 5
   ]
   node
   [
@@ -4360,8 +3490,6 @@ graph
     x 4.94522025016075
     y 52.2960106920162
     name "Amstel III deel C/D Zuid"
-    label 435
-    labelsize 5
   ]
   node
   [
@@ -4370,8 +3498,6 @@ graph
     x 4.95701811469314
     y 52.2925426172516
     name "AMC"
-    label 436
-    labelsize 5
   ]
   node
   [
@@ -4380,8 +3506,6 @@ graph
     x 4.95841067793203
     y 52.2853259222833
     name "Hoge Dijk"
-    label 437
-    labelsize 5
   ]
   node
   [
@@ -4390,8 +3514,6 @@ graph
     x 4.94376775064814
     y 52.3202621603767
     name "Venserpolder West"
-    label 438
-    labelsize 5
   ]
   node
   [
@@ -4400,8 +3522,6 @@ graph
     x 4.94739971418785
     y 52.324339787237
     name "Venserpolder Oost"
-    label 439
-    labelsize 5
   ]
   node
   [
@@ -4410,8 +3530,6 @@ graph
     x 4.95307562601838
     y 52.3206094279004
     name "D-buurt"
-    label 440
-    labelsize 5
   ]
   node
   [
@@ -4420,8 +3538,6 @@ graph
     x 4.95636907542296
     y 52.3184433812826
     name "F-buurt"
-    label 441
-    labelsize 5
   ]
   node
   [
@@ -4430,8 +3546,6 @@ graph
     x 4.95181036655511
     y 52.3143746775175
     name "Amsterdamse Poort"
-    label 442
-    labelsize 5
   ]
   node
   [
@@ -4440,8 +3554,6 @@ graph
     x 4.95193759942499
     y 52.3095517827623
     name "Hoptille"
-    label 443
-    labelsize 5
   ]
   node
   [
@@ -4450,8 +3562,6 @@ graph
     x 4.95665334384198
     y 52.3111916070644
     name "Rechte H-buurt"
-    label 444
-    labelsize 5
   ]
   node
   [
@@ -4460,8 +3570,6 @@ graph
     x 4.95703326096895
     y 52.3057870107534
     name "Hakfort/Huigenbos"
-    label 445
-    labelsize 5
   ]
   node
   [
@@ -4470,8 +3578,6 @@ graph
     x 4.96202672088742
     y 52.3075007460494
     name "Huntum"
-    label 446
-    labelsize 5
   ]
   node
   [
@@ -4480,8 +3586,6 @@ graph
     x 4.96081983947752
     y 52.316965722652
     name "Vogeltjeswei"
-    label 447
-    labelsize 5
   ]
   node
   [
@@ -4490,8 +3594,6 @@ graph
     x 4.96456702994778
     y 52.3110876861171
     name "Nelson Mandelapark"
-    label 448
-    labelsize 5
   ]
   node
   [
@@ -4500,8 +3602,6 @@ graph
     x 4.96381177130413
     y 52.3245943702373
     name "E-buurt"
-    label 449
-    labelsize 5
   ]
   node
   [
@@ -4510,8 +3610,6 @@ graph
     x 4.96655776641045
     y 52.3206617808646
     name "G-buurt West"
-    label 450
-    labelsize 5
   ]
   node
   [
@@ -4520,8 +3618,6 @@ graph
     x 4.97434801010987
     y 52.320780779235
     name "Bijlmermuseum Noord"
-    label 451
-    labelsize 5
   ]
   node
   [
@@ -4530,8 +3626,6 @@ graph
     x 4.96978148645328
     y 52.3159451369681
     name "Kortvoort"
-    label 452
-    labelsize 5
   ]
   node
   [
@@ -4540,8 +3634,6 @@ graph
     x 4.97395053630415
     y 52.3115827459849
     name "Kelbergen"
-    label 453
-    labelsize 5
   ]
   node
   [
@@ -4550,8 +3642,6 @@ graph
     x 4.97975563471296
     y 52.3163051969037
     name "K-buurt Midden"
-    label 454
-    labelsize 5
   ]
   node
   [
@@ -4560,8 +3650,6 @@ graph
     x 4.98483872941857
     y 52.3148787688151
     name "K-buurt Zuidoost"
-    label 455
-    labelsize 5
   ]
   node
   [
@@ -4570,8 +3658,6 @@ graph
     x 4.97948197003268
     y 52.3130213725728
     name "K-buurt Zuidwest"
-    label 456
-    labelsize 5
   ]
   node
   [
@@ -4580,8 +3666,6 @@ graph
     x 4.98061205370988
     y 52.3213287063993
     name "Grunder/Koningshoef"
-    label 457
-    labelsize 5
   ]
   node
   [
@@ -4590,8 +3674,6 @@ graph
     x 4.98118397619466
     y 52.3264779494684
     name "G-buurt Oost"
-    label 458
-    labelsize 5
   ]
   node
   [
@@ -4600,8 +3682,6 @@ graph
     x 4.9898662498981
     y 52.3193780543261
     name "Kantershof"
-    label 459
-    labelsize 5
   ]
   node
   [
@@ -4610,8 +3690,6 @@ graph
     x 4.96861981579875
     y 52.3124290881114
     name "Gooise Kant"
-    label 460
-    labelsize 5
   ]
   node
   [
@@ -4620,8 +3698,6 @@ graph
     x 4.97005423992874
     y 52.3239106632386
     name "G-buurt Noord"
-    label 461
-    labelsize 5
   ]
   node
   [
@@ -4630,8 +3706,6 @@ graph
     x 4.97622649302226
     y 52.3181600281623
     name "Bijlmermuseum Zuid"
-    label 462
-    labelsize 5
   ]
   node
   [
@@ -4640,8 +3714,6 @@ graph
     x 4.98001471028089
     y 52.3064838843187
     name "L-buurt"
-    label 463
-    labelsize 5
   ]
   node
   [
@@ -4650,8 +3722,6 @@ graph
     x 4.99279263545125
     y 52.3111036075678
     name "Gaasperpark"
-    label 464
-    labelsize 5
   ]
   node
   [
@@ -4660,8 +3730,6 @@ graph
     x 4.99929663094763
     y 52.3051087999416
     name "Gaasperplas"
-    label 465
-    labelsize 5
   ]
   node
   [
@@ -4670,8 +3738,6 @@ graph
     x 4.96139070495209
     y 52.3012686819042
     name "Holendrecht West"
-    label 466
-    labelsize 5
   ]
   node
   [
@@ -4680,8 +3746,6 @@ graph
     x 4.96689979773329
     y 52.2967763339588
     name "Reigersbos Noord"
-    label 467
-    labelsize 5
   ]
   node
   [
@@ -4690,8 +3754,6 @@ graph
     x 4.97046930398045
     y 52.3027705676796
     name "Holendrecht Oost"
-    label 468
-    labelsize 5
   ]
   node
   [
@@ -4700,8 +3762,6 @@ graph
     x 4.97769191129311
     y 52.2981309265819
     name "Gaasperdam Noord"
-    label 469
-    labelsize 5
   ]
   node
   [
@@ -4710,8 +3770,6 @@ graph
     x 4.97849338926402
     y 52.2944841129374
     name "Gaasperdam Zuid"
-    label 470
-    labelsize 5
   ]
   node
   [
@@ -4720,8 +3778,6 @@ graph
     x 4.96889940712115
     y 52.2934030885065
     name "Reigersbos Midden"
-    label 471
-    labelsize 5
   ]
   node
   [
@@ -4730,8 +3786,6 @@ graph
     x 4.97455315987307
     y 52.2895622689655
     name "Reigersbos Zuid"
-    label 472
-    labelsize 5
   ]
   node
   [
@@ -4740,8 +3794,6 @@ graph
     x 4.98513464471369
     y 52.2990813233442
     name "Gein Noordwest"
-    label 473
-    labelsize 5
   ]
   node
   [
@@ -4750,8 +3802,6 @@ graph
     x 4.98552229123286
     y 52.2946109357098
     name "Gein Zuidwest"
-    label 474
-    labelsize 5
   ]
   node
   [
@@ -4760,8 +3810,6 @@ graph
     x 4.99733846275234
     y 52.299167672084
     name "Gein Noordoost"
-    label 475
-    labelsize 5
   ]
   node
   [
@@ -4770,8 +3818,6 @@ graph
     x 4.99338273894111
     y 52.292792536479
     name "Gein Zuidoost"
-    label 476
-    labelsize 5
   ]
   node
   [
@@ -4780,8 +3826,6 @@ graph
     x 5.01654390134674
     y 52.3056251321442
     name "Dorp Driemond"
-    label 477
-    labelsize 5
   ]
   node
   [
@@ -4790,8 +3834,6 @@ graph
     x 5.0112355141709
     y 52.3147829060779
     name "Landelijk gebied Driemond"
-    label 478
-    labelsize 5
   ]
   node
   [
@@ -4800,8 +3842,6 @@ graph
     x 4.96998114935901
     y 52.3525498661118
     name "Buytenstee"
-    label 479
-    labelsize 5
   ]
   node
   [
@@ -4810,8 +3850,6 @@ graph
     x 4.97182459170145
     y 52.3492292838813
     name "Oud Diemen"
-    label 480
-    labelsize 5
   ]
   node
   [
@@ -4820,8 +3858,6 @@ graph
     x 4.97552373149789
     y 52.349954050185
     name "Vogelweide"
-    label 481
-    labelsize 5
   ]
   node
   [
@@ -4830,8 +3866,6 @@ graph
     x 4.9795995968876
     y 52.3485589344245
     name "Scheepskwartier"
-    label 482
-    labelsize 5
   ]
   node
   [
@@ -4840,8 +3874,6 @@ graph
     x 4.98349252546759
     y 52.3467105076838
     name "Vlindertuin"
-    label 483
-    labelsize 5
   ]
   node
   [
@@ -4850,8 +3882,6 @@ graph
     x 4.98893508218609
     y 52.3435227970042
     name "Diemerpolder"
-    label 484
-    labelsize 5
   ]
   node
   [
@@ -4860,8 +3890,6 @@ graph
     x 4.95824728660961
     y 52.3407470411837
     name "Centrum West"
-    label 485
-    labelsize 5
   ]
   node
   [
@@ -4870,8 +3898,6 @@ graph
     x 4.96203285589087
     y 52.3444838424531
     name "Ruimzicht West"
-    label 486
-    labelsize 5
   ]
   node
   [
@@ -4880,8 +3906,6 @@ graph
     x 4.96546253344095
     y 52.3483254867193
     name "Spoorzicht"
-    label 487
-    labelsize 5
   ]
   node
   [
@@ -4890,8 +3914,6 @@ graph
     x 4.9760086760997
     y 52.3440448466371
     name "Buitenlust"
-    label 488
-    labelsize 5
   ]
   node
   [
@@ -4900,8 +3922,6 @@ graph
     x 4.97678068617581
     y 52.3408276558294
     name "Spoordriehoek"
-    label 489
-    labelsize 5
   ]
   node
   [
@@ -4910,8 +3930,6 @@ graph
     x 4.96904469646771
     y 52.3419186283415
     name "Ruimzicht Oost"
-    label 490
-    labelsize 5
   ]
   node
   [
@@ -4920,8 +3938,6 @@ graph
     x 4.96613464025564
     y 52.3385225769031
     name "Centrum Oost"
-    label 491
-    labelsize 5
   ]
   node
   [
@@ -4930,8 +3946,6 @@ graph
     x 4.97207742302045
     y 52.3418377182025
     name "Studentenflats Rode Kruislaan"
-    label 492
-    labelsize 5
   ]
   node
   [
@@ -4940,8 +3954,6 @@ graph
     x 4.9501617200147
     y 52.3344366755902
     name "Akkerland"
-    label 493
-    labelsize 5
   ]
   node
   [
@@ -4950,8 +3962,6 @@ graph
     x 4.95348285151515
     y 52.3372648716232
     name "Bomenrijk"
-    label 494
-    labelsize 5
   ]
   node
   [
@@ -4960,8 +3970,6 @@ graph
     x 4.95748549051568
     y 52.3377101580159
     name "Beukenhorst"
-    label 495
-    labelsize 5
   ]
   node
   [
@@ -4970,8 +3978,6 @@ graph
     x 4.96322811596503
     y 52.3364560686689
     name "Anne Frank"
-    label 496
-    labelsize 5
   ]
   node
   [
@@ -4980,8 +3986,6 @@ graph
     x 4.96089030942782
     y 52.3347744182852
     name "Schelpenhoek"
-    label 497
-    labelsize 5
   ]
   node
   [
@@ -4990,8 +3994,6 @@ graph
     x 4.95741957383125
     y 52.3332099750853
     name "Kruidenhof"
-    label 498
-    labelsize 5
   ]
   node
   [
@@ -5000,8 +4002,6 @@ graph
     x 4.95330365869493
     y 52.3314427821399
     name "Polderland"
-    label 499
-    labelsize 5
   ]
   node
   [
@@ -5010,8 +4010,6 @@ graph
     x 4.94762719391886
     y 52.3293901104299
     name "Biesbosch"
-    label 500
-    labelsize 5
   ]
   node
   [
@@ -5020,8 +4018,6 @@ graph
     x 4.95245990805505
     y 52.3258754873889
     name "Bergwijkpark"
-    label 501
-    labelsize 5
   ]
   node
   [
@@ -5030,8 +4026,6 @@ graph
     x 4.95548819258961
     y 52.3289305743005
     name "Campus Diemen Zuid"
-    label 502
-    labelsize 5
   ]
   node
   [
@@ -5040,8 +4034,6 @@ graph
     x 4.96098655865855
     y 52.3292480468216
     name "Holland Park"
-    label 503
-    labelsize 5
   ]
   node
   [
@@ -5050,8 +4042,6 @@ graph
     x 4.9617916911964
     y 52.3265789160956
     name "Holland Park Zuid"
-    label 504
-    labelsize 5
   ]
   node
   [
@@ -5060,8 +4050,6 @@ graph
     x 4.95656589929957
     y 52.3269954741063
     name "Holland Park West"
-    label 505
-    labelsize 5
   ]
   node
   [
@@ -5070,8 +4058,6 @@ graph
     x 4.96882897109134
     y 52.3313030512171
     name "Verrijn Stuart"
-    label 506
-    labelsize 5
   ]
   node
   [
@@ -5080,8 +4066,6 @@ graph
     x 4.97790854563176
     y 52.332400765248
     name "De Sniep"
-    label 507
-    labelsize 5
   ]
   node
   [
@@ -5090,8 +4074,6 @@ graph
     x 4.98357849728878
     y 52.3318951151795
     name "Stammerdijk"
-    label 508
-    labelsize 5
   ]
   node
   [
@@ -5100,8 +4082,6 @@ graph
     x 4.97250604300793
     y 52.3345660376603
     name "Plantage de Sniep Zuid"
-    label 509
-    labelsize 5
   ]
   node
   [
@@ -5110,8 +4090,6 @@ graph
     x 4.97400451929125
     y 52.3368538914933
     name "Plantage de Sniep Noord"
-    label 510
-    labelsize 5
   ]
   node
   [
@@ -5120,8 +4098,6 @@ graph
     x 4.97767244890639
     y 52.3389735857783
     name "Sportpark De Diemen"
-    label 511
-    labelsize 5
   ]
   node
   [
@@ -5130,8 +4106,6 @@ graph
     x 4.99840685627336
     y 52.3277871384152
     name "Gemeenschapspolder"
-    label 512
-    labelsize 5
   ]
   node
   [
@@ -5140,8 +4114,6 @@ graph
     x 4.99889103944976
     y 52.3372096486923
     name "Overdiemerpolder"
-    label 513
-    labelsize 5
   ]
   node
   [
@@ -5150,8 +4122,6 @@ graph
     x 5.01410450777337
     y 52.3387250796611
     name "Overdiemen"
-    label 514
-    labelsize 5
   ]
   node
   [
@@ -5160,8 +4130,6 @@ graph
     x 5.02567312047709
     y 52.3441417201054
     name "Diemer Vijfhoek"
-    label 515
-    labelsize 5
   ]
   node
   [
@@ -5170,8 +4138,6 @@ graph
     x 4.93817439615013
     y 52.3312967352243
     name "Duivendrecht"
-    label 516
-    labelsize 5
   ]
   edge
   [

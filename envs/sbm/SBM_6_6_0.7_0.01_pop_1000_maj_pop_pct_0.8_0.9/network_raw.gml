@@ -1,4 +1,4 @@
-Creator "igraph version 0.10.2 Wed Feb 15 17:01:34 2023"
+Creator "igraph version 0.10.2 Wed Feb 15 17:19:28 2023"
 Version 1
 graph
 [
@@ -6,86 +6,50 @@ graph
   node
   [
     id 0
-    label 0
-    labelsize 10
-    color "blue"
   ]
   node
   [
     id 1
-    label 1
-    labelsize 10
-    color "blue"
   ]
   node
   [
     id 2
-    label 2
-    labelsize 10
-    color "blue"
   ]
   node
   [
     id 3
-    label 3
-    labelsize 10
-    color "blue"
   ]
   node
   [
     id 4
-    label 4
-    labelsize 10
-    color "blue"
   ]
   node
   [
     id 5
-    label 5
-    labelsize 10
-    color "blue"
   ]
   node
   [
     id 6
-    label 6
-    labelsize 10
-    color "red"
   ]
   node
   [
     id 7
-    label 7
-    labelsize 10
-    color "red"
   ]
   node
   [
     id 8
-    label 8
-    labelsize 10
-    color "red"
   ]
   node
   [
     id 9
-    label 9
-    labelsize 10
-    color "red"
   ]
   node
   [
     id 10
-    label 10
-    labelsize 10
-    color "red"
   ]
   node
   [
     id 11
-    label 11
-    labelsize 10
-    color "red"
   ]
   edge
   [

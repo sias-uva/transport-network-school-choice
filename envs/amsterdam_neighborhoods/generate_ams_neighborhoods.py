@@ -54,7 +54,10 @@ graph.vs['label_size'] = 5
 ig.plot(graph, layout=[(v['y'], v['x']) for v in graph.vs], 
         vertex_size=10, target='./network.pdf')
 ig.write(graph, 'network.gml')
-ig.write(graph, 'network_raw.gml')
+
+ig.plot(graph_raw, layout=[(v['y'], v['x']) for v in graph.vs], 
+        vertex_size=10, target='./network_raw.pdf')
+ig.write(graph_raw, 'network_raw.gml')
 
 # %% Generate population of agents for each node in the network.
 graph = ig.Graph.Read('network.gml')
