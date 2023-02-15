@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import copy
 
 #%% Generate Graph
 random.seed(42)
@@ -14,7 +15,8 @@ g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
 # maj_pop_pct = [0.6, 0.8, 0.9]
-maj_pop_pct = [0.5]
+maj_pop_pct = [0.8, 0.9]
+# maj_pop_pct = [0.5]
 # maj_pop_pct = [1]
 p_in = 0.7
 p_out = 0.01
@@ -29,6 +31,9 @@ if not os.path.exists(network_name):
         os.makedirs(network_name)
 
 graph = ig.Graph.SBM(g0+g1, [(p_in, p_out), (p_out, p_in)], [g0, g1])
+# Raw graph, without any node attributes.
+graph_raw = copy.deepcopy(graph)
+
 graph.vs['label'] = graph.vs.indices
 graph.vs['label_size'] = 10
 
@@ -41,6 +46,7 @@ for i in graph.vs.indices:
 # ig.plot(graph, vertex_size=20)
 ig.plot(graph, vertex_size=20, target=f'./{network_name}/network.pdf')
 ig.write(graph, f'./{network_name}/network.gml')
+ig.write(graph, f'./{network_name}/network_raw.gml')
 
 # fig, ax = plt.subplots(figsize=(5, 5))
 # ax.hist(graph.degree())
@@ -96,4 +102,19 @@ for i, f in enumerate(fac_nodes):
 facilities = pd.DataFrame(facilities)
 
 facilities.to_csv(f'./{network_name}/facilities.csv', index=False)
+# %% Plot a raw graph without any decoration, only the nodes where facilities are placed.
+# for v in graph_raw.vs:
+#     if np.isin(v.index, facilities['node'].values):
+#         v['color'] = 'yellow'
+#         v['label'] = '*'
+#         # v['label_size'] = 20
+#         v['vertex_label_color'] = '#FFFFFF'
+#         # v['frame_width'] = 2
+#         v['frame_color'] = 'black'
+
+# fig, axs = plt.subplots(1, 2, figsize=(10, 10))
+# ig.plot(graph_raw, target=axs[0])
+# ig.plot(graph_raw, target=axs[1])
+# # fig.savefig(f'./{network_name}/network_raw.png')
+# # ig.plot(graph_raw, target=f'./{network_name}/network_raw.pdf')
 # %%

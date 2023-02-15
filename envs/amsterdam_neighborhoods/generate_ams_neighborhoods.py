@@ -9,6 +9,7 @@ import igraph as ig
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import copy
 
 random.seed(42)
 np.random.seed(42)
@@ -44,12 +45,16 @@ for i, nb_i in ams_nb.iterrows():
         if not graph.are_connected(nb_nodes[i], nb_nodes[j]):
             graph.add_edge(nb_nodes[i], nb_nodes[j])
 
+# Raw graph, without any node attributes.
+graph_raw = copy.deepcopy(graph)
+
 graph.vs['label'] = [v.index for v in graph.vs]
 graph.vs['label_size'] = 5
 
 ig.plot(graph, layout=[(v['y'], v['x']) for v in graph.vs], 
         vertex_size=10, target='./network.pdf')
 ig.write(graph, 'network.gml')
+ig.write(graph, 'network_raw.gml')
 
 # %% Generate population of agents for each node in the network.
 graph = ig.Graph.Read('network.gml')
