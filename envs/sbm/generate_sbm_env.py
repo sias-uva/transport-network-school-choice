@@ -103,18 +103,10 @@ facilities = pd.DataFrame(facilities)
 
 facilities.to_csv(f'./{network_name}/facilities.csv', index=False)
 # %% Plot a raw graph without any decoration, only the nodes where facilities are placed.
-# for v in graph_raw.vs:
-#     if np.isin(v.index, facilities['node'].values):
-#         v['color'] = 'yellow'
-#         v['label'] = '*'
-#         # v['label_size'] = 20
-#         v['vertex_label_color'] = '#FFFFFF'
-#         # v['frame_width'] = 2
-#         v['frame_color'] = 'black'
+for v in graph_raw.vs:
+    if np.isin(v.index, facilities['node'].values):
+        v['color'] = 'yellow'
+        v['label'] = '*'
 
-# fig, axs = plt.subplots(1, 2, figsize=(10, 10))
-# ig.plot(graph_raw, target=axs[0])
-# ig.plot(graph_raw, target=axs[1])
-# # fig.savefig(f'./{network_name}/network_raw.png')
-# # ig.plot(graph_raw, target=f'./{network_name}/network_raw.pdf')
+ig.plot(graph_raw, target=f'./{network_name}/network_raw.pdf')
 # %%

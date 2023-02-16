@@ -147,4 +147,14 @@ print('Successfullly generated the environment.')
 #         vertex_size=10, target='./network_full.pdf')
 
 # ig.write(graph, 'network_full.gml')
+
+# %% Plot a raw graph without any decoration, only the nodes where facilities are placed.
+for v in graph_raw.vs:
+    if np.isin(v.index, ams_schools['node'].values):
+        v['color'] = 'yellow'
+        v['label'] = '*'
+
+ig.plot(graph_raw, layout=[(v['y'], v['x']) for v in graph.vs], 
+            vertex_size=10, target=f'./network_raw.pdf')
+
 # %%
