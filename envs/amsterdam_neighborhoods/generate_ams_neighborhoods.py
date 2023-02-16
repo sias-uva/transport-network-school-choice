@@ -62,7 +62,7 @@ ig.write(graph_raw, 'network_raw.gml')
 # %% Generate population of agents for each node in the network.
 graph = ig.Graph.Read('network.gml')
 ams_nb['node_id'] = [v.index for v in nb_nodes]
-generated_pop = 1000
+generated_pop = 10000
 # Keep only relevant ses attributes.
 ams_ses = ams_ses[['BU_CODE', 'real_pop', 'nr_dutch', 'nr_w_migr', 'nr_nw_migr']]
 ams_ses.loc[:, 'nr_dutch_w_migr'] = ams_ses['nr_dutch'] + ams_ses['nr_w_migr']
@@ -132,6 +132,21 @@ fig.suptitle(f"Amsterdam environment: {ams_nb['gen_pop'].sum()} agents, {ams_nb[
 fig.savefig('./ams-env.png', dpi=300)
 
 print('Successfullly generated the environment.')
+
+#%% Calculate residential segregation via the dissimilarity index.
+groups = ams_agents['group'].unique()
+group_0 = ams_agents[ams_agents['group'] == groups[0]]
+group_1 = ams_agents[ams_agents['group'] == groups[1]]
+A = group_0['id'].nunique()
+B = group_1['id'].nunique()
+DI = 0
+for v in ams_agents['node'].unique():
+    a = group_0[group_0['node'] == v]['id'].nunique()
+    b = group_1[group_1['node'] == v]['id'].nunique()
+    DI += np.abs(a/A - b/B)
+
+print(f'Dissimilarity Index: {1/2 * DI}')
+
 # %% Create fully connected
 # adj_mx = graph.get_adjacency()
 
