@@ -62,7 +62,7 @@ ig.write(graph_raw, 'network_raw.gml')
 # %% Generate population of agents for each node in the network.
 graph = ig.Graph.Read('network.gml')
 ams_nb['node_id'] = [v.index for v in nb_nodes]
-generated_pop = 10000
+generated_pop = 7000
 # Keep only relevant ses attributes.
 ams_ses = ams_ses[['BU_CODE', 'real_pop', 'nr_dutch', 'nr_w_migr', 'nr_nw_migr']]
 ams_ses.loc[:, 'nr_dutch_w_migr'] = ams_ses['nr_dutch'] + ams_ses['nr_w_migr']

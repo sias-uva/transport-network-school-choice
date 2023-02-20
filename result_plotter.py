@@ -52,14 +52,22 @@ def plot_results(results, ax):
 
 # # results to plot
 results_ams = [
-        '20230213_11_22_58.311840_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_none',
-        '20230213_11_23_05.508838_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_random',
-        '20230213_11_23_16.596338_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_closeness',
-        '20230213_11_28_21.533442_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_closeness',
-        '20230213_11_23_27.183322_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_betweenness',
-        '20230213_15_26_16.628397_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_betweenness',
-        '20230213_11_24_02.853325_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_degree',
-        '20230213_11_28_34.792581_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_degree'
+        # '20230213_11_22_58.311840_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_none',
+        # '20230213_11_23_05.508838_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_random',
+        # '20230213_11_23_16.596338_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_closeness',
+        # '20230213_11_28_21.533442_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_closeness',
+        # '20230213_11_23_27.183322_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_betweenness',
+        # '20230213_15_26_16.628397_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_betweenness',
+        # '20230213_11_24_02.853325_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_degree',
+        # '20230213_11_28_34.792581_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_degree'
+        '20230216_12_17_38.193762_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_none',
+        '20230216_12_19_06.993941_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_random',
+        '20230216_12_19_12.579556_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_closeness',
+        '20230216_12_35_28.835175_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_closeness',
+        '20230216_12_19_57.731536_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_betweenness',
+        '20230216_16_30_50.088071_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_betweenness',
+        '20230216_12_35_17.607961_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_degree',
+        '20230216_12_35_40.385648_amsterdam_neighborhoods_50_5_25_1_distance_composition_random_serial_dictatorship_group_degree'
         ]
 
 # results to plot
