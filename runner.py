@@ -365,7 +365,7 @@ class Runner(object):
             self.logger.append_to_output_file(f"interventions: {[(i.source, i.target) for i in interventions if i is not None]}")
             self.logger.append_to_output_file(f"rounds_with_intervention: {rounds_with_intervention}")
 
-        return dissimilarity_index
+        return dissimilarity_index, rounds_with_intervention
         
     def run_agent_round(self, preferences_model, allocation_model, preference_model_params=None):
         """Runs a round of preference generation -> allocation generation -> evaluation.
