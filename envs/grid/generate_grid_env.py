@@ -113,6 +113,16 @@ for g in ['g0', 'g1']:
 agents = pd.DataFrame(agents)
 agents.to_csv(f'./{network_name}/population.csv', index=False)
 
+# Adjust nodes to include the number of agents in each group and the real percentage of each group in the node.
+agents_per_node = agents.groupby(['node', 'group'])['id'].count().unstack() \
+                        .rename(columns={'g0': 'g0_nr', 'g1': 'g1_nr'}) \
+                        .fillna(0).astype(int)
+nodes = nodes.merge(agents_per_node, how='left', left_on='id', right_on='node')
+nodes.loc[:, 'g0_pct'] = nodes['g0_nr'] / (nodes['g0_nr'] + nodes['g1_nr'])
+nodes.loc[:, 'g1_pct'] = nodes['g1_nr'] / (nodes['g0_nr'] + nodes['g1_nr'])
+nodes.loc[:, 'g0_in_node'] = nodes['g0_nr'] / nodes['g0_nr'].sum()
+nodes.loc[:, 'g1_in_node'] = nodes['g1_nr'] / nodes['g1_nr'].sum()
+
 #%% Generate facilities
 fac_nodes = [7, 10, 25, 28]
 facility_cap = total_pop // len(fac_nodes)
@@ -124,5 +134,20 @@ for i, f in enumerate(fac_nodes):
 facilities = pd.DataFrame(facilities)
 
 facilities.to_csv(f'./{network_name}/facilities.csv', index=False)
+
+# %% Dissimilaritiy index of population in the network
+
+
+A = nodes['g0_nr'].sum()
+B = nodes['g1_nr'].sum()
+DI = 0
+for _, nid in nodes.iterrows():
+    a = nid['g0_nr']
+    b = nid['g1_nr']
+
+    DI += np.abs(a/A - b/B)
+
+print(f'Dissimilarity Index: {1/2 * DI}') 
+
 
 # %%
