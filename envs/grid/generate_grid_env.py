@@ -11,7 +11,7 @@ import pandas as pd
 rows = 6
 cols = 6
 total_pop = 1000
-maj_pop_pct = [0.5]
+maj_pop_pct = [0.8]
 network_name = f"GRID_{rows}x{cols}_{maj_pop_pct}"
 
 if not os.path.exists(network_name):
@@ -106,7 +106,8 @@ for g in ['g0', 'g1']:
         node = np.random.choice(nodes['id'], p=nodes[f'{g}_in_node'])
         group = g
         # Set tolerance similar to that of the majority population of the node.
-        agents.append({'id': id, 'node': node, 'group': group, 'tolerance': nodes[nodes['id'] == node][f'{g}_pct'].iloc[0]})
+        agents.append({'id': id, 'node': node, 'group': group, 
+                       'tolerance': nodes[nodes['id'] == node][['g0_pct', 'g1_pct']].iloc[0].max()})
         id += 1
 
 agents = pd.DataFrame(agents)
