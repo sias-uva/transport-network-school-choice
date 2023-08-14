@@ -8,9 +8,9 @@ import pandas as pd
 
 # Define the dimensions of the grid
 # FOR NOW ONLY WORKS WITH SQUARE GRID AND EVEN NUMBER OF ROWS AND COLUMNS
-rows = 6
-cols = 6
-total_pop = 1000
+rows = 10
+cols = 10
+total_pop = 5000
 maj_pop_pct = [0.8]
 network_name = f"GRID_{rows}x{cols}_{maj_pop_pct}"
 
@@ -124,7 +124,8 @@ nodes.loc[:, 'g0_in_node'] = nodes['g0_nr'] / nodes['g0_nr'].sum()
 nodes.loc[:, 'g1_in_node'] = nodes['g1_nr'] / nodes['g1_nr'].sum()
 
 #%% Generate facilities
-fac_nodes = [7, 10, 25, 28]
+# fac_nodes = [7, 10, 25, 28]
+fac_nodes = [22, 27, 72, 77]
 facility_cap = total_pop // len(fac_nodes)
 
 facilities = []
@@ -137,7 +138,6 @@ facilities.to_csv(f'./{network_name}/facilities.csv', index=False)
 
 # %% Dissimilaritiy index of population in the network
 
-
 A = nodes['g0_nr'].sum()
 B = nodes['g1_nr'].sum()
 DI = 0
@@ -149,5 +149,19 @@ for _, nid in nodes.iterrows():
 
 print(f'Dissimilarity Index: {1/2 * DI}') 
 
+# %% Create fully connected network
+adj_mx = graph.get_adjacency()
+
+for i in range(adj_mx.shape[0]):
+    print('added edges for node', i)
+    adj_mx = graph.get_adjacency()
+
+    edges_to_add = [(i, j) for j in range(adj_mx.shape[0]) if adj_mx[i, j] == 0]
+    
+    graph.add_edges(edges_to_add)
+
+ig.plot(graph, target=f'./{network_name}/network_full.pdf', layout=grid_graph.layout("grid"))
+
+ig.write(graph, f'./{network_name}/network_full.gml')
 
 # %%
