@@ -11,8 +11,11 @@ import pandas as pd
 rows = 10
 cols = 10
 total_pop = 5000
-maj_pop_pct = [0.8]
-network_name = f"GRID_{rows}x{cols}_{maj_pop_pct}"
+# Percent of the majority group overall in the population.
+maj_pop_pct = 0.7
+# Percent of the majority group in the group-dominant nodes.
+maj_pop_pct_in_nodes = [0.8]
+network_name = f"GRID_{rows}x{cols}_{maj_pop_pct}_{maj_pop_pct_in_nodes}"
 
 if not os.path.exists(network_name):
         os.makedirs(network_name)
@@ -87,10 +90,10 @@ ig.plot(grid_graph, layout=grid_graph.layout("grid"), vertex_size=20, vertex_col
 ig.plot(grid_graph, layout=grid_graph.layout("grid"), vertex_size=20, vertex_color=nodes['color'], target=f'./{network_name}/network_groups.pdf')
 
 #%% Generate Population of agents for each node in the network.
-nodes.loc[nodes['id'].isin(g0), 'g0_pct'] = np.random.choice(maj_pop_pct, len(g0))
+nodes.loc[nodes['id'].isin(g0), 'g0_pct'] = np.random.choice(maj_pop_pct_in_nodes, len(g0))
 nodes.loc[nodes['id'].isin(g0), 'g1_pct'] = 1 - nodes.loc[nodes['id'].isin(g0) ,'g0_pct']
 
-nodes.loc[nodes['g0_pct'].isna(), 'g1_pct'] = np.random.choice(maj_pop_pct, len(g1))
+nodes.loc[nodes['g0_pct'].isna(), 'g1_pct'] = np.random.choice(maj_pop_pct_in_nodes, len(g1))
 nodes.loc[nodes['g0_pct'].isna(), 'g0_pct'] = 1 - nodes.loc[nodes['g0_pct'].isna(), 'g1_pct']
 
 # Group distribution on nodes. The percentage of each group in each node.
@@ -99,21 +102,21 @@ nodes.loc[:, 'g1_in_node'] = nodes['g1_pct'] / nodes['g1_pct'].sum()
 
 #%%
 agents = []
+g0_nr = int(total_pop * maj_pop_pct)
+g1_nr = total_pop - g0_nr
 
-id = 0
-for g in ['g0', 'g1']:
-    for i in range(total_pop // 2):
-        node = np.random.choice(nodes['id'], p=nodes[f'{g}_in_node'])
-        group = g
-        # Set tolerance similar to that of the majority population of the node.
-        agents.append({'id': id, 'node': node, 'group': group, 
-                       'tolerance': nodes[nodes['id'] == node][['g0_pct', 'g1_pct']].iloc[0].max()})
-        id += 1
+# id = 0
+for i in range(total_pop):
+    group = 'g0' if i < g0_nr else 'g1'
+    node = np.random.choice(nodes['id'], p=nodes[f'{group}_in_node'])
+    # Set tolerance similar to that of the majority population of the node.
+    agents.append({'id': i, 'node': node, 'group': group, 
+                    'tolerance': nodes[nodes['id'] == node][['g0_pct', 'g1_pct']].iloc[0].max()})
 
 agents = pd.DataFrame(agents)
 agents.to_csv(f'./{network_name}/population.csv', index=False)
 
-# Adjust nodes to include the number of agents in each group and the real percentage of each group in the node.
+# # Adjust nodes to include the number of agents in each group and the real percentage of each group in the node.
 agents_per_node = agents.groupby(['node', 'group'])['id'].count().unstack() \
                         .rename(columns={'g0': 'g0_nr', 'g1': 'g1_nr'}) \
                         .fillna(0).astype(int)
