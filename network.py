@@ -18,6 +18,7 @@ class Network(object):
 
         # Load the network
         self.network = ig.Graph.Read(network_path)
+        self.network_path = network_path
         # Network layout for plotting (to keep node positions consistent between plots)
         self.network_layout = self.network.layout('kk')
         # Becomes relevant when we want to add edges to the network and plot the new edges.

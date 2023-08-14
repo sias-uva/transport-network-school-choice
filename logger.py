@@ -115,6 +115,8 @@ class Logger(object):
         network.network.vs['label_size'] = vertex_label_size
         if 'x' in network.network.vs.attribute_names():
             layout=[(v['y'], v['x']) for v in network.network.vs]
+        elif 'GRID' in network.network_path:
+            layout=network.network.layout("grid")
         else:
             layout=None
 
