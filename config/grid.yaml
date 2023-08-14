@@ -17,13 +17,13 @@ preference_model_params:
   init_facility_composition: 'node'
   # The optimal percentage point of homophily (fraction of agents of the same group) of the agents at any facility. Applicable values
     # null: it uses the 'tolerance' field of the population.csv file 
-    # float: constant fraction for all agents (should be between 0 and 1)
+  # float: constant fraction for all agents (should be between 0 and 1)
     # list[]: fractions to sample from for each agent (random sample)
   pop_optimal_grp_frac: null
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['none', 'random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
-intervention_model: 'betweenness'
+intervention_model: 'group_betweenness'
 # Total number of rounds closeness the simulation. At each round a preference+allocation takes place and (possibly) an intervention.
 simulation_rounds: 30
 # Total number of simulation rounds in which interventions happen. Interventions will happen every $ simulation_rounds // intervention_rounds $ round.
