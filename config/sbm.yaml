@@ -1,7 +1,7 @@
 # General
-network_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.8_0.9/network.gml'
-population_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.8_0.9/population.csv'
-facilities_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.8_0.9/facilities.csv'
+network_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.5/network.gml'
+population_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.5/population.csv'
+facilities_file: './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.5/facilities.csv'
 # Applicable values: ['nearest_k', 'toy_model', 'distance_popularity', 'distance_composition']
 preferences_model: 'distance_composition'
 preference_model_params:
@@ -19,11 +19,11 @@ preference_model_params:
     # null: it uses the 'tolerance' field of the population.csv file 
     # float: constant fraction for all agents (should be between 0 and 1)
     # list[]: fractions to sample from for each agent (random sample)
-  pop_optimal_grp_frac: null
+  pop_optimal_grp_frac: 0.1
 # Applicable values: ['first_choice', 'random_serial_dictatorship']
 allocation_model: 'random_serial_dictatorship'
 # Applicable values: ['none', 'random', 'closeness', 'betweenness', 'degree', 'group_closeness', 'group_betweenness', 'group_degree']
-intervention_model: 'group_closeness'
+intervention_model: 'none'
 # Total number of rounds in the simulation. At each round a preference+allocation takes place and (possibly) an intervention.
 simulation_rounds: 30
 # Total number of simulation rounds in which interventions happen. Interventions will happen every $ simulation_rounds // intervention_rounds $ round.
@@ -33,7 +33,7 @@ intervention_rounds: 2
 intervention_budget: 1
 # How many times to run the agent rounds (preference + allocation) on each simulation round.
 # Evaluation metrics will be calculated based on the average over these rounds. This is done because there's randomness in the preference/allocation modules.
-allocation_rounds: 5
+allocation_rounds: 50
 # If true, the parameters of the preference model will get updated at every simulation round, when applicable.
 # For example, it will update a facility popularity or the composition of each facility based on the previous round.
 update_preference_params: True
