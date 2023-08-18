@@ -8,7 +8,7 @@ from network import Network
 %matplotlib inline
 
 #%%
-env = './envs/grid/GRID_10x10_0.7_[0.8]'
+env = './envs/grid/GRID_10x10_[0.8]'
 
 preferences_model = 'distance_composition'
 allocation_model = 'random_serial_dictatorship'
@@ -25,8 +25,8 @@ preference_model_params = {
 }
 update_preference_params = True
 
-c_weights = np.arange(0.1, 1, 0.1)
-optimal_group_fractions = np.arange(0.1, 1, 0.1)
+c_weights = np.arange(0, 1, 0.1)
+optimal_group_fractions = np.arange(0, 1, 0.1)
 
 dissimilarity_index = []
 
@@ -62,7 +62,7 @@ fig, ax = plt.subplots(figsize = (5, 5))
 markers = ['o', 's', 'D', '^', 'v', '*', 'P', 'X', '<', '>']
 for i, c_w in enumerate(c_weights):
     values = dissimilarity_index[dissimilarity_index[:, 0] == c_w]
-    ax.plot(values[:, 1], values[:, 2], marker=markers[i], label=f'CW: {round(c_w, 1)}')
+    ax.plot(values[:, 1], values[:, 2], marker=markers[i], label=f'alpha: {round(c_w, 1)}')
 
 ax.set_xlabel('optimal_group_fraction')
 ax.set_ylabel('dissimilarity_index')
@@ -121,7 +121,7 @@ def di_progress_by_param(env, pref_model, alloc_model, inter_model, sim_rounds, 
 
     return dissimilarity_index, rounds_with_intervention
 
-def plot_di_progress_by_param(di, param1, param2, env, pref_model, alloc_model, inter_model, sim_rounds, inter_rounds, inter_budget, alloc_rounds, M, rounds_with_intervention, param1_name='cw', param2_name='ogf', colors=None, line_styles=None):
+def plot_di_progress_by_param(di, param1, param2, env, pref_model, alloc_model, inter_model, sim_rounds, inter_rounds, inter_budget, alloc_rounds, M, rounds_with_intervention, param1_name='alpha', param2_name='ogf', colors=None, line_styles=None):
     fig, axs = plt.subplots(math.ceil(len(param1) / 3), 3, figsize = (10, 10))
     
     for i, p1 in enumerate(param1):
@@ -285,7 +285,9 @@ plot_di_progress_by_param(
             alloc_rounds=allocation_rounds,
             M=M,
             rounds_with_intervention=rounds_with_intervention,
-            param1_name='composition weight',
+            param1_name='composition weight (alpha)',
             param2_name='inter_model',
             colors=colors, 
             line_styles=line_styles)
+
+# %%
