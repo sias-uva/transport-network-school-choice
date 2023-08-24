@@ -1,0 +1,5 @@
+id,node,facility,capacity,quality,popularity
+0,12,school_0,1250,0.5,0.5
+1,37,school_1,1250,0.5,0.5
+2,62,school_2,1250,0.5,0.5
+3,87,school_3,1250,0.5,0.5
