@@ -168,19 +168,25 @@ class Network(object):
                 v = Q.popleft()
                 S.append(v)
                 for w in A[v]:
+                    # If d[w] < 0 it means that w has not been visited before
                     if d[w] < 0:
+                        # Append w to Q (to visit it later)
                         Q.append(w)
+                        # The distance to w (neighbour of v) is the distance to v plus one.
                         d[w] = d[v] + 1
+                    # If d[w] == d[v] + 1 it means that v is a predecessor of w
                     if d[w] == d[v] + 1:
+                        # So update the total number of shortest paths to w (g[w]) by adding the paths that v is a predecessor of
                         g[w] = g[w] + g[v]
                         P[w].append(v)
             e = dict((v, 0) for v in all_nodes)
             while S:
                 w = S.pop()
                 for v in P[w]:
-                    e[v] = e[v] + (g[v]/g[w]) * (weights[w] + e[w])
+                    e[v] = e[v] + (g[v]/g[w]) * (1 + e[w]) * weights[s]
+                    # e[v] = e[v] + (g[v]/g[w]) *  (1 + e[w])
                 if w != s:
-                    C[w] = C[w] + e[w] * weights[w]
+                    C[w] = C[w] + e[w]
 
         C = C[nodes] / 2
 
