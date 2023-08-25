@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from network import Network
 %matplotlib inline
 
-#%%
 env = './envs/grid/GRID_10x10_[0.8]'
 
 preferences_model = 'distance_composition'
@@ -28,6 +27,7 @@ update_preference_params = True
 c_weights = np.arange(0, 1, 0.1)
 optimal_group_fractions = np.arange(0, 1, 0.1)
 
+#%%
 dissimilarity_index = []
 
 for c_weight in c_weights:
@@ -190,17 +190,17 @@ def gen_and_plot(env, pref_model, alloc_model, inter_model, sim_rounds, inter_ro
 
 #%%
 
-di, rwi = gen_and_plot(env=env,
-            pref_model='distance_composition',
-            alloc_model='random_serial_dictatorship',
-            inter_model='closeness',
-            sim_rounds=simulation_rounds,
-            inter_rounds=intervention_rounds,
-            inter_budget=intervention_budget,
-            alloc_rounds=allocation_rounds,
-            M=M,
-            c_weights=np.round(np.arange(0.1, 1, 0.1), 1),
-            opt_group_frac=np.round(np.arange(0.1, 1, 0.1), 1))
+# di, rwi = gen_and_plot(env=env,
+#             pref_model='distance_composition',
+#             alloc_model='random_serial_dictatorship',
+#             inter_model='closeness',
+#             sim_rounds=simulation_rounds,
+#             inter_rounds=intervention_rounds,
+#             inter_budget=intervention_budget,
+#             alloc_rounds=allocation_rounds,
+#             M=M,
+#             c_weights=np.round(np.arange(0.1, 1, 0.1), 1),
+#             opt_group_frac=np.round(np.arange(0.1, 1, 0.1), 1))
 
 
 #%% Create a grid plot of all interventions models under different C_weight parameters
@@ -274,7 +274,7 @@ di, rounds_with_intervention = di_progress_by_inter_model(
 plot_di_progress_by_param(
             di, 
             c_weights, 
-            inter_models, 
+            inter_models,
             env=env,
             pref_model='distance_composition', 
             alloc_model='random_serial_dictatorship', 
