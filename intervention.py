@@ -112,6 +112,9 @@ def maximize_node_centrality(network: Network, node_id: int, centrality_measure:
         # Remove the edge from the graph
         network.network.delete_edges(edge)
 
+    if max_edge is None:
+        print(f'Warning - No edge could be added for node {node_id} and centrality measure {centrality_measure}. Probably ll edges lead to 0 centrality.')
+        return None, None, None
     # Return the edge with the maximum centrality
     return max_edge[0], max_edge[1], edge_weight
 
