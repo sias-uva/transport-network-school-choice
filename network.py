@@ -183,7 +183,7 @@ class Network(object):
             while S:
                 w = S.pop()
                 for v in P[w]:
-                    e[v] = e[v] + (g[v]/g[w]) * (1 + e[w]) * weights[s]
+                    e[v] = e[v] + (g[v]/g[w]) * (1 + e[w]) * weights[w]
                     # e[v] = e[v] + (g[v]/g[w]) *  (1 + e[w])
                 if w != s:
                     C[w] = C[w] + e[w]
