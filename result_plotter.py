@@ -76,13 +76,25 @@ results_sbm = [
         '20230210_17_20_38.371774_sbm_50_5_2_1_distance_composition_random_serial_dictatorship_random',
         '20230210_17_19_45.202179_sbm_50_5_2_1_distance_composition_random_serial_dictatorship_closeness',
         '20230210_17_21_39.629291_sbm_50_5_2_1_distance_composition_random_serial_dictatorship_group_closeness',
-        '20230210_17_22_09.075038_sbm_50_5_2_1_distance_composition_random_serial_dictatorship_group_betweenness',
         '20230210_17_21_20.236519_sbm_50_5_2_1_distance_composition_random_serial_dictatorship_betweenness',
+        '20230210_17_22_09.075038_sbm_50_5_2_1_distance_composition_random_serial_dictatorship_group_betweenness',
         '20230210_17_21_27.596022_sbm_50_5_2_1_distance_composition_random_serial_dictatorship_degree',
         '20230210_17_22_25.239575_sbm_50_5_2_1_distance_composition_random_serial_dictatorship_group_degree',
         ]
 
-fig, ax = plt.subplots(1, 2, figsize=(24, 7.5))
+
+results_grid = [
+    '20230810_19_56_12.861719_grid_50_5_10_1_distance_composition_random_serial_dictatorship_none',
+    '20230810_19_56_19.921328_grid_50_5_10_1_distance_composition_random_serial_dictatorship_random',
+    '20230810_19_56_31.022377_grid_50_5_10_1_distance_composition_random_serial_dictatorship_closeness',
+    '20230810_19_58_09.779245_grid_50_5_10_1_distance_composition_random_serial_dictatorship_group_closeness',
+    '20230810_19_56_40.096544_grid_50_5_10_1_distance_composition_random_serial_dictatorship_betweenness',
+    '20230810_19_58_22.618872_grid_50_5_10_1_distance_composition_random_serial_dictatorship_group_betweenness',
+    '20230810_19_56_48.827878_grid_50_5_10_1_distance_composition_random_serial_dictatorship_degree',
+    '20230810_19_58_30.722892_grid_50_5_10_1_distance_composition_random_serial_dictatorship_group_degree'
+]
+
+fig, ax = plt.subplots(1, 3, figsize=(36, 7.5))
 # get_figure(f"Average Dissimilarity Index in Schools",
 #                         subtitle="30 simulation rounds, 15 intervention rounds",
 #                         xlabel='Simulation round',
@@ -92,16 +104,21 @@ fig, ax = plt.subplots(1, 2, figsize=(24, 7.5))
 
 plot_results(results_sbm, ax[0])
 plot_results(results_ams, ax[1])
-ax[0].set_ylim(0, 0.8)
-ax[1].set_ylim(0, 0.8)
+plot_results(results_grid, ax[2])
+ax[0].set_ylim(0, 0.9)
+ax[1].set_ylim(0, 0.9)
+ax[2].set_ylim(0, 0.9)
 ax[0].set_xlabel('Simulation round')
 ax[0].set_ylabel('Dissimilarity Index')
 ax[1].set_xlabel('Simulation round')
 ax[1].set_ylabel('Dissimilarity Index')
 ax[0].set_title(f'(A) Synthetic Environment', fontsize=SUBTITLE_FONT_SIZE)
 ax[1].set_title(f'(B) Amsterdam Environment', fontsize=SUBTITLE_FONT_SIZE)
+ax[2].set_title(f'(C) Grid 0.8 Environment', fontsize=SUBTITLE_FONT_SIZE)
 
 # fig.suptitle('Impact of Network Interventions on Segregation (TODO ADD GROUP BETWEENNESS)', fontsize=TITLE_FONT_SIZE)
 handles, labels = ax[0].get_legend_handles_labels()
 plt.figlegend(handles, labels, loc = 'lower center', ncol=4, labelspacing=0., bbox_to_anchor=(0.5, -0.15))
 fig.show()
+
+# %%
