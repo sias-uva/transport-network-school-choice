@@ -5,6 +5,8 @@ import igraph as ig
 import numpy as np
 import pandas as pd
 
+# Set to True if you want to generate a special case of the grid network where only the top-left corner is from one group.
+specialcase = False
 
 # Define the dimensions of the grid
 # FOR NOW ONLY WORKS WITH SQUARE GRID AND EVEN NUMBER OF ROWS AND COLUMNS
@@ -12,10 +14,10 @@ rows = 10
 cols = 10
 total_pop = 5000
 # Percent of the majority group overall in the population.
-maj_pop_pct = 0.7
+maj_pop_pct = 0.5
 # Percent of the majority group in the group-dominant nodes.
-maj_pop_pct_in_nodes = [0.8]
-network_name = f"GRID_{rows}x{cols}_{maj_pop_pct}_{maj_pop_pct_in_nodes}"
+maj_pop_pct_in_nodes = [0.6]
+network_name = f"GRID_{rows}x{cols}_{maj_pop_pct}_{maj_pop_pct_in_nodes}{'_specialcase' if specialcase else ''}"
 
 if not os.path.exists(network_name):
         os.makedirs(network_name)
@@ -73,6 +75,18 @@ for i in range(N // 2):
         g1.append(i * N + j)
         g1.append(((N - 1 - i) * N + (N - 1 - j)))
 
+
+############ UNCOMMENT this for the special case of 10x10 grid with only the top left corner as g0
+if specialcase:
+    g0 = [0, 1, 2, 3, 4,
+        10, 11, 12, 13, 14,
+        20, 21, 22, 23, 24,
+        30, 31, 32, 33, 34,
+        40, 41, 42, 43, 44]
+
+    # assign to g1 all the nodes that are not in g0
+    g1 = [i for i in range(graph.vcount()) if i not in g0] 
+############
 
 # Assign colors to nodes based on their group
 for i in graph.vs.indices:
