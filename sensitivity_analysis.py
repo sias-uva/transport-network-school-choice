@@ -10,6 +10,7 @@ from network import Network
 env = './envs/grid/GRID_10x10_0.6_[0.8]'
 # env = './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.6_0.8_0.9'
 facilities_file = 'facilities_3.csv'
+population_file = 'population.csv'
 
 preferences_model = 'distance_composition'
 allocation_model = 'random_serial_dictatorship'
@@ -37,7 +38,7 @@ for c_weight in c_weights:
         print(f'c_weight={c_weight}, optimal_group_fraction={optimal_group_fraction}')
 
         network = Network(f'{env}/network.gml', calc_tt_mx=True)
-        population = pd.read_csv(f'{env}/population.csv')
+        population = pd.read_csv(f'{env}/{population_file}')
         facilities = pd.read_csv(f'{env}/{facilities_file}')
         runner = Runner(network, population, facilities, logger=None)
 
@@ -92,8 +93,8 @@ def di_progress_by_param(env, pref_model, alloc_model, inter_model, sim_rounds, 
             print(f'c_weight={c_weight}, optimal_group_fraction={optimal_group_fraction}')
 
             network = Network(f'{env}/network.gml', calc_tt_mx=True)
-            population = pd.read_csv(f'{env}/population.csv')
-            facilities = pd.read_csv(f'{env}/facilities.csv')
+            population = pd.read_csv(f'{env}/{population_file}')
+            facilities = pd.read_csv(f'{env}/{facilities_file}}')
             runner = Runner(network, population, facilities, logger=None)
 
             preference_model_params = {
@@ -222,8 +223,8 @@ def di_progress_by_inter_model(env, pref_model, alloc_model, inter_models: list,
             print(f'c_weight={c_weight}, inter_model={inter_model}')
 
             network = Network(f'{env}/network.gml', calc_tt_mx=True)
-            population = pd.read_csv(f'{env}/population.csv')
-            facilities = pd.read_csv(f'{env}/facilities.csv')
+            population = pd.read_csv(f'{env}/{population_file}')
+            facilities = pd.read_csv(f'{env}/{facilities_file}')
             runner = Runner(network, population, facilities, logger=None)
 
             preference_model_params = {
