@@ -91,14 +91,14 @@ fac_nodes = []
 
 # Add two facilities on each community, one with the highest closeness and one with the lowest closeness.
 fac_nodes.append(nodes.loc[nodes['id'] < g0].sort_values('closeness').iloc[-1]['id'])
-# facilities.append(nodes.loc[nodes['id'] < g0].sort_values('closeness').iloc[0]['id'])
 fac_nodes.append(nodes.loc[np.isin(nodes['id'], range(g1, g0+g1))].sort_values('closeness').iloc[-1]['id'])
-# facilities.append(nodes.loc[np.isin(nodes['id'], range(g1, g0+g1))].sort_values('closeness').iloc[0]['id'])
+
+# fac_nodes = [6, 13]
 
 facilities = []
 for i, f in enumerate(fac_nodes):
     facilities.append({'id': i, 'node': f, 'facility': f'school_{i}', 'capacity': facility_cap, 'quality': 0.5, 'popularity': 0.5})
-    
+
 facilities = pd.DataFrame(facilities)
 
 facilities.to_csv(f'./{network_name}/facilities.csv', index=False)
@@ -107,6 +107,9 @@ for v in graph_raw.vs:
     if np.isin(v.index, facilities['node'].values):
         v['color'] = 'yellow'
         v['label'] = '*'
+    else:
+        v['color'] = 'red'
+        v['label'] = ''
 
-ig.plot(graph_raw, target=f'./{network_name}/network_raw.pdf')
+ig.plot(graph_raw, target=f'./{network_name}/network_raw.pdf', layout='grid')
 # %%
