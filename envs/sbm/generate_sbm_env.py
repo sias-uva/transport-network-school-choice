@@ -15,15 +15,15 @@ g0 = 6
 g1 = 6
 # sample from probability distribution of population size of the majority of the group of each node.
 # maj_pop_pct = [0.6, 0.8, 0.9]
-maj_pop_pct = [0.8, 0.9]
+maj_pop_pct = [0.8]
 # maj_pop_pct = [0.5]
 # maj_pop_pct = [1]
-p_in = 0.7
-p_out = 0.01
+p_in = 0.3
+p_out = 0.3
 # Total population of agents to generate.
 total_pop = 1000
 # Capacity of facilities - constant for each facility.
-facility_cap = 2*total_pop
+facility_cap = int(total_pop)/2
 
 network_name = f"SBM_{g0}_{g1}_{p_in}_{p_out}_pop_{total_pop}_maj_pop_pct_{'_'.join(str(v) for v in maj_pop_pct)}"
 
