@@ -1,0 +1,14 @@
+name: tnsc
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - python-igraph
+  - ipykernel
+  - pycairo
+  - geopandas
+  - pyyaml
+  - seaborn
+  - mlflow
+prefix: /Users/dimichai/miniforge3/envs/tnsc
