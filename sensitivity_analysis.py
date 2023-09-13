@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 from network import Network
 %matplotlib inline
 
-env = './envs/grid/GRID_10x10_[0.8]'
+env = './envs/grid/GRID_10x10_0.6_[0.8]'
+# env = './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.6_0.8_0.9'
+facilities_file = 'facilities_3.csv'
 
 preferences_model = 'distance_composition'
 allocation_model = 'random_serial_dictatorship'
@@ -36,7 +38,7 @@ for c_weight in c_weights:
 
         network = Network(f'{env}/network.gml', calc_tt_mx=True)
         population = pd.read_csv(f'{env}/population.csv')
-        facilities = pd.read_csv(f'{env}/facilities.csv')
+        facilities = pd.read_csv(f'{env}/{facilities_file}')
         runner = Runner(network, population, facilities, logger=None)
 
         preference_model_params['pop_optimal_grp_frac'] = float(optimal_group_fraction)
