@@ -94,7 +94,7 @@ def di_progress_by_param(env, pref_model, alloc_model, inter_model, sim_rounds, 
 
             network = Network(f'{env}/network.gml', calc_tt_mx=True)
             population = pd.read_csv(f'{env}/{population_file}')
-            facilities = pd.read_csv(f'{env}/{facilities_file}}')
+            facilities = pd.read_csv(f'{env}/{facilities_file}')
             runner = Runner(network, population, facilities, logger=None)
 
             preference_model_params = {
