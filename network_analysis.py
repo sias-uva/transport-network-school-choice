@@ -10,7 +10,7 @@ TITLE_FONT_SIZE = 28
 SUBTITLE_FONT_SIZE = 26
 LEGEND_FONT_SIZE = 16
 
-gridenv = 'grid/GRID_10x10_0.6_[0.8]'
+gridenv = 'grid/GRID_10x10_0.7_[0.8]'
 amsenv = 'amsterdam_neighborhoods'
 sbmenv = 'sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.5'
 #%%
@@ -105,8 +105,8 @@ plot_histogram(axs[1][1], amsnb_nw.weighted_betweeness(weights=ams_grp_dist[1]),
 bin_edges = np.histogram_bin_edges(np.concatenate((amsnb_nw.weighted_degree(weights=ams_grp_dist[0]), 
                                               amsnb_nw.weighted_degree(weights=ams_grp_dist[1]))), bins=bins)
 
-plot_histogram(axs[1][1], amsnb_nw.weighted_degree(weights=ams_grp_dist[0]), ams_groups[0], bin_edges, colors[0], 'Amsterdam - Degree')
-plot_histogram(axs[1][1], amsnb_nw.weighted_degree(weights=ams_grp_dist[1]), ams_groups[1], bin_edges, colors[1], 'Amsterdam - Degree')
+plot_histogram(axs[1][2], amsnb_nw.weighted_degree(weights=ams_grp_dist[0]), ams_groups[0], bin_edges, colors[0], 'Amsterdam - Degree')
+plot_histogram(axs[1][2], amsnb_nw.weighted_degree(weights=ams_grp_dist[1]), ams_groups[1], bin_edges, colors[1], 'Amsterdam - Degree')
 
 bin_edges = np.histogram_bin_edges(np.concatenate((sbm_nw.weighted_closeness(weights=sbm_grp_dist[0]), 
                                               sbm_nw.weighted_closeness(weights=sbm_grp_dist[1]))), bins=bins)
@@ -147,21 +147,21 @@ grid_grp_dist = [(grid_pop[grid_pop['group'] == gid].groupby('node')['id'].count
 fig, axs = plt.subplots(1, 3, figsize=(12, 5))
 
 # Remove the edge from the graph
-# edge_list = grid_nw.network.get_edgelist()
-# to_delete = [(44, 45), (44, 45), (44, 54), (43, 53), (42, 52), (40, 51), (41, 50), (41, 52), (41, 51), 
-#              (40, 50), (34, 35), (24, 25), (14, 15), (51, 42), (52, 43), (42, 53), (43, 52), (44, 53),
-#              (43, 54), (44, 35), (34, 45), (24, 35), (34, 25), (24, 15), (14, 25), (14, 5), (4, 15), (4, 5)]
+edge_list = grid_nw.network.get_edgelist()
+to_delete = [(44, 45), (44, 45), (44, 54), (43, 53), (42, 52), (40, 51), (41, 50), (41, 52), (41, 51), 
+             (40, 50), (34, 35), (24, 25), (14, 15), (51, 42), (52, 43), (42, 53), (43, 52), (44, 53),
+             (43, 54), (44, 35), (34, 45), (24, 35), (34, 25), (24, 15), (14, 25), (14, 5), (4, 15), (4, 5)]
 
 # to_delete = []
 
-# # Convert edge tuples to edge indices
-# edge_indices_to_delete = []
-# for edge_tuple in to_delete:
-#     edge = grid_nw.network.get_eid(edge_tuple[0], edge_tuple[1], directed=False)
-#     if edge != -1:  # Check if the edge exists in the graph
-#         edge_indices_to_delete.append(edge)
+# Convert edge tuples to edge indices
+edge_indices_to_delete = []
+for edge_tuple in to_delete:
+    edge = grid_nw.network.get_eid(edge_tuple[0], edge_tuple[1], directed=False)
+    if edge != -1:  # Check if the edge exists in the graph
+        edge_indices_to_delete.append(edge)
 
-# grid_nw.network.delete_edges(edge_indices_to_delete)
+grid_nw.network.delete_edges(edge_indices_to_delete)
 
 bin_edges = np.histogram_bin_edges(np.concatenate((grid_nw.weighted_closeness(weights=grid_grp_dist[0]), 
                                               grid_nw.weighted_closeness(weights=grid_grp_dist[1]))), bins=bins)
