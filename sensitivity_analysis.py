@@ -7,10 +7,14 @@ import matplotlib.pyplot as plt
 from network import Network
 %matplotlib inline
 
-env = './envs/grid/GRID_10x10_0.6_[0.8]'
+env = './envs/grid/GRID_5x10_0.5_[0.8]_lattice'
 # env = './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.6_0.8_0.9'
-facilities_file = 'facilities_3.csv'
+# env = './envs/sbm/SBM_6_6_0.3_0.3_pop_1000_maj_pop_pct_0.8'
+# env = './envs/sbm/SBM_25_25_0.3_0.3_pop_1000_maj_pop_pct_0.8'
+facilities_file = 'facilities.csv'
 population_file = 'population.csv'
+# network_file = 'network_disconnected_disadvantage.gml'
+network_file = 'network.gml'
 
 preferences_model = 'distance_composition'
 allocation_model = 'random_serial_dictatorship'
@@ -37,7 +41,7 @@ for c_weight in c_weights:
     for optimal_group_fraction in optimal_group_fractions:
         print(f'c_weight={c_weight}, optimal_group_fraction={optimal_group_fraction}')
 
-        network = Network(f'{env}/network.gml', calc_tt_mx=True)
+        network = Network(f'{env}/{network_file}', calc_tt_mx=True)
         population = pd.read_csv(f'{env}/{population_file}')
         facilities = pd.read_csv(f'{env}/{facilities_file}')
         runner = Runner(network, population, facilities, logger=None)
@@ -70,7 +74,7 @@ for i, c_w in enumerate(c_weights):
 ax.set_xlabel('optimal_group_fraction')
 ax.set_ylabel('dissimilarity_index')
 ax.set_ylim([0, 1.1])
-fig.suptitle(env)
+fig.suptitle(env + f'/{network_file}')
 fig.legend(loc='lower right')
 fig.show()
 
@@ -92,7 +96,7 @@ def di_progress_by_param(env, pref_model, alloc_model, inter_model, sim_rounds, 
         for optimal_group_fraction in opt_group_frac:
             print(f'c_weight={c_weight}, optimal_group_fraction={optimal_group_fraction}')
 
-            network = Network(f'{env}/network.gml', calc_tt_mx=True)
+            network = Network(f'{env}/{network_file}', calc_tt_mx=True)
             population = pd.read_csv(f'{env}/{population_file}')
             facilities = pd.read_csv(f'{env}/{facilities_file}')
             runner = Runner(network, population, facilities, logger=None)
@@ -159,7 +163,7 @@ def plot_di_progress_by_param(di, param1, param2, env, pref_model, alloc_model, 
     handles, labels = axs[0][0].get_legend_handles_labels()
     plt.figlegend(handles, labels, loc='lower center', ncol=5, bbox_to_anchor=(0.5, -0.06))
 
-    fig.suptitle(f'{env} \n {pref_model} | {alloc_model} | {inter_model} \n {sim_rounds} simulation rounds, {inter_rounds} intervention rounds, {inter_budget} intervention budget, {alloc_rounds} allocation rounds, M={M}')
+    fig.suptitle(f'{env}/{network_file} \n {pref_model} | {alloc_model} | {inter_model} \n {sim_rounds} simulation rounds, {inter_rounds} intervention rounds, {inter_budget} intervention budget, {alloc_rounds} allocation rounds, M={M}')
     fig.tight_layout()
     fig.show()
 
@@ -222,7 +226,7 @@ def di_progress_by_inter_model(env, pref_model, alloc_model, inter_models: list,
         for inter_model in inter_models:
             print(f'c_weight={c_weight}, inter_model={inter_model}')
 
-            network = Network(f'{env}/network.gml', calc_tt_mx=True)
+            network = Network(f'{env}/{network_file}', calc_tt_mx=True)
             population = pd.read_csv(f'{env}/{population_file}')
             facilities = pd.read_csv(f'{env}/{facilities_file}')
             runner = Runner(network, population, facilities, logger=None)
