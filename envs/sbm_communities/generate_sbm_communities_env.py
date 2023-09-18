@@ -35,7 +35,7 @@ if not os.path.exists(network_name):
         os.makedirs(network_name)
 
 # Create NxN matrix of probabilities for in edges and out edges for each community
-in_out_prefs = np.zeros(shape=(N_community, N_community))
+in_out_prefs = np.full((N_community, N_community), p_out)
 np.fill_diagonal(in_out_prefs, p_in)
 
 for i in range(N_community):
