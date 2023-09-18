@@ -7,6 +7,11 @@ import matplotlib.pyplot as plt
 from network import Network
 %matplotlib inline
 
+plt.rcParams.update({'font.size': 22})
+TITLE_FONT_SIZE = 28
+SUBTITLE_FONT_SIZE = 26
+LEGEND_FONT_SIZE = 16
+
 env = './envs/grid/GRID_5x10_0.5_[0.8]_lattice'
 # env = './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.6_0.8_0.9'
 # env = './envs/sbm/SBM_6_6_0.3_0.3_pop_1000_maj_pop_pct_0.8'
@@ -72,7 +77,7 @@ for i, c_w in enumerate(c_weights):
     ax.plot(values[:, 1], values[:, 2], marker=markers[i], label=f'alpha: {round(c_w, 1)}')
 
 ax.set_xlabel('optimal_group_fraction')
-ax.set_ylabel('dissimilarity_index')
+ax.set_ylabel('DI')
 ax.set_ylim([0, 1.1])
 fig.suptitle(env + f'/{network_file}')
 fig.legend(loc='lower right')
@@ -129,12 +134,12 @@ def di_progress_by_param(env, pref_model, alloc_model, inter_model, sim_rounds, 
     return dissimilarity_index, rounds_with_intervention
 
 def plot_di_progress_by_param(di, param1, param2, env, pref_model, alloc_model, inter_model, sim_rounds, inter_rounds, inter_budget, alloc_rounds, M, rounds_with_intervention, param1_name='alpha', param2_name='ogf', colors=None, line_styles=None):
-    fig, axs = plt.subplots(math.ceil(len(param1) / 3), 3, figsize = (10, 10))
+    fig, axs = plt.subplots(math.ceil(len(param1) / 5), 5, figsize = (30, 10))
     
     for i, p1 in enumerate(param1):
         for j, p2 in enumerate(param2):
-            ax_i = i // 3
-            ax_j = i % 3        
+            ax_i = i // 5
+            ax_j = i % 5       
             values = di[(di[:, 0] == p1) & (di[:, 1] == p2)]
             if colors is not None:
                 color = colors[p2]
@@ -154,14 +159,14 @@ def plot_di_progress_by_param(di, param1, param2, env, pref_model, alloc_model, 
             axs[ax_i][ax_j].set_ylim([0, 1.1])
             axs[ax_i][ax_j].set_title(f'{param1_name}: {round(p1, 1)}')
             axs[ax_i][ax_j].set_xlabel('round')
-            axs[ax_i][ax_j].set_ylabel('dissimilarity_index')
+            axs[ax_i][ax_j].set_ylabel('DI')
 
             rwi = rounds_with_intervention[(rounds_with_intervention[:, 0] == p1) & (rounds_with_intervention[:, 1] == p2)]
             for r in rwi[0][2]:
                 axs[ax_i][ax_j].axvline(r, linestyle='dashed', linewidth=1, color='#C2C2C2', alpha=0.1)
 
     handles, labels = axs[0][0].get_legend_handles_labels()
-    plt.figlegend(handles, labels, loc='lower center', ncol=5, bbox_to_anchor=(0.5, -0.06))
+    plt.figlegend(handles, labels, loc='lower center', ncol=3, bbox_to_anchor=(0.5, -0.1))
 
     fig.suptitle(f'{env}/{network_file} \n {pref_model} | {alloc_model} | {inter_model} \n {sim_rounds} simulation rounds, {inter_rounds} intervention rounds, {inter_budget} intervention budget, {alloc_rounds} allocation rounds, M={M}')
     fig.tight_layout()
@@ -258,7 +263,7 @@ def di_progress_by_inter_model(env, pref_model, alloc_model, inter_models: list,
 
     return dissimilarity_index, rounds_with_intervention
 
-inter_models = ['none', 'random', 'closeness', 'group_closeness', 'betweenness', 'group_betweenness', 'degree', 'group_degree']
+inter_models = ['none', 'random', 'closeness', 'group_closeness', 'betweenness', 'group_betweenness']
 
 colors = {
     'none': 'gray', 'random': 'gray', 'closeness': '#e60049', 'group_closeness': '#e60049', 'betweenness': '#0bb4ff', 'group_betweenness': '#0bb4ff', 'degree': '#50e991', 'group_degree': '#50e991'
@@ -278,6 +283,7 @@ di, rounds_with_intervention = di_progress_by_inter_model(
             alloc_rounds=allocation_rounds,
             c_weights=c_weights)
 
+#%%
 plot_di_progress_by_param(
             di, 
             c_weights, 
@@ -292,7 +298,7 @@ plot_di_progress_by_param(
             alloc_rounds=allocation_rounds,
             M=M,
             rounds_with_intervention=rounds_with_intervention,
-            param1_name='composition weight (alpha)',
+            param1_name='alpha',
             param2_name='inter_model',
             colors=colors, 
             line_styles=line_styles)
