@@ -11,17 +11,17 @@ import copy
 random.seed(42)
 np.random.seed(42)
 # Number of nodes in each group.
-g0 = 6
-g1 = 6
+g0 = 25
+g1 = 25
 # sample from probability distribution of population size of the majority of the group of each node.
 # maj_pop_pct = [0.6, 0.8, 0.9]
 maj_pop_pct = [0.8]
-# maj_pop_pct = [0.5]
+maj_pop_pct = [0.5]
 # maj_pop_pct = [1]
-p_in = 0.3
-p_out = 0.3
+p_in = 0.7
+p_out = 0.01
 # Total population of agents to generate.
-total_pop = 1000
+total_pop = 5000
 # Capacity of facilities - constant for each facility.
 facility_cap = int(total_pop)/2
 
@@ -66,6 +66,11 @@ nodes = pd.DataFrame({attr: graph.vs[attr] for attr in graph.vertex_attributes()
 nodes['id'] = nodes['id'].astype(int)
 nodes.loc[:, 'closeness'] = graph.closeness()
 
+for comm in ['blue', 'red']:
+    comm_subgraph = graph.induced_subgraph(nodes[nodes['color'] == comm].id.to_list())
+    nodes.loc[nodes['color'] == comm, 'community_closeness'] = comm_subgraph.closeness()
+
+
 nodes.loc[nodes['id'] < g0 ,'g0_pct'] = np.random.choice(maj_pop_pct, g0)
 nodes.loc[nodes['id'] < g0 ,'g1_pct'] = 1 - nodes.loc[nodes['id'] < g0 ,'g0_pct']
 
@@ -90,8 +95,8 @@ agents.to_csv(f'./{network_name}/population.csv', index=False)
 fac_nodes = []
 
 # Add two facilities on each community, one with the highest closeness and one with the lowest closeness.
-fac_nodes.append(nodes.loc[nodes['id'] < g0].sort_values('closeness').iloc[-1]['id'])
-fac_nodes.append(nodes.loc[np.isin(nodes['id'], range(g1, g0+g1))].sort_values('closeness').iloc[-1]['id'])
+fac_nodes.append(nodes.loc[nodes['id'] < g0].sort_values('community_closeness').iloc[-1]['id'])
+fac_nodes.append(nodes.loc[np.isin(nodes['id'], range(g1, g0+g1))].sort_values('community_closeness').iloc[-1]['id'])
 
 # fac_nodes = [6, 13]
 
@@ -111,5 +116,5 @@ for v in graph_raw.vs:
         v['color'] = 'red'
         v['label'] = ''
 
-ig.plot(graph_raw, target=f'./{network_name}/network_raw.pdf', layout='grid')
+ig.plot(graph_raw, target=f'./{network_name}/network_raw.pdf')
 # %%
