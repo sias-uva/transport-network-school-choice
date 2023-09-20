@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import os
 import copy
-#%%
 import igraph as ig
 #%%
 random.seed(42)
@@ -19,7 +18,7 @@ g = [community_size for _ in range(N_community)]
 
 total_pop = 5000
 # Percent of the majority group overall in the population.
-maj_pop_pct = 0.7
+maj_pop_pct = 0.5
 # Percent of the majority group in the group-dominant nodes.
 maj_pop_pct_in_nodes = [0.8]
 # probability of in-community and out-community edges
@@ -27,7 +26,7 @@ p_in = 0.7
 p_out = 0.01
 
 # Capacity of facilities - constant for each facility.
-facility_cap = 0.5*total_pop
+facility_cap = 0.5 * total_pop
 
 network_name = f"SBMC_{N_community}_{community_size}_{maj_pop_pct}_{maj_pop_pct_in_nodes}"
 
@@ -68,8 +67,6 @@ for idx in range(len(idx_start)):
         groups[idx % 2].append(i)
         if i in fac_nodes:
             graph.vs[i]['color'] = 'yellow'
-
-
 
 
 ig.plot(graph, vertex_size=20, target=f'./{network_name}/network.pdf')
