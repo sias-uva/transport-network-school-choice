@@ -12,21 +12,22 @@ TITLE_FONT_SIZE = 28
 SUBTITLE_FONT_SIZE = 26
 LEGEND_FONT_SIZE = 16
 
-env = './envs/grid/GRID_5x10_0.5_[0.8]_lattice'
+# env = './envs/grid/GRID_5x10_0.5_[0.8]_lattice'
 # env = './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.6_0.8_0.9'
 # env = './envs/sbm/SBM_6_6_0.3_0.3_pop_1000_maj_pop_pct_0.8'
-# env = './envs/sbm/SBM_25_25_0.3_0.3_pop_1000_maj_pop_pct_0.8'
+env = './envs/sbm/SBM_2_6_0.7_0.01_pop_500_0.5_[0.8]'
+# env = './envs/sbm_communities/SBMC_2_25_0.7_[0.8]'
 facilities_file = 'facilities.csv'
-population_file = 'population.csv'
+population_file = 'population_42.csv'
 # network_file = 'network_disconnected_disadvantage.gml'
-network_file = 'network.gml'
+network_file = 'network_custom.gml'
 
 preferences_model = 'distance_composition'
 allocation_model = 'random_serial_dictatorship'
 intervention_model = 'none'
 simulation_rounds = 30
 intervention_rounds = 10
-intervention_budget = 5
+intervention_budget = 1
 allocation_rounds = 5
 M = 0.6
 
@@ -36,13 +37,13 @@ preference_model_params = {
 }
 update_preference_params = True
 
-c_weights = np.arange(0, 1, 0.1)
-optimal_group_fractions = np.arange(0, 1, 0.1)
+c_weights = np.arange(0, 1.1, 0.2)
+optimal_group_fractions = np.arange(0, 1.1, 0.2)
 
 #%%
 dissimilarity_index = []
 
-for c_weight in c_weights:
+for c_weight in np.arange(0, 1, 0.1):
     for optimal_group_fraction in optimal_group_fractions:
         print(f'c_weight={c_weight}, optimal_group_fraction={optimal_group_fraction}')
 
@@ -133,13 +134,13 @@ def di_progress_by_param(env, pref_model, alloc_model, inter_model, sim_rounds, 
 
     return dissimilarity_index, rounds_with_intervention
 
-def plot_di_progress_by_param(di, param1, param2, env, pref_model, alloc_model, inter_model, sim_rounds, inter_rounds, inter_budget, alloc_rounds, M, rounds_with_intervention, param1_name='alpha', param2_name='ogf', colors=None, line_styles=None):
-    fig, axs = plt.subplots(math.ceil(len(param1) / 5), 5, figsize = (30, 10))
+def plot_di_progress_by_param(di, param1, param2, env, pref_model, alloc_model, inter_model, sim_rounds, inter_rounds, inter_budget, alloc_rounds, M, rounds_with_intervention, param1_name='alpha', param2_name='ogf', colors=None, line_styles=None, figsize=(20, 10), ncols=3):
+    fig, axs = plt.subplots(math.ceil(len(param1) / ncols), ncols, figsize = figsize)
     
     for i, p1 in enumerate(param1):
         for j, p2 in enumerate(param2):
-            ax_i = i // 5
-            ax_j = i % 5       
+            ax_i = i // ncols
+            ax_j = i % ncols
             values = di[(di[:, 0] == p1) & (di[:, 1] == p2)]
             if colors is not None:
                 color = colors[p2]
@@ -301,6 +302,8 @@ plot_di_progress_by_param(
             param1_name='alpha',
             param2_name='inter_model',
             colors=colors, 
-            line_styles=line_styles)
+            line_styles=line_styles,
+            figsize=(20, 10),
+            ncols=3)
 
 # %%
