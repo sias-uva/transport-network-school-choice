@@ -1,5 +1,7 @@
 #%%
 import math
+
+import matplotlib
 from runner import Runner
 import pandas as pd
 import numpy as np
@@ -12,24 +14,25 @@ TITLE_FONT_SIZE = 28
 SUBTITLE_FONT_SIZE = 26
 LEGEND_FONT_SIZE = 16
 
-# env = './envs/grid/GRID_5x10_0.5_[0.8]_lattice'
+# env = './envs/amsterdam_neighborhoods/'
+env = './envs/grid/GRID_5x10_0.5_[0.8]_lattice'
 # env = './envs/sbm/SBM_6_6_0.7_0.01_pop_1000_maj_pop_pct_0.6_0.8_0.9'
 # env = './envs/sbm/SBM_6_6_0.3_0.3_pop_1000_maj_pop_pct_0.8'
-env = './envs/sbm/SBM_2_6_0.7_0.01_pop_500_0.5_[0.8]'
+# env = './envs/sbm/SBM_2_6_0.7_0.01_pop_500_0.5_[0.8]'
 # env = './envs/sbm_communities/SBMC_2_25_0.7_[0.8]'
 facilities_file = 'facilities.csv'
-population_file = 'population_42.csv'
+population_file = 'population.csv'
 # network_file = 'network_disconnected_disadvantage.gml'
-network_file = 'network_custom.gml'
+network_file = 'network.gml'
 
 preferences_model = 'distance_composition'
 allocation_model = 'random_serial_dictatorship'
 intervention_model = 'none'
 simulation_rounds = 30
 intervention_rounds = 10
-intervention_budget = 1
+intervention_budget = 5
 allocation_rounds = 5
-M = 0.6
+M = 1
 
 preference_model_params = {
     'M': M,
@@ -44,7 +47,7 @@ optimal_group_fractions = np.arange(0, 1.1, 0.2)
 dissimilarity_index = []
 
 for c_weight in np.arange(0, 1, 0.1):
-    for optimal_group_fraction in optimal_group_fractions:
+    for optimal_group_fraction in np.arange(0, 1, 0.1):
         print(f'c_weight={c_weight}, optimal_group_fraction={optimal_group_fraction}')
 
         network = Network(f'{env}/{network_file}', calc_tt_mx=True)
@@ -73,15 +76,16 @@ dissimilarity_index = np.array(dissimilarity_index)
 # %% Line chart of the above chart
 fig, ax = plt.subplots(figsize = (5, 5))
 markers = ['o', 's', 'D', '^', 'v', '*', 'P', 'X', '<', '>']
-for i, c_w in enumerate(c_weights):
+for i, c_w in enumerate(np.arange(0, 1, 0.1)):
     values = dissimilarity_index[dissimilarity_index[:, 0] == c_w]
-    ax.plot(values[:, 1], values[:, 2], marker=markers[i], label=f'alpha: {round(c_w, 1)}')
+    ax.plot(values[:, 1], values[:, 2], marker=markers[i], label=f'alpha: {round(c_w, 1)}', color=matplotlib.cm.get_cmap('plasma_r')(i/10))
 
-ax.set_xlabel('optimal_group_fraction')
+ax.set_xlabel('optimal group fraction')
 ax.set_ylabel('DI')
 ax.set_ylim([0, 1.1])
-fig.suptitle(env + f'/{network_file}')
-fig.legend(loc='lower right')
+# fig.suptitle(f'Amsterdam | Segregation for Preference Parameters', fontsize=20, x=0.7)
+# fig.suptitle(env + f'{network_file}', fontsize=20)
+fig.legend(loc='right', bbox_to_anchor=(1.5, .5), fontsize=18)
 fig.show()
 
 #####
@@ -204,8 +208,8 @@ def gen_and_plot(env, pref_model, alloc_model, inter_model, sim_rounds, inter_ro
 #%%
 
 # di, rwi = gen_and_plot(env=env,
-#             pref_model='distance_composition',
-#             alloc_model='random_serial_dictatorship',
+#             pref_model=preferences_model,
+#             alloc_model=allocation_model,
 #             inter_model='closeness',
 #             sim_rounds=simulation_rounds,
 #             inter_rounds=intervention_rounds,
@@ -275,8 +279,8 @@ line_styles = {
 
 di, rounds_with_intervention = di_progress_by_inter_model(
             env=env,
-            pref_model='distance_composition',
-            alloc_model='random_serial_dictatorship',
+            pref_model=preferences_model,
+            alloc_model=allocation_model,
             inter_models=inter_models,
             sim_rounds=simulation_rounds,
             inter_rounds=intervention_rounds,
@@ -290,8 +294,8 @@ plot_di_progress_by_param(
             c_weights, 
             inter_models,
             env=env,
-            pref_model='distance_composition', 
-            alloc_model='random_serial_dictatorship', 
+            pref_model=preferences_model, 
+            alloc_model=allocation_model, 
             inter_model=None,
             sim_rounds=simulation_rounds,
             inter_rounds=intervention_rounds,
