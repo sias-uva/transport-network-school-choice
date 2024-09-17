@@ -16,8 +16,8 @@ total_pop = 5000
 # Percent of the majority group overall in the population.
 maj_pop_pct = 0.5
 # Percent of the majority group in the group-dominant nodes.
-maj_pop_pct_in_nodes = [0.6]
-network_name = f"GRID_{rows}x{cols}_{maj_pop_pct}_{maj_pop_pct_in_nodes}{'_specialcase' if specialcase else ''}"
+maj_pop_pct_in_nodes = [0.8]
+network_name = f"GRID_{rows}x{cols}_{maj_pop_pct}_{maj_pop_pct_in_nodes}{'_specialcase' if specialcase else ''}_lattice"
 
 if not os.path.exists(network_name):
         os.makedirs(network_name)
@@ -29,7 +29,7 @@ grid_graph = Graph(directed=False)
 vertices = {(i, j): grid_graph.add_vertex(name=(i, j)) for i in range(rows) for j in range(cols)}
 
 # Define the neighbors' offsets)
-neighbors_offsets = [(-1, 0), (-1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (0, 1), (1, 1)]
+neighbors_offsets = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 # Add edges to connect each cell to its immediate neighbors
 for i in range(rows):
@@ -88,6 +88,8 @@ if specialcase:
     g1 = [i for i in range(graph.vcount()) if i not in g0] 
 ############
 
+fac_nodes = [22, 27, 72, 77]
+
 # Assign colors to nodes based on their group
 for i in graph.vs.indices:
     if np.isin(graph.vs[i].index, g0):
@@ -97,15 +99,19 @@ for i in graph.vs.indices:
         nodes.loc[nodes['id'] == i, 'color'] = 'red'
         nodes.loc[nodes['id'] == i, 'group'] = 1
 
+for i in graph.vs.indices:
+    if np.isin(graph.vs[i].index, fac_nodes):
+        nodes.loc[nodes['id'] == i, 'color'] = 'yellow'
+
 graph.vs['label'] = graph.vs.indices
 graph.vs['label_size'] = 10
 
 ig.plot(grid_graph, layout=grid_graph.layout("grid"), vertex_size=20, vertex_color=nodes['color'])
-ig.plot(grid_graph, layout=grid_graph.layout("grid"), vertex_size=20, vertex_color=nodes['color'], target=f'./{network_name}/network_groups.pdf')
+ig.plot(grid_graph, layout=grid_graph.layout("grid"), vertex_size=20, vertex_color=nodes['color'], vertex_label=None, target=f'./{network_name}/network_groups.pdf')
 
 #%% Generate Population of agents for each node in the network.
 nodes.loc[nodes['id'].isin(g0), 'g0_pct'] = np.random.choice(maj_pop_pct_in_nodes, len(g0))
-nodes.loc[nodes['id'].isin(g0), 'g1_pct'] = 1 - nodes.loc[nodes['id'].isin(g0) ,'g0_pct']
+nodes.loc[nodes['id'].isin(g0), 'g1_pct'] = 1 - nodes.loc[nodes['id'].isin(g0),'g0_pct']
 
 nodes.loc[nodes['g0_pct'].isna(), 'g1_pct'] = np.random.choice(maj_pop_pct_in_nodes, len(g1))
 nodes.loc[nodes['g0_pct'].isna(), 'g0_pct'] = 1 - nodes.loc[nodes['g0_pct'].isna(), 'g1_pct']

@@ -1,5 +1,8 @@
 import numpy as np
 from network import Network
+from scipy.optimize import linear_sum_assignment
+from collections import Counter
+import random
 
 def get_candidate_edges(network: Network, node_id: int):
     """Returns a list of candidate edges to add to the network, that are not already conncted to the given node.
@@ -47,6 +50,84 @@ def create_random_edge(network: Network, edge_weight=1):
 
     assert adj_mx[x][y] == 0, 'Selected nodes are already connected via an edge.'
     return x, y, edge_weight
+
+def get_node_from_facility(population, facilities, group, allocation):
+    nodes = []
+    for f in facilities:
+        agents_f = np.where(allocation == f)[0]
+        agents_df = population[population.id.isin(agents_f.tolist())]
+        agent_nodes = agents_df[agents_df.group == group].node
+        nodes_f = Counter(agent_nodes)
+        nodes.append(max(nodes_f, key=nodes_f.get))
+    return nodes
+
+
+def move_facilities(network, population, facilities, nodes,
+                    intervention_budget, capacity, grp_composition_pct, allocation, rand=False):
+    """
+    Args:
+        network: contains transportation network with nodes as neighborhoods and edges as transport lines
+        population: Dataframe containing population data
+        facilities: Dataframe containing facilities data
+        nodes: Dataframe containing neighborhood data
+        intervention_budget: defines how many facilities can be moved in a single intervention
+        capacity: array of shape (nr. of facilities, ) containing the pct. of capacity utilized for each facility, indexed by facility id
+        grp_composition_pct: array of shape (nr. of facilities, nr. of groups) containing the pct. of members of a group in each facility
+        allocation: array of shape (nr. of agents, ) containing which agent was assigned to which facility
+        rand: If True, facilities will be moved randomly. Defaults to False.
+
+    Returns:
+
+    """
+    # do random facility move if
+    if rand:
+        random.seed(0000)
+        z = []
+        gn = population['group'].unique().tolist()
+        for i in range(intervention_budget):
+            f_to_move = random.choice(facilities.id.unique().tolist())
+            f_nodes = facilities.node.unique().tolist()
+            old_node = int(facilities[facilities.id == f_to_move].node)
+            r_nodes = nodes[~nodes.node.isin(f_nodes)].node.unique().tolist()
+            new_node = random.choice(r_nodes)
+            facilities.loc[facilities.id == f_to_move, "node"] = new_node
+            facilities.loc[facilities.id == f_to_move, f'comp_{gn[0]}'] = nodes[nodes.node == f_to_move][
+                f'comp_{gn[0]}']
+            facilities.loc[facilities.id == f_to_move, f'comp_{gn[1]}'] = nodes[nodes.node == f_to_move][
+                f'comp_{gn[1]}']
+            z.append((f_to_move, old_node, new_node))
+        return z
+    else:
+        least_utilized_facility = np.argsort(capacity)[:intervention_budget]
+        most_segregated_nodes = []
+
+        for gid, group in enumerate(population['group'].unique()):
+            sf = [i for i in np.argsort(-grp_composition_pct[:, gid]) if i not in least_utilized_facility][
+                 :intervention_budget]
+            sn = get_node_from_facility(sf, group, allocation)
+            print(f'most segregated node of {group} is {sn}')
+            most_segregated_nodes.append(sn)
+
+        # make hungarian algorithm run with cost = number of hops between nodes
+        cost = network.shortest_paths(most_segregated_nodes[0], most_segregated_nodes[1])
+        row_ind, col_ind = linear_sum_assignment(cost)
+
+        z = []
+        gn = population['group'].unique().tolist()
+
+        for i in range(intervention_budget):
+            vpath = \
+                network.get_vpath(int(most_segregated_nodes[0][row_ind[i]]), int(most_segregated_nodes[1][col_ind[i]]))[
+                    0]
+            old_node = int(facilities[facilities.id == least_utilized_facility[i]].node)
+            new_node = vpath[(len(vpath) - 1) // 2]
+            facilities.loc[facilities.id == least_utilized_facility[i], "node"] = vpath[(len(vpath) - 1) // 2]
+            facilities.loc[facilities.id == least_utilized_facility[i], f'comp_{gn[0]}'] = \
+                nodes[nodes.node == least_utilized_facility[i]][f'comp_{gn[0]}']
+            facilities.loc[facilities.id == least_utilized_facility[i], f'comp_{gn[1]}'] = \
+                nodes[nodes.node == least_utilized_facility[i]][f'comp_{gn[1]}']
+            z.append((least_utilized_facility[i], old_node, new_node))
+        return z
 
 def maximize_node_centrality(network: Network, node_id: int, centrality_measure: str, group_weights=None, edge_weight=1):
     """Returns the edge that maximizes the given centrality measure of the given node.

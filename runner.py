@@ -1,10 +1,12 @@
 import time
 import numpy as np
+
+import evaluation
 from logger import Logger
 import pandas as pd
-from allocation import first_choice, random_serial_dictatorship
+from allocation import first_choice, random_serial_dictatorship, hungarian_match
 from evaluation import calculate_ci, dissimilarity_index, facility_capacity, facility_group_composition, facility_rank_distribution, preference_of_allocation, travel_time_to_allocation
-from intervention import create_random_edge, maximize_node_centrality
+from intervention import create_random_edge, maximize_node_centrality, move_facilities
 import matplotlib
 import seaborn as sns
 
@@ -117,13 +119,15 @@ class Runner(object):
         interventions = []
         # All the rounds where an intervention happened.
         rounds_with_intervention = []
+        allocations = np.zeros((simulation_rounds, self.population_size, 1))
 
         for i in range(simulation_rounds):
             # On the first round, we don't want to add any interventions, just run an agent round.
             # After that, we want to have a total of intervention_rounds evenly spread in the simulations.
             intervention_round = intervention_rounds > 0 and i > 0 and ((i == 1) or i % (simulation_rounds // intervention_rounds) == 0)
             if intervention_round:
-                created_interventions = self.create_interventions(intervention_model, intervention_budget)
+                print(f'simulation round {i}')
+                created_interventions = self.create_interventions(intervention_model, intervention_budget, allocations[i-1], capacity[i-1][-1], grp_composition_pct[i-1][-1])
                 if created_interventions:
                     interventions.extend(created_interventions)
                 rounds_with_intervention.append(i)
@@ -132,7 +136,7 @@ class Runner(object):
             # This might break if preferences return less items than the total facility size.
             pref_lists = np.zeros((allocation_rounds, self.population_size, self.facilities_size))
             # Store all allocation lists for each allocation round for each agent.
-            alloc_lists = np.zeros((allocation_rounds, self.population_size, self.facilities_size))
+            alloc_lists = np.zeros((allocation_rounds, self.population_size, 1))
             for j in range(allocation_rounds):
                 pref_list, utility, allocation, eval_metrics = self.run_agent_round(preferences_model, allocation_model, preference_model_params)
                 pref_lists[j] = pref_list
@@ -154,7 +158,7 @@ class Runner(object):
                 mean_pos_of_alloc[i][j] = eval_metrics['pref_of_alloc']
                 mean_pos_of_alloc_by_grp[i][j] = eval_metrics['pref_of_alloc_by_group']
                 mean_agent_utility[i][j] = utility[range(self.population_size), allocation.flatten()]
-
+            allocations[i] = alloc_lists[-1]
             if self.logger:
                 # Makes no sense to plot this for a lot of facilities
                 # alloc_heatmap = heatmap_from_numpy(grp_composition.mean(axis=1)[i], 
@@ -269,8 +273,8 @@ class Runner(object):
             cap_ci = np.apply_along_axis(calculate_ci, 1, capacity)
             fig, ax = get_figure(f"Facility Capacity",
                                 f"{preferences_model} - {allocation_model} - {intervention_model}",
-                                xlabel='Simulation round',
-                                ylabel='Capacity %',
+                                ylabel='Count',
+                                xlabel='Capacity %',
                                 ylim=(0, 2))
             for fid in range(self.facilities_size):
                 ax.plot(range(simulation_rounds), cap_ci[:, 0, fid], label=f'Facility {fid}')
@@ -440,11 +444,13 @@ class Runner(object):
         elif allocation_model == 'random_serial_dictatorship':
             capacities = self.facilities.capacity.copy().to_numpy()
             allocation = random_serial_dictatorship(pref_list, capacities)
-        
+        elif allocation_model == 'hungarian':
+            capacities = self.facilities.capacity.copy().to_numpy()
+            allocation = hungarian_match(pref_list, capacities)
         assert allocation is not None, 'No allocation list was generated, specify a valid allocation_model parameter in config.'
         return allocation
     
-    def create_interventions(self, intervention_model: str, intervention_budget: int):
+    def create_interventions(self, intervention_model: str, intervention_budget: int, allocation=None, capacity=None, grp_composition_pct=None):
         """Creates and adds an intervention (new edge) to the network, according to the intervention_model
 
         Args:
@@ -453,7 +459,7 @@ class Runner(object):
         created_interventions = []
 
         for _ in range(intervention_budget):
-            x, y, w = None, None, None
+            x, y, w, z = None, None, None, None
             fac_nodes = self.facilities['node'].values
             if intervention_model == 'none':
                 return
@@ -492,12 +498,20 @@ class Runner(object):
                 # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
                 node_to_augment = fac_nodes[node_idx_to_augment].item()
                 x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_degree', group_weights=self.group_node_distr[grp_to_augment].values)
+            elif intervention_model == 'move_facilities':
+                z = move_facilities(self, intervention_budget, capacity, grp_composition_pct, allocation, rand=False)
+            elif intervention_model == 'random_move_facilities':
+                z = move_facilities(self, intervention_budget, capacity, grp_composition_pct, allocation, rand=True)
             else:
                 assert False, 'No intervention was generated, specify a valid intervention_model parameter in config.'
 
             if x is None:
-                print('No intervention was created.')
-                continue
+                if z is not None:
+                    for f in z:
+                        print(f'Facility {f[0]} was moved from node {f[1]} to node {f[2]}.')
+                else:
+                    print('No intervention was created.')
+                    continue
             else:
                 print(f'adding ({x}, {y}) edge')
                 created_interventions.append(self.network.add_edge(x, y, w))

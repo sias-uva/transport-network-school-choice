@@ -7,9 +7,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from network import Network
-%matplotlib inline
+import seaborn as sns
+# %matplotlib inline
 
-plt.rcParams.update({'font.size': 22})
+plt.rcParams.update({'font.size': 12})
 TITLE_FONT_SIZE = 28
 SUBTITLE_FONT_SIZE = 26
 LEGEND_FONT_SIZE = 16
@@ -43,11 +44,12 @@ update_preference_params = True
 c_weights = np.arange(0, 1.1, 0.2)
 optimal_group_fractions = np.arange(0, 1.1, 0.2)
 
+res = {}
 #%%
-dissimilarity_index = []
 
-for c_weight in np.arange(0, 1, 0.1):
-    for optimal_group_fraction in np.arange(0, 1, 0.1):
+dissimilarity_index = []
+for c_weight in np.arange(0.5, 1, 0.1):
+    for optimal_group_fraction in np.arange(0.1, 1, 0.1):
         print(f'c_weight={c_weight}, optimal_group_fraction={optimal_group_fraction}')
 
         network = Network(f'{env}/{network_file}', calc_tt_mx=True)
@@ -64,29 +66,62 @@ for c_weight in np.arange(0, 1, 0.1):
                 intervention_rounds,
                 intervention_budget,
                 preferences_model,
-                allocation_model, 
-                intervention_model, 
+                allocation_model,
+                intervention_model,
                 preference_model_params=preference_model_params,
                 update_preference_params=update_preference_params)
-        
-        dissimilarity_index.append([c_weight, optimal_group_fraction, di[-1].mean()])
-
+        dissimilarity_index.append([c_weight, optimal_group_fraction, di[-1].mean(), di[-1].std()])
 dissimilarity_index = np.array(dissimilarity_index)
 
-# %% Line chart of the above chart
-fig, ax = plt.subplots(figsize = (5, 5))
-markers = ['o', 's', 'D', '^', 'v', '*', 'P', 'X', '<', '>']
-for i, c_w in enumerate(np.arange(0, 1, 0.1)):
-    values = dissimilarity_index[dissimilarity_index[:, 0] == c_w]
-    ax.plot(values[:, 1], values[:, 2], marker=markers[i], label=f'alpha: {round(c_w, 1)}', color=matplotlib.cm.get_cmap('plasma_r')(i/10))
+fig, ax = plt.subplots(3, 3, figsize=(15, 10))
 
-ax.set_xlabel('optimal group fraction')
-ax.set_ylabel('DI')
-ax.set_ylim([0, 1.1])
-# fig.suptitle(f'Amsterdam | Segregation for Preference Parameters', fontsize=20, x=0.7)
-# fig.suptitle(env + f'{network_file}', fontsize=20)
-fig.legend(loc='right', bbox_to_anchor=(1.5, .5), fontsize=18)
-fig.show()
+for i, optimal_group_fraction in enumerate(np.arange(0.1, 1, 0.1).tolist()):
+    # Extracting alpha, average DI, and standard deviation of DI
+    alpha = dissimilarity_index[dissimilarity_index[:, 1] == optimal_group_fraction, 0]
+    average_DI = dissimilarity_index[dissimilarity_index[:, 1] == optimal_group_fraction, 2]
+    std_DI = dissimilarity_index[dissimilarity_index[:, 1] == optimal_group_fraction, 3]
+
+    # Creating the plot
+
+    idx = i // 3
+    jdx = i % 3
+
+    sns.lineplot(x=alpha, y=average_DI, marker='o', ax=ax[idx][jdx])
+    # Shading the area for standard deviation
+    ax[idx][jdx].fill_between(alpha, average_DI - std_DI, average_DI + std_DI, alpha=0.2)
+
+    # Adding labels and title
+    # ax[idx][jdx].set_xlabel('Alpha')
+    # ax[idx][jdx].set_ylabel('Dissimilarity Index (DI)')
+    ax[idx][jdx].set_title(f'Ogf:{optimal_group_fraction:.1f}', fontsize=12)
+    # ax[idx][jdx].legend()
+
+# Displaying the plot
+# ax.grid(True)
+fig.text(0.5, 0.04, 'Alpha', ha='center')
+fig.text(0.04, 0.5, 'DI', va='center', rotation='vertical')
+fig.tight_layout(h_pad=5)
+
+# # %% Line chart of the above chart
+# fig, ax = plt.subplots(figsize = (8, 5))
+# markers = ['o', 's', 'D', '^', 'v', '*', 'P', 'X', '<', '>']
+#
+# plt.rcParams['image.cmap'] = 'Accent'
+#
+# for allocation_model in ['random_serial_dictatorship', 'hungarian']:
+#     dissimilarity_index = res[allocation_model]
+#     ax.plot(dissimilarity_index[:, 0], dissimilarity_index[:, 1], marker=markers[0], label=allocation_model)
+#     ax.fill_between(dissimilarity_index[:, 0], dissimilarity_index[:, 1] + dissimilarity_index[:, 2], dissimilarity_index[:, 1] - dissimilarity_index[:, 2], alpha=0.2)
+#
+# ax.set_xlabel('c_w')
+# ax.set_ylabel('DI')
+# ax.set_ylim([0.55, 1.1])
+# ax.set_xlim([0.5, 0.91])
+# # fig.suptitle(f'Amsterdam | Segregation for Preference Parameters', fontsize=20, x=0.7)
+# # fig.suptitle(env + f'{network_file}', fontsize=20)
+# fig.legend(loc='right', bbox_to_anchor=(1.5, .5), fontsize=18)
+# fig.show()
+fig.savefig('incentive3.png')
 
 #####
 

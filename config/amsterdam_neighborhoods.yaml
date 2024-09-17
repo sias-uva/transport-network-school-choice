@@ -1,6 +1,6 @@
 # General
 network_file: './envs/amsterdam_neighborhoods/network.gml'
-population_file: './envs/amsterdam_neighborhoods/population_7000.csv'
+population_file: './envs/amsterdam_neighborhoods/population_1000.csv'
 facilities_file: './envs/amsterdam_neighborhoods/schools.csv'
 # Applicable values: ['nearest_k', 'toy_model', 'distance_popularity', 'distance_composition']
 preferences_model: 'distance_composition'

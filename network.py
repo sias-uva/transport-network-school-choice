@@ -55,6 +55,9 @@ class Network(object):
 
         return tt_mx
 
+    def get_vpath(self, vertex1, vertex2):
+        return self.network.get_shortest_paths(vertex1, to=vertex2, output="vpath")
+
     def add_edge(self, from_v, to_v, weight):
         """Adds a new edge to the transport network. Note: currently does not support weighted edges.
 
