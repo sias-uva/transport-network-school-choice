@@ -92,14 +92,14 @@ results_sbm = {
 
 
 results_grid = {
-        'none': '20230825_13_42_50.822429_grid_30_5_10_5_distance_composition_random_serial_dictatorship_none',
-        'random': '20230825_13_43_04.463970_grid_30_5_10_5_distance_composition_random_serial_dictatorship_random',
-        'closeness': '20230825_13_43_15.898486_grid_30_5_10_5_distance_composition_random_serial_dictatorship_closeness',
-        'group_closeness': '20230825_13_43_30.317528_grid_30_5_10_5_distance_composition_random_serial_dictatorship_group_closeness',
-        'betweenness': '20230825_13_44_51.884134_grid_30_5_10_5_distance_composition_random_serial_dictatorship_betweenness',
-        'group_betweenness': '20230825_13_45_00.741695_grid_30_5_10_5_distance_composition_random_serial_dictatorship_group_betweenness',
-        'degree': '20230825_13_45_33.405371_grid_30_5_10_5_distance_composition_random_serial_dictatorship_degree',
-        'group_degree': '20230825_13_45_41.156859_grid_30_5_10_5_distance_composition_random_serial_dictatorship_group_degree',
+        # 'none': '20230825_13_42_50.822429_grid_30_5_10_5_distance_composition_random_serial_dictatorship_none',
+        # 'random': '20230825_13_43_04.463970_grid_30_5_10_5_distance_composition_random_serial_dictatorship_random',
+        # 'closeness': '20230825_13_43_15.898486_grid_30_5_10_5_distance_composition_random_serial_dictatorship_closeness',
+        'group_closeness': '20230915_14_30_19.214935_grid_30_5_10_5_distance_composition_random_serial_dictatorship_group_closeness',
+        # 'betweenness': '20230825_13_44_51.884134_grid_30_5_10_5_distance_composition_random_serial_dictatorship_betweenness',
+        'group_betweenness': '20230915_14_30_37.291838_grid_30_5_10_5_distance_composition_random_serial_dictatorship_group_betweenness',
+        # 'degree': '20230825_13_45_33.405371_grid_30_5_10_5_distance_composition_random_serial_dictatorship_degree',
+        # 'group_degree': '20230825_13_45_41.156859_grid_30_5_10_5_distance_composition_random_serial_dictatorship_group_degree',
 
 }
 
