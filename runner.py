@@ -443,6 +443,11 @@ class Runner(object):
         
         assert allocation is not None, 'No allocation list was generated, specify a valid allocation_model parameter in config.'
         return allocation
+
+    # def softmax(self, x):
+    #     # TODO MOVE
+    #     return(np.exp(x)/np.exp(x).sum())
+
     
     def create_interventions(self, intervention_model: str, intervention_budget: int):
         """Creates and adds an intervention (new edge) to the network, according to the intervention_model
@@ -477,6 +482,23 @@ class Runner(object):
                 grp_to_augment, node_idx_to_augment = np.unravel_index(group_closenesses.argmin(), group_closenesses.shape)
                 # node_idx_to_augment is the index of the node in the group_node_distr array, we need to get the actual node id.
                 node_to_augment = fac_nodes[node_idx_to_augment].item()
+
+                ###### OTHER METHOD - Uniformly sample one of the bottom 5 nodes based on group closeness.
+                # indices_of_smallest = np.argsort(group_closenesses.flatten())[:5]
+                # indices_2d = np.unravel_index(indices_of_smallest, group_closenesses.shape)
+                # random_idx = np.random.choice(range(len(indices_2d[0])))
+                # grp_to_augment, node_idx_to_augment = indices_2d[0][random_idx], indices_2d[1][random_idx]
+                # node_to_augment = fac_nodes[node_idx_to_augment].item()
+                ######
+
+                ###### OTHER METHOD - SOFTMAX.
+                # indices_of_smallest = np.argsort(group_closenesses.flatten())[:5]
+                # indices_2d = np.unravel_index(indices_of_smallest, group_closenesses.shape)                
+                # random_idx = np.random.choice(range(len(indices_2d[0])), p=self.softmax(group_closenesses[indices_2d]))
+                # grp_to_augment, node_idx_to_augment = indices_2d[0][random_idx], indices_2d[1][random_idx]
+                # node_to_augment = fac_nodes[node_idx_to_augment].item()
+                ######
+
                 x, y, w = maximize_node_centrality(self.network, node_to_augment, 'group_closeness', group_weights=self.group_node_distr[grp_to_augment].values)
             elif intervention_model == 'group_betweenness':
                 group_betweenness = np.array([self.network.weighted_betweeness(fac_nodes, weights=self.group_node_distr[gid].values) for gid in self.group_names.index])
